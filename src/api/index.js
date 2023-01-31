@@ -396,7 +396,6 @@ export const adminLogin = async (data) => {
         return error;
     }
 };
-
 export const adminRegister = async (data) => {
     try {
         const res = await API.post('/auth/admin/signup/', data);
@@ -405,7 +404,6 @@ export const adminRegister = async (data) => {
         return error;
     }
 };
-
 export const createTransaction = async (data) => {
     try {
         const res = await API.post('/transaction/create', data);
