@@ -17,10 +17,11 @@ function Result() {
     const [listResult, setListResult] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-
     const crPost = useSelector((state) => state.post.post?.currentPost);
-    const link = useSelector((state) => state.filter.linkSearch?.link);
+    const linkSearch = useSelector((state) => state.filter.linkSearch?.link);
     const sort = useSelector((state) => state.filter.sort?.link);
+    console.log(linkSearch);
+    console.log(sort)
     const currentCategory = useSelector(
         (state) => state.filter.category?.currentCategory,
     );
@@ -33,8 +34,6 @@ function Result() {
     );
     const dispatch = useDispatch();
     const limit = 8;
-    console.log(filterResultPost);
-    console.log(filterResultPg);
     useEffect(() => {
         setListResult(filterResultPost);
         filterResultPost &&
@@ -94,21 +93,26 @@ function Result() {
         let nextPage = currentPage + 1;
         if (totalPage - nextPage >= 0) {
             SearchFilterPost(
-                `${link && link}${
+                `${linkSearch && linkSearch}&${
                     sort && sort
-                }&page=${nextPage}&status=approved`,
+                }&page=${nextPage}`,
             ).then((res) =>
-                res?.post.map((item) =>
+                {
+                    console.log(res)
+                    res?.post.map((item) =>
                     setListResult((prevState) => [...prevState, item]),
-                ),
+                )}
             );
             setCurrentPage(nextPage);
             return;
         }
         if (totalPage - nextPage < 0) {
             SearchFilterPost(
-                `${link && link}${sort && sort}&status=approved`,
-            ).then((res) => setListResult(res?.post));
+                `${linkSearch && linkSearch}&${sort && sort}`,
+            ).then((res) => {
+                console.log(res)
+                setListResult(res?.post)
+            });
             setCurrentPage(1);
             return;
         }
@@ -174,9 +178,9 @@ function Result() {
                                         </span>
                                     </div>
                                     <div className={cx('describe')}>
-                                        {item?.describe &&
-                                            JSON.parse(item?.describe)
-                                                ?.describe}
+                                        {item?.describe ?
+                                            JSON?.parse(item?.describe)
+                                                ?.describe : ''}
                                     </div>
                                     <div className={cx('date-and-type')}>
                                         <div className={cx('date-createdby')}>

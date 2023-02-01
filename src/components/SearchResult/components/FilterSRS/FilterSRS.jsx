@@ -2,7 +2,12 @@ import classNames from 'classnames/bind';
 import { SearchFilterPost } from '~/api';
 import styles from './FilterSRS.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { areaRange, filterResult, priceRange } from '~/redux/slice/filterSlice';
+import {
+    areaRange,
+    filterResult,
+    priceRange,
+    searchLink,
+} from '~/redux/slice/filterSlice';
 import { useState } from 'react';
 const cx = classNames.bind(styles);
 
@@ -28,7 +33,6 @@ const filterAreaItems = [
 ];
 function FilterSRS() {
     const dispatch = useDispatch();
-    const link = useSelector((state) => state.filter.linkSearch?.link);
     const sort = useSelector((state) => state.filter.sort?.link);
     const searchValue = useSelector((state) => state.filter.search?.title);
     const currentDistrict = useSelector(
@@ -37,11 +41,6 @@ function FilterSRS() {
     const currentCategory = useSelector(
         (state) => state.filter.category?.currentCategory,
     );
-    const areaGte = useSelector((state) => state.filter.area?.areaGte);
-    const areaLte = useSelector((state) => state.filter.area?.areaLte);
-    const priceGte = useSelector((state) => state.filter.price?.priceGte);
-    const priceLte = useSelector((state) => state.filter.price?.priceLte);
-    console.log(priceGte, priceLte);
     const [filterByPriceIndex, setFilterByPriceIndex] = useState(-1);
     const [filterByAreaIndex, setFilterByAreaIndex] = useState(-1);
     console.log(filterByPriceIndex);
@@ -52,14 +51,23 @@ function FilterSRS() {
                 dispatch(priceRange([0, 999999]));
                 dispatch(areaRange(null));
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
                     }&price_gte=${0}&price_lte=${999999}&${sort && sort}`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&price_gte=${0}&price_lte=${999999}`,
+                    ),
+                );
                 setFilterByPriceIndex(index);
                 return;
             case 1:
@@ -67,9 +75,7 @@ function FilterSRS() {
                 dispatch(areaRange(null));
 
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
@@ -77,15 +83,24 @@ function FilterSRS() {
                         sort && sort
                     }`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&price_gte=${1000000}&price_lte=${3000000}`,
+                    ),
+                );
                 setFilterByPriceIndex(index);
                 return;
             case 2:
                 dispatch(priceRange([3000000, 5000000]));
                 dispatch(areaRange(null));
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
@@ -93,6 +108,17 @@ function FilterSRS() {
                         sort && sort
                     }`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&price_gte=${3000000}&price_lte=${5000000}`,
+                    ),
+                );
                 setFilterByPriceIndex(index);
 
                 return;
@@ -101,9 +127,7 @@ function FilterSRS() {
                 dispatch(areaRange(null));
 
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
@@ -111,16 +135,24 @@ function FilterSRS() {
                         sort && sort
                     }`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&price_gte=${5000000}&price_lte=${10000000}`,
+                    ),
+                );
                 setFilterByPriceIndex(index);
-
                 return;
             case 4:
                 dispatch(priceRange([10000000, 40000000]));
                 dispatch(areaRange(null));
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
@@ -128,15 +160,24 @@ function FilterSRS() {
                         sort && sort
                     }`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&price_gte=${10000000}&price_lte=${40000000}`,
+                    ),
+                );
                 setFilterByPriceIndex(index);
                 return;
             case 5:
                 dispatch(priceRange([40000000, 70000000]));
                 dispatch(areaRange(null));
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
@@ -144,16 +185,24 @@ function FilterSRS() {
                         sort && sort
                     }`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&price_gte=${40000000}&price_lte=${70000000}`,
+                    ),
+                );
                 setFilterByPriceIndex(index);
                 return;
             case 6:
                 dispatch(priceRange([70000000, 100000000]));
                 dispatch(areaRange(null));
-
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
@@ -161,15 +210,24 @@ function FilterSRS() {
                         sort && sort
                     }`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&price_gte=${70000000}&price_lte=${100000000}`,
+                    ),
+                );
                 setFilterByPriceIndex(index);
                 return;
             case 7:
                 dispatch(priceRange([100000000, 999999999]));
                 dispatch(areaRange(null));
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
@@ -177,6 +235,17 @@ function FilterSRS() {
                         sort && sort
                     }`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&price_gte=${100000000}&price_lte=${999999999}`,
+                    ),
+                );
                 setFilterByPriceIndex(index);
                 return;
             default:
@@ -190,29 +259,46 @@ function FilterSRS() {
                 dispatch(areaRange([0, 29]));
                 dispatch(priceRange(null));
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
                     }&areaGte=${0}&areaLte=${29}&${sort && sort}`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&areaGte=${0}&areaLte=${29}`,
+                    ),
+                );
                 setFilterByAreaIndex(index);
                 return;
             case 1:
                 dispatch(areaRange([30, 50]));
                 dispatch(priceRange(null));
-
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
                     }&areaGte=${30}&areaLte=${50}&${sort && sort}`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&areaGte=${30}&areaLte=${50}`,
+                    ),
+                );
                 setFilterByAreaIndex(index);
 
                 return;
@@ -221,14 +307,23 @@ function FilterSRS() {
                 dispatch(priceRange(null));
 
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
                     }&areaGte=${51}&areaLte=${80}&${sort && sort}`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&areaGte=${51}&areaLte=${80}`,
+                    ),
+                );
                 setFilterByAreaIndex(index);
 
                 return;
@@ -237,14 +332,23 @@ function FilterSRS() {
                 dispatch(priceRange(null));
 
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
                     }&areaGte=${81}&areaLte=${100}&${sort && sort}`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&areaGte=${81}&areaLte=${100}`,
+                    ),
+                );
                 setFilterByAreaIndex(index);
 
                 return;
@@ -253,14 +357,23 @@ function FilterSRS() {
                 dispatch(priceRange(null));
 
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
                     }&areaGte=${101}&areaLte=${150}&${sort && sort}`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&areaGte=${101}&areaLte=${150}`,
+                    ),
+                );
                 setFilterByAreaIndex(index);
                 return;
             case 5:
@@ -268,14 +381,23 @@ function FilterSRS() {
                 dispatch(priceRange(null));
 
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
                     }&areaGte=${151}&areaLte=${200}&${sort && sort}`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&areaGte=${151}&areaLte=${200}`,
+                    ),
+                );
                 setFilterByAreaIndex(index);
                 return;
             case 6:
@@ -283,28 +405,46 @@ function FilterSRS() {
                 dispatch(priceRange(null));
 
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
                     }&areaGte=${201}&areaLte=${250}&${sort && sort}`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&areaGte=${201}&areaLte=${250}`,
+                    ),
+                );
                 setFilterByAreaIndex(index);
                 return;
             case 7:
                 dispatch(areaRange([251, 300]));
                 dispatch(priceRange(null));
                 SearchFilterPost(
-                    `title=${
-                        searchValue ? searchValue : ''
-                    }&status=approved&category_name=${
+                    `title=${searchValue ? searchValue : ''}&category_name=${
                         currentCategory ? currentCategory : ''
                     }&district=${
                         currentDistrict ? currentDistrict : ''
                     }&areaGte=${251}&areaLte=${300}&${sort && sort}`,
                 ).then((res) => dispatch(filterResult(res)));
+                dispatch(
+                    searchLink(
+                        `title=${
+                            searchValue ? searchValue : ''
+                        }&category_name=${
+                            currentCategory ? currentCategory : ''
+                        }&district=${
+                            currentDistrict ? currentDistrict : ''
+                        }&areaGte=${251}&areaLte=${300}`,
+                    ),
+                );
                 setFilterByAreaIndex(index);
                 return;
             default:

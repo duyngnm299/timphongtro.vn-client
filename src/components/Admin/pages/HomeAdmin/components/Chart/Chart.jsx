@@ -7,12 +7,11 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    Legend,
     ResponsiveContainer,
 } from 'recharts';
 const cx = classNames.bind(styles);
 
-function Chart({ title, data, dataKey, name }) {
+function Chart({ title, data, dataKey, name, revenue, member }) {
     const formatCash = (number) => {
         return number
             .split('')
@@ -23,13 +22,14 @@ function Chart({ title, data, dataKey, name }) {
     };
 
     const formatterY = (item) => {
-        const res = `${formatCash(item.toString())} VND`;
+        const res = revenue
+            ? `${formatCash(item.toString())} VND`
+            : member
+            ? Math.ceil(item) + ' thành viên'
+            : item + ' bài';
         return res;
     };
 
-    const formatterLegend = (item) => {
-        return 'Doanh thu';
-    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('title')}>
@@ -49,7 +49,10 @@ function Chart({ title, data, dataKey, name }) {
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey={name ? name : 'name'} />
+                        <XAxis
+                            dataKey={name ? name : 'name'}
+                            style={{ fontSize: '12px' }}
+                        />
                         <YAxis
                             style={{ fontSize: '14px' }}
                             width={120}
@@ -57,7 +60,6 @@ function Chart({ title, data, dataKey, name }) {
                             tickFormatter={formatterY}
                         />
                         <Tooltip />
-                        <Legend formatter={formatterLegend} />
                         <Line
                             type="monotone"
                             dataKey={dataKey}

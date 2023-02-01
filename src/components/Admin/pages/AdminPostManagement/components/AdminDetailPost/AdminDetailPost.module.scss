@@ -227,7 +227,7 @@
 }
 
 .area-value {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 28px;
     font-weight: normal !important;
     color: #2c2c2c;
@@ -456,4 +456,8 @@
 .validate-text {
     font-size: 1.2rem;
     color: var(--primary);
+}
+
+.mapbox {
+    margin-top: 16px;
 }

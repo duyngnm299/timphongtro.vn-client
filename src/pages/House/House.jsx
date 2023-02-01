@@ -6,10 +6,11 @@ import { currentCategory, filterResult } from '~/redux/slice/filterSlice';
 function House() {
     const dispatch = useDispatch();
     useEffect(() => {
-        SearchFilterPost('category_name=Nhà nguyên căn&status=approved').then(
+        SearchFilterPost('category_name=Nhà nguyên căn').then(
             (res) => dispatch(filterResult(res)),
             dispatch(currentCategory('Nhà nguyên căn')),
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return <SearchResult />;
 }

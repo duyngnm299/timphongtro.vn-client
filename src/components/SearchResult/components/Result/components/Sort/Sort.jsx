@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import { useSelector, useDispatch } from 'react-redux';
 import { SearchFilterPost } from '~/api';
-import { filterResult, searchLink, sortLink } from '~/redux/slice/filterSlice';
+import { filterResult, sortLink } from '~/redux/slice/filterSlice';
 const cx = classNames.bind(styles);
 
 const sort_item = [
@@ -18,7 +18,6 @@ const sort_item = [
 ];
 
 function Sort() {
-    const link = useSelector((state) => state.filter.linkSearch?.link);
     const searchValue = useSelector((state) => state.filter.search?.title);
     const currentDistrict = useSelector(
         (state) => state.filter.district?.currentDistrict,
@@ -40,14 +39,12 @@ function Sort() {
         setIndexItem(index);
         switch (index) {
             case 0:
-                console.log(priceGte, priceLte);
-
                 const sort1 = '&_sort=createdAt:desc';
                 indexItem !== 0 &&
                     SearchFilterPost(
                         `title=${
                             searchValue ? searchValue : ''
-                        }&status=approved&category_name=${
+                        }&category_name=${
                             currentCategory ? currentCategory : ''
                         }&district=${
                             currentDistrict ? currentDistrict : ''
@@ -69,7 +66,7 @@ function Sort() {
                     SearchFilterPost(
                         `title=${
                             searchValue ? searchValue : ''
-                        }&status=approved&category_name=${
+                        }&category_name=${
                             currentCategory ? currentCategory : ''
                         }&district=${
                             currentDistrict ? currentDistrict : ''
@@ -91,7 +88,7 @@ function Sort() {
                     SearchFilterPost(
                         `title=${
                             searchValue ? searchValue : ''
-                        }&status=approved&category_name=${
+                        }&category_name=${
                             currentCategory ? currentCategory : ''
                         }&district=${
                             currentDistrict ? currentDistrict : ''
@@ -113,7 +110,7 @@ function Sort() {
                     SearchFilterPost(
                         `title=${
                             searchValue ? searchValue : ''
-                        }&status=approved&category_name=${
+                        }&category_name=${
                             currentCategory ? currentCategory : ''
                         }&district=${
                             currentDistrict ? currentDistrict : ''
@@ -135,7 +132,7 @@ function Sort() {
                     SearchFilterPost(
                         `title=${
                             searchValue ? searchValue : ''
-                        }&status=approved&category_name=${
+                        }&category_name=${
                             currentCategory ? currentCategory : ''
                         }&district=${
                             currentDistrict ? currentDistrict : ''

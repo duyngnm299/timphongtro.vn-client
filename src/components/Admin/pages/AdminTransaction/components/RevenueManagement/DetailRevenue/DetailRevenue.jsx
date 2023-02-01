@@ -9,7 +9,6 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import images from '~/assets/images';
 import {
-    getAllTransaction,
     getTransactionOfDay,
     getTransactionOfDistrict,
     getTransactionOfMonth,
@@ -55,6 +54,7 @@ function DetailRevenue() {
             });
         }
         return () => {};
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
         if (filter.includes('Quận') || filter.includes('Huyện')) {
@@ -166,8 +166,18 @@ function DetailRevenue() {
     );
 
     const handleBack = () => {
-        dispatch(currentMenu('renvene'));
+        dispatch(currentMenu('revenue'));
         navigate(config.routes.adminTransaction);
+    };
+    const CustomToolbar = () => {
+        return (
+            <div className={cx('toolbar')}>
+                <span className={cx('title-toolbar')}>BÁO CÁO DOANH THU</span>
+                <div className={cx('export')}>
+                    <GridToolbar />
+                </div>
+            </div>
+        );
     };
     const CustomFooterTotal = () => {
         return (
@@ -252,7 +262,7 @@ function DetailRevenue() {
                             height: '500px',
                         }}
                         components={{
-                            Toolbar: GridToolbar,
+                            Toolbar: CustomToolbar,
                             Footer: CustomFooterTotal,
                         }}
                     />

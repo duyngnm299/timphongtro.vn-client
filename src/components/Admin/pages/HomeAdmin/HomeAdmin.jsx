@@ -24,6 +24,7 @@ function HomeAdmin() {
                     title="Biểu đồ doanh thu"
                     dataKey="totalTransaction"
                     name={'_id'}
+                    revenue={true}
                 />
                 <div className={cx('bottom')}>
                     <NewUsers />

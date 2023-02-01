@@ -412,7 +412,6 @@ export const createTransaction = async (data) => {
         return error;
     }
 };
-
 export const getAllTransaction = async () => {
     try {
         const res = await API.get('/transaction/get-all');
@@ -539,6 +538,33 @@ export const filterUserByMonth = async () => {
 export const filterPostByMonth = async () => {
     try {
         const res = await API.get(`/post/filter/month`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const filterPostByDate = async () => {
+    try {
+        const res = await API.get(`/post/filter/date`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const filterPostByDistrict = async () => {
+    try {
+        const res = await API.get(`/post/filter/district`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const filterUserByDate = async () => {
+    try {
+        const res = await API.get(`/user/filter/date`);
         return res.data;
     } catch (error) {
         return error;

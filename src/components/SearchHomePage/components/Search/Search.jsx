@@ -17,7 +17,6 @@ import { filterResult } from '~/redux/slice/filterSlice';
 
 const cx = classNames.bind(styles);
 function Search({ className }) {
-    const ftResult = useSelector((state) => state.filter.filterResult?.result);
     const dispatch = useDispatch();
     const currentCategory = useSelector(
         (state) => state.filter.category?.currentCategory,
@@ -45,14 +44,13 @@ function Search({ className }) {
         }
         dispatch(searchText(debouncedValue));
         setLoading(true);
-        SearchFilterPost(`title=${debouncedValue}&status=approved`).then(
-            (res) => {
-                console.log(res);
-                setSearchResult(res.post);
-                setLoading(false);
-                setShowResult(true);
-            },
-        );
+        SearchFilterPost(`title=${debouncedValue}`).then((res) => {
+            console.log(res);
+            setSearchResult(res.post);
+            setLoading(false);
+            setShowResult(true);
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedValue]);
     const handleInputChange = (searchValue) => {
         if (searchValue.startsWith(' ')) {
@@ -78,7 +76,7 @@ function Search({ className }) {
             !areaGte
         ) {
             dispatch(searchLink(null));
-            SearchFilterPost('status=approved').then((res) => {
+            SearchFilterPost().then((res) => {
                 dispatch(filterResult(res));
             });
             return;
@@ -100,7 +98,7 @@ function Search({ className }) {
                         priceLte ? priceLte : ''
                     }&areaGte=${areaGte ? areaGte : ''}&areaLte=${
                         areaLte ? areaLte : ''
-                    }&status=approved`,
+                    }`,
                 ),
             );
             SearchFilterPost(
@@ -112,7 +110,7 @@ function Search({ className }) {
                     priceLte ? priceLte : ''
                 }&areaGte=${areaGte ? areaGte : ''}&areaLte=${
                     areaLte ? areaLte : ''
-                }&status=approved`,
+                }`,
             ).then((res) => dispatch(filterResult(res)));
             return;
         }

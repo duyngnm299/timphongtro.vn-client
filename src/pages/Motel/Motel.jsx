@@ -6,10 +6,11 @@ import { currentCategory, filterResult } from '~/redux/slice/filterSlice';
 function Motel() {
     const dispatch = useDispatch();
     useEffect(() => {
-        SearchFilterPost('category_name=Phòng trọ&status=approved').then(
+        SearchFilterPost('category_name=Phòng trọ').then(
             (res) => dispatch(filterResult(res)),
             dispatch(currentCategory('Phòng trọ')),
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return <SearchResult />;
 }

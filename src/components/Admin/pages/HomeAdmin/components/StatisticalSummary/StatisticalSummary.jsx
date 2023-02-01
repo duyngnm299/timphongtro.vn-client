@@ -17,7 +17,7 @@ function StatisticalSummary() {
     const [rateRevenue, setRateRevenue] = useState(0);
     const [rateNewUser, setRateNewUser] = useState(0);
     const [ratePost, setRatePost] = useState(0);
-
+    console.log(listPost)
     const formatCash = (number) => {
         return number
             .split('')

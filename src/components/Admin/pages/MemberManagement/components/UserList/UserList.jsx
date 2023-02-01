@@ -181,6 +181,16 @@ function UserList() {
             }
         });
     };
+    const CustomToolbar = () => {
+        return (
+            <div className={cx('toolbar')}>
+                <span className={cx('title-toolbar')}>DANH SÁCH BÀI ĐĂNG</span>
+                <div className={cx('export')}>
+                    <GridToolbar />
+                </div>
+            </div>
+        );
+    };
     const theme = createTheme(
         {
             palette: {
@@ -250,7 +260,7 @@ function UserList() {
                         className={cx('list-user')}
                         style={{ fontSize: '1.4rem', textAlign: 'left' }}
                         components={{
-                            Toolbar: GridToolbar,
+                            Toolbar: CustomToolbar,
                         }}
                     />
                 </ThemeProvider>

@@ -17,7 +17,7 @@ import config from '~/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getConvOfUser, getUser } from '~/api';
 import { currentMenu } from '~/redux/slice/menuSlice';

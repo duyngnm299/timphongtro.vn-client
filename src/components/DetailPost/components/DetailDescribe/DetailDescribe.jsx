@@ -157,22 +157,39 @@ function DetailDescribe() {
                                 delay={(0, 200)}
                                 placement="top"
                             >
-                                <div
-                                    className={cx('saved')}
-                                    onClick={handleSavePost}
-                                >
-                                    {savedPost ? (
-                                        <FontAwesomeIcon
-                                            icon={HeartIcon}
-                                            className={cx('icon-saved')}
-                                        />
-                                    ) : (
+                                {crPost?.createdBy[0] !== currentUser?._id ? (
+                                    <div
+                                        className={cx('saved')}
+                                        onClick={handleSavePost}
+                                    >
+                                        {savedPost ? (
+                                            <FontAwesomeIcon
+                                                icon={HeartIcon}
+                                                className={cx('icon-saved')}
+                                            />
+                                        ) : (
+                                            <FontAwesomeIcon
+                                                icon={faHeart}
+                                                className={cx(
+                                                    'icon-saved',
+                                                    crPost?.createdBy[0] ===
+                                                        currentUser?._id &&
+                                                        'disabled',
+                                                )}
+                                            />
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div
+                                        className={cx('saved-disabled')}
+                                        onClick={handleSavePost}
+                                    >
                                         <FontAwesomeIcon
                                             icon={faHeart}
-                                            className={cx('icon-saved')}
+                                            className={cx('disabled')}
                                         />
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </Tippy>
                         </div>
                     </div>

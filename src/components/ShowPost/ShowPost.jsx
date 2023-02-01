@@ -46,7 +46,7 @@ function ShowPost() {
                 );
             });
         }
-        SearchFilterPost(`type=Tin nổi bật&status=approved`)
+        SearchFilterPost(`type=Tin nổi bật`)
             .then((res) => {
                 console.log(res.pagination.total);
                 res.pagination && setTotalPost(res.pagination.total);
@@ -54,6 +54,7 @@ function ShowPost() {
                 setAllPost(res?.post);
             })
             .catch((err) => console.log(err));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleOnClick = (item) => {
@@ -63,9 +64,7 @@ function ShowPost() {
     const handleOnClickMore = () => {
         let nextPage = currentPage + 1;
         if (totalPage - nextPage >= 0) {
-            SearchFilterPost(
-                `type=Tin nổi bật&status=approved&page=${nextPage}`,
-            ).then((res) =>
+            SearchFilterPost(`type=Tin nổi bật&page=${nextPage}`).then((res) =>
                 res?.post.map((item) =>
                     setAllPost((prevState) => [...prevState, item]),
                 ),
@@ -74,7 +73,7 @@ function ShowPost() {
             return;
         }
         if (totalPage - nextPage < 0) {
-            SearchFilterPost(`type=Tin nổi bật&status=approved`).then((res) =>
+            SearchFilterPost(`type=Tin nổi bật`).then((res) =>
                 setAllPost(res?.post),
             );
             setCurrentPage(1);

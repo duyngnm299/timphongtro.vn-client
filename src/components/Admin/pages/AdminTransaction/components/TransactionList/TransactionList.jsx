@@ -3,8 +3,6 @@ import styles from './TransactionList.module.scss';
 import * as React from 'react';
 import { DataGrid, GridToolbar, viVN } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import images from '~/assets/images';
@@ -13,8 +11,6 @@ const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
 function TransactionList() {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [listTransaction, setListTransaction] = useState([]);
     const formatCash = (number) => {
         return number
@@ -109,6 +105,16 @@ function TransactionList() {
             flex: 1,
         },
     ];
+    const CustomToolbar = () => {
+        return (
+            <div className={cx('toolbar')}>
+                <span className={cx('title-toolbar')}>DANH SÁCH GIAO DỊCH</span>
+                <div className={cx('export')}>
+                    <GridToolbar />
+                </div>
+            </div>
+        );
+    };
     const theme = createTheme(
         {
             palette: {
@@ -178,7 +184,7 @@ function TransactionList() {
                         className={cx('list-user')}
                         style={{ fontSize: '1.4rem', textAlign: 'left' }}
                         components={{
-                            Toolbar: GridToolbar,
+                            Toolbar: CustomToolbar,
                         }}
                     />
                 </ThemeProvider>

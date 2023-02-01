@@ -22,6 +22,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import { useRef } from 'react';
 import { detailPost } from '~/redux/slice/adminSlice';
+import Mapbox from '~/components/Mapbox';
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 function AdminDetailPost() {
@@ -57,6 +58,7 @@ function AdminDetailPost() {
         currentPost && setImageList(currentPost.images);
         currentPost &&
             getUser(currentPost.createdBy).then((res) => setUser(res.user));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -69,6 +71,7 @@ function AdminDetailPost() {
         currentPost && setRestroom(JSON.parse(currentPost?.describe)?.restroom);
         currentPost && setFloor(JSON.parse(currentPost?.describe)?.floor);
         currentPost && setImageList(currentPost.images);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updated]);
     const imageRef = useRef();
     const titleRef = useRef();
@@ -823,6 +826,13 @@ function AdminDetailPost() {
                                         </div>
                                     )}
                                 </div>
+                            </div>
+                            <div className={cx('mapbox')}>
+                                <h1 className={cx('title')}>Xem trên bản đồ</h1>
+                                <Mapbox
+                                    className={cx('mapbox-details-post')}
+                                    searchAddress={address}
+                                />
                             </div>
                         </div>
                     </div>

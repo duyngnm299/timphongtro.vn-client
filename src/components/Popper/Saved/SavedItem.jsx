@@ -22,7 +22,8 @@ function SavedItem({ data }) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const handleDeleteSavePost = () => {
+    const handleDeleteSavePost = (e) => {
+        e.stopPropagation();
         const postId = JSON.stringify({ postId: data?._id });
         deleteSavePost(currentUser._id, postId).then((res) => {
             dispatch(savedPostItemChange());
@@ -42,7 +43,7 @@ function SavedItem({ data }) {
                     <FontAwesomeIcon
                         icon={faXmark}
                         className={cx('deleted-icon')}
-                        onClick={handleDeleteSavePost}
+                        onClick={(e) => handleDeleteSavePost(e)}
                     />
                     <div className={cx('img-container')}>
                         <img

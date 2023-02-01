@@ -1,5 +1,4 @@
 import classNames from 'classnames/bind';
-import images from '~/assets/images';
 import styles from './UnApprovedPost.module.scss';
 import * as React from 'react';
 import { DataGrid, GridToolbar, viVN } from '@mui/x-data-grid';
@@ -198,6 +197,16 @@ function UnApprovedPost() {
             }
         });
     };
+    const CustomToolbar = () => {
+        return (
+            <div className={cx('toolbar')}>
+                <span className={cx('title-toolbar')}>BÀI ĐĂNG CHƯA DUYỆT</span>
+                <div className={cx('export')}>
+                    <GridToolbar />
+                </div>
+            </div>
+        );
+    };
     const theme = createTheme(
         {
             palette: {
@@ -271,7 +280,7 @@ function UnApprovedPost() {
                             height: '500px',
                         }}
                         components={{
-                            Toolbar: GridToolbar,
+                            Toolbar: CustomToolbar,
                         }}
                     />
                 </ThemeProvider>

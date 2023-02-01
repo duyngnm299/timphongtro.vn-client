@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import AddUser from './components/addUser';
 import { currentMenu } from '~/redux/slice/adminSlice';
+import MemberStatistics from './components/MemberStatistics';
 const cx = classNames.bind(styles);
 
 function MemberManagement() {
@@ -14,6 +15,7 @@ function MemberManagement() {
     console.log(crMenu);
     const [showUserList, setShowUserList] = useState(false);
     const [showAddUser, setShowAddUser] = useState(false);
+    const [showMemberStatistics, setShowMemberStatistics] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(
         (crMenu === 'list-user' && 0) || 0,
     );
@@ -23,12 +25,21 @@ function MemberManagement() {
             setCurrentIndex(0);
             setShowUserList(true);
             setShowAddUser(false);
+            setShowMemberStatistics(false);
             return;
         }
         if (crMenu === 'add-user') {
             setCurrentIndex(1);
             setShowAddUser(true);
             setShowUserList(false);
+            setShowMemberStatistics(false);
+            return;
+        }
+        if (crMenu === 'statistics-member') {
+            setCurrentIndex(2);
+            setShowAddUser(false);
+            setShowUserList(false);
+            setShowMemberStatistics(true);
             return;
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,6 +50,7 @@ function MemberManagement() {
             setShowUserList(true);
             setShowAddUser(false);
             setCurrentIndex(0);
+            setShowMemberStatistics(false);
             dispatch(currentMenu(null));
             return;
         }
@@ -46,6 +58,15 @@ function MemberManagement() {
             setShowAddUser(true);
             setShowUserList(false);
             setCurrentIndex(1);
+            dispatch(currentMenu(null));
+            setShowMemberStatistics(false);
+            return;
+        }
+        if (crMenu === 'statistics-member') {
+            setCurrentIndex(2);
+            setShowAddUser(false);
+            setShowUserList(false);
+            setShowMemberStatistics(true);
             dispatch(currentMenu(null));
             return;
         }
@@ -73,6 +94,11 @@ function MemberManagement() {
             dispatch(currentMenu('add-user'));
             setShowAddUser(true);
             setShowUserList(false);
+        } else if (index === 2) {
+            dispatch(currentMenu('statistics-member'));
+            setShowAddUser(false);
+            setShowUserList(false);
+            setShowMemberStatistics(true);
         }
     };
     return (
@@ -97,6 +123,7 @@ function MemberManagement() {
             </div>
             {showUserList && <UserList />}
             {showAddUser && <AddUser />}
+            {showMemberStatistics && <MemberStatistics />}
         </div>
     );
 }

@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './PostListOfUser.module.scss';
 import images from '~/assets/images';
 import { BiPhoneCall } from 'react-icons/bi';
-import { getPostListOfUser, getUser, SearchFilterPost } from '~/api';
+import { getPostListOfUser, getUser } from '~/api';
 import { Link } from 'react-router-dom';
 import config from '~/config';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import ImageSlider from '../ImageSlider';
 import Button from '../Button';
 import { useState, useEffect } from 'react';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import Footer from '~/layouts/components/Footer';
 
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
@@ -48,6 +49,7 @@ function PostListOfUser() {
                 }
             })
             .catch((err) => console.log(err));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleOnClick = (item) => {
@@ -75,22 +77,34 @@ function PostListOfUser() {
         }
     };
     const currentDate = new Date();
+    const date_diff_indays = function (date1, date2) {
+        const dt1 = new Date(date1);
+        const dt2 = new Date(date2);
+        return Math.floor(
+            (Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) -
+                Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) /
+                (1000 * 60 * 60 * 24),
+        );
+    };
     const handleDate = (createdAt) => {
         const createdDate = new Date(createdAt);
-        if (currentDate.getFullYear() === createdDate.getFullYear()) {
-            if (currentDate.getMonth() === createdDate.getMonth()) {
-                let result = currentDate.getDate() - createdDate.getDate();
-                if (result === 0) {
-                    return 'Hôm nay';
-                }
-                return `${result} ngày trước`;
-            } else {
-                let result = currentDate.getMonth() - createdDate.getMonth();
-                return `${result} tháng trước`;
-            }
-        } else {
-            let result = currentDate.getFullYear() - createdDate.getFullYear();
-            return `${result} năm trước`;
+        const result = date_diff_indays(createdDate, currentDate);
+        const a = Math.floor(result / 30);
+        if (result === 0) {
+            return 'Hôm nay';
+        }
+        if (a < 1) {
+            return result + ' ngày trước';
+        }
+        if (a > 12 && a < 24) {
+            return '1 năm trước';
+        }
+        if (a >= 24) {
+            return '2 năm trước';
+        }
+
+        if (a > 1 && a < 12) {
+            return a + ' tháng trước';
         }
     };
 
@@ -235,6 +249,9 @@ function PostListOfUser() {
                         </div>
                     )}
                 </div>
+            </div>
+            <div className={cx('footer')}>
+                <Footer />
             </div>
         </div>
     );

@@ -10,6 +10,7 @@ function Ground() {
             (res) => dispatch(filterResult(res)),
             dispatch(currentCategory('Mặt bằng')),
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return <SearchResult />;
 }

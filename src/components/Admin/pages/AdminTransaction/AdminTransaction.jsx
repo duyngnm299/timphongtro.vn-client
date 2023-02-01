@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { currentMenu } from '~/redux/slice/adminSlice';
 import styles from './AdminTransaction.module.scss';
 import RevenueManagement from './components/RevenueManagement';
-import DetailRevenue from './components/RevenueManagement/DetailRevenue';
 import TransactionList from './components/TransactionList';
 const cx = classNames.bind(styles);
 function AdminTransaction() {
@@ -26,7 +25,7 @@ function AdminTransaction() {
 
             return;
         }
-        if (crMenu === 'renvene') {
+        if (crMenu === 'revenue') {
             setCurrentIndex(1);
             setShowRevenue(true);
             setShowTransactionList(false);
@@ -44,7 +43,7 @@ function AdminTransaction() {
 
             return;
         }
-        if (crMenu === 'renvene') {
+        if (crMenu === 'revenue') {
             setCurrentIndex(1);
             setShowRevenue(true);
             setShowTransactionList(false);
@@ -59,9 +58,6 @@ function AdminTransaction() {
             title: 'Danh sách giao dịch',
         },
         {
-            title: 'Quản lý doanh thu',
-        },
-        {
             title: 'Thống kê',
         },
     ];
@@ -72,7 +68,7 @@ function AdminTransaction() {
             setShowTransactionList(true);
             setShowRevenue(false);
         } else if (index === 1) {
-            dispatch(currentMenu('renvene'));
+            dispatch(currentMenu('revenue'));
             setShowRevenue(true);
             setShowTransactionList(false);
         }

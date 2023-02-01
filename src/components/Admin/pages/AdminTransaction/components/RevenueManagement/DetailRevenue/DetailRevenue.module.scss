@@ -108,3 +108,25 @@
     border-top: 1px solid #ccc;
     padding: 10px;
 }
+
+.toolbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+}
+
+.title-toolbar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.6rem;
+    font-family: var(--font-family);
+    font-weight: 500;
+}
+
+.export {
+    position: absolute;
+    right: 0;
+}

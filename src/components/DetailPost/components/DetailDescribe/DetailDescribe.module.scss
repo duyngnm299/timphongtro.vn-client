@@ -198,5 +198,16 @@
     margin-left: 16px;
     width: calc(100% - 24px - 16px - 128px - 16px);
 }
+.saved-disabled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    pointer-events: none;
+}
 
-// CONTACT
+.disabled {
+    font-size: 26px;
+    opacity: 0.3;
+    user-select: none;
+}

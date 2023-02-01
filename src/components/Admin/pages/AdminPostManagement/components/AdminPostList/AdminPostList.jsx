@@ -1,5 +1,4 @@
 import classNames from 'classnames/bind';
-import images from '~/assets/images';
 import styles from './AdminPostList.module.scss';
 import * as React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -14,9 +13,8 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import config from '~/config';
 import { useDispatch } from 'react-redux';
-import { detailPost, editedUser } from '~/redux/slice/adminSlice';
+import { detailPost } from '~/redux/slice/adminSlice';
 const cx = classNames.bind(styles);
-const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
 function AdminPostList() {
     const dispatch = useDispatch();
@@ -169,7 +167,16 @@ function AdminPostList() {
             }
         });
     };
-
+    const CustomToolbar = () => {
+        return (
+            <div className={cx('toolbar')}>
+                <span className={cx('title-toolbar')}>DANH SÁCH GIAO DỊCH</span>
+                <div className={cx('export')}>
+                    <GridToolbar />
+                </div>
+            </div>
+        );
+    };
     const theme = createTheme(
         {
             palette: {
@@ -239,7 +246,7 @@ function AdminPostList() {
                         className={cx('list-user')}
                         style={{ fontSize: '1.4rem', textAlign: 'left' }}
                         components={{
-                            Toolbar: GridToolbar,
+                            Toolbar: CustomToolbar,
                             viVN,
                         }}
                     />

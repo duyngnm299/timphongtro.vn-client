@@ -7,6 +7,7 @@ import UnApprovedPost from './components/UnApprovedPost';
 import { currentMenu } from '~/redux/slice/adminSlice';
 import CreatePost from './components/CreatePost';
 import { useEffect } from 'react';
+import PostStatistics from './components/PostStatistics';
 
 const cx = classNames.bind(styles);
 
@@ -14,8 +15,9 @@ function AdminPostManagement() {
     const dispatch = useDispatch();
     const crMenu = useSelector((state) => state.admin.currentMenu?.menu);
     const [showPostList, setShowPostList] = useState(false);
-    const [showUnApprovedPost, setShowUnApprovedPost] = useState(true);
+    const [showUnApprovedPost, setShowUnApprovedPost] = useState(false);
     const [showCreatePost, setShowCreatePost] = useState(false);
+    const [showStatisticsPost, setShowStatisticsPost] = useState(false)
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const menuItems = [
@@ -52,6 +54,14 @@ function AdminPostManagement() {
             setCurrentIndex(2);
             return;
         }
+        if (crMenu === 'statistics-post') {
+            setShowUnApprovedPost(false);
+            setShowPostList(false);
+            setShowCreatePost(false);
+            setShowStatisticsPost(true)
+            return
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
         if (crMenu === 'list-post') {
@@ -76,6 +86,13 @@ function AdminPostManagement() {
             setCurrentIndex(2);
             return;
         }
+        if (crMenu === 'statistics-post') {
+            setShowUnApprovedPost(false);
+            setShowPostList(false);
+            setShowCreatePost(false);
+            setShowStatisticsPost(true)
+            return
+        }
     }, [crMenu]);
     const handleOnClickMenuItem = (i) => {
         setCurrentIndex(i);
@@ -84,16 +101,28 @@ function AdminPostManagement() {
             setShowUnApprovedPost(false);
             setShowPostList(true);
             setShowCreatePost(false);
+            setShowStatisticsPost(false)
+
         } else if (i === 1) {
             dispatch(currentMenu('unapproved'));
             setShowUnApprovedPost(true);
             setShowPostList(false);
             setShowCreatePost(false);
+            setShowStatisticsPost(false)
+
         } else if (i === 2) {
             dispatch(currentMenu('create-post'));
             setShowUnApprovedPost(false);
             setShowPostList(false);
+            setShowStatisticsPost(false)
             setShowCreatePost(true);
+        }
+        else if (i === 3) {
+            dispatch(currentMenu('statistics-post'));
+            setShowUnApprovedPost(false);
+            setShowPostList(false);
+            setShowCreatePost(false);
+            setShowStatisticsPost(true)
         }
     };
     return (
@@ -119,6 +148,7 @@ function AdminPostManagement() {
             {showPostList && <AdminPostList />}
             {showUnApprovedPost && <UnApprovedPost />}
             {showCreatePost && <CreatePost />}
+            {showStatisticsPost && <PostStatistics />}
         </div>
     );
 }

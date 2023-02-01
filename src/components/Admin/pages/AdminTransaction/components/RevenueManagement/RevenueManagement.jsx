@@ -20,7 +20,6 @@ import config from '~/config';
 import { useRef } from 'react';
 import Chart from '../../../HomeAdmin/components/Chart';
 const cx = classNames.bind(styles);
-const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
 function RevenueManagement() {
     const selectionItems = ['Theo ngày', 'Theo tháng', 'Theo khu vực'];
@@ -201,6 +200,16 @@ function RevenueManagement() {
             return;
         }
     };
+    const CustomToolbar = () => {
+        return (
+            <div className={cx('toolbar')}>
+                <span className={cx('title-toolbar')}>BÁO CÁO DOANH THU</span>
+                <div className={cx('export')}>
+                    <GridToolbar />
+                </div>
+            </div>
+        );
+    };
     const CustomFooterTotal = () => {
         return (
             <Box className={cx('footer')}>
@@ -279,7 +288,7 @@ function RevenueManagement() {
                             height: '500px',
                         }}
                         components={{
-                            Toolbar: GridToolbar,
+                            Toolbar: CustomToolbar,
                             Footer: CustomFooterTotal,
                         }}
                         sx={{
@@ -328,6 +337,7 @@ function RevenueManagement() {
                     title="Biểu đồ doanh thu"
                     dataKey="totalTransaction"
                     name={'_id'}
+                    revenue={true}
                 />
             </div>
         </>
