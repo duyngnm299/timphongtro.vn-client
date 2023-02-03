@@ -5,14 +5,25 @@ import { AiFillEye } from 'react-icons/ai';
 import { useEffect } from 'react';
 import { getUserNewest } from '~/api';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { editedUser } from '~/redux/slice/adminSlice';
+import config from '~/config';
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
 function NewUsers() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [listUser, setListUser] = useState([]);
     useEffect(() => {
         getUserNewest().then((res) => setListUser(res.result));
     }, []);
+
+    const handleDetailUser = (item) => {
+        dispatch(editedUser(item));
+        navigate(config.routes.detailMember + `/${item._id}`);
+    };
     return (
         <div className={cx('wrapper')}>
             <h4 className={cx('title')}>Thành viên mới</h4>
@@ -39,7 +50,10 @@ function NewUsers() {
                                     </span>
                                 </div>
                             </div>
-                            <div className={cx('see-info')}>
+                            <div
+                                className={cx('see-info')}
+                                onClick={() => handleDetailUser(item)}
+                            >
                                 <span className={cx('icon')}>
                                     <AiFillEye />
                                 </span>

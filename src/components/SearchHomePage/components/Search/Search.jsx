@@ -45,7 +45,6 @@ function Search({ className }) {
         dispatch(searchText(debouncedValue));
         setLoading(true);
         SearchFilterPost(`title=${debouncedValue}`).then((res) => {
-            console.log(res);
             setSearchResult(res.post);
             setLoading(false);
             setShowResult(true);

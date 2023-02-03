@@ -562,9 +562,96 @@ export const filterPostByDistrict = async () => {
     }
 };
 
+export const filterPostByCategory = async () => {
+    try {
+        const res = await API.get(`/post/filter/category`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
 export const filterUserByDate = async () => {
     try {
         const res = await API.get(`/user/filter/date`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const createReportedPost = async (data) => {
+    try {
+        const res = await API.post(`/post/create/reported`, data);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const deletedReportedPost = async (id) => {
+    try {
+        const res = await API.post(`/post/deleted/reported/${id}`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getAllReported = async () => {
+    try {
+        const res = await API.get(`/post/get-all/reported`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getDetailReported = async (id) => {
+    try {
+        const res = await API.post(`/post/detail/reported/${id}`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const updateUserReportedPost = async (userId, post) => {
+    try {
+        const res = await API.post(
+            `/user/update-reported-post/${userId}`,
+            post,
+        );
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const deleteReportedPostOfUser = async (userId, postId) => {
+    console.log(userId, postId);
+    try {
+        const res = await API.post(
+            `/user/deleted-reported-post/${userId}`,
+            postId,
+            {
+                headers: {
+                    // Overwrite Axios's automatically set Content-Type
+                    'Content-Type': 'application/json',
+                },
+            },
+        );
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+export const getReportedByPostId = async (postId) => {
+    try {
+        const res = await API.get(
+            `/post/get-reported-by-post-id/${postId}`,
+            postId,
+        );
         return res.data;
     } catch (error) {
         return error;

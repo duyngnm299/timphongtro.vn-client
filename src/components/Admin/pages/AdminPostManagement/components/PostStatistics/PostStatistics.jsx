@@ -1,10 +1,11 @@
 import classNames from 'classnames/bind';
 import styles from './PostStatistics.module.scss';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Chart from '../../../HomeAdmin/components/Chart';
 import { useEffect } from 'react';
 import {
+    filterPostByCategory,
     filterPostByDate,
     filterPostByDistrict,
     filterPostByMonth,
@@ -13,10 +14,16 @@ import {
 const cx = classNames.bind(styles);
 
 function PostStatistics() {
-    const selectionItems = ['Theo ngày', 'Theo tháng', 'Theo khu vực'];
+    const selectionItems = [
+        'Theo ngày',
+        'Theo tháng',
+        'Theo khu vực',
+        'Theo thể loại',
+    ];
     const [selectionInputValue, setSelectionInputValue] = useState('Theo ngày');
     const [showSelection, setShowSelection] = useState(false);
     const [listPost, setListPost] = useState([]);
+    const selectionRef = useRef();
     useEffect(() => {
         if (selectionInputValue === 'Theo ngày') {
             filterPostByDate().then((res) => {
@@ -30,6 +37,10 @@ function PostStatistics() {
         }
         if (selectionInputValue === 'Theo khu vực') {
             filterPostByDistrict().then((res) => setListPost(res?.result));
+            return;
+        }
+        if (selectionInputValue === 'Theo thể loại') {
+            filterPostByCategory().then((res) => setListPost(res?.result));
             return;
         }
 
@@ -50,9 +61,29 @@ function PostStatistics() {
             filterPostByDistrict().then((res) => setListPost(res?.result));
             return;
         }
+        if (selectionInputValue === 'Theo thể loại') {
+            filterPostByCategory().then((res) => setListPost(res?.result));
+            return;
+        }
     }, [selectionInputValue]);
+
+    const handleClickOutside = (e) => {
+        const { target } = e;
+        if (selectionRef.current === null) {
+            setShowSelection(false);
+            return;
+        }
+        if (selectionRef.current === undefined) {
+            setShowSelection(false);
+            return;
+        }
+        if (!selectionRef.current.contains(target)) {
+            setShowSelection(false);
+            return;
+        }
+    };
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper')} onClick={handleClickOutside}>
             <div className={cx('content')}>
                 <div className={cx('selection')}>
                     <label htmlFor="input">Số lượng bài viết</label>

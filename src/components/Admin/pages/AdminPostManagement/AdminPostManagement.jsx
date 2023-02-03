@@ -8,6 +8,7 @@ import { currentMenu } from '~/redux/slice/adminSlice';
 import CreatePost from './components/CreatePost';
 import { useEffect } from 'react';
 import PostStatistics from './components/PostStatistics';
+import ReportedPostList from './components/ReportedPostList';
 
 const cx = classNames.bind(styles);
 
@@ -17,7 +18,8 @@ function AdminPostManagement() {
     const [showPostList, setShowPostList] = useState(false);
     const [showUnApprovedPost, setShowUnApprovedPost] = useState(false);
     const [showCreatePost, setShowCreatePost] = useState(false);
-    const [showStatisticsPost, setShowStatisticsPost] = useState(false)
+    const [showStatisticsPost, setShowStatisticsPost] = useState(false);
+    const [showReportedList, setShowReportedList] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const menuItems = [
@@ -26,6 +28,9 @@ function AdminPostManagement() {
         },
         {
             title: 'Bài đăng chưa duyệt',
+        },
+        {
+            title: 'Bài đăng bị báo xấu',
         },
         {
             title: 'Tạo bài đăng',
@@ -37,6 +42,8 @@ function AdminPostManagement() {
     useEffect(() => {
         if (crMenu === 'list-post') {
             setShowUnApprovedPost(false);
+            setShowReportedList(false);
+            setShowCreatePost(false);
             setShowPostList(true);
             setCurrentIndex(0);
             return;
@@ -44,30 +51,43 @@ function AdminPostManagement() {
         if (crMenu === 'unapproved') {
             setShowUnApprovedPost(true);
             setShowPostList(false);
+            setShowCreatePost(false);
+            setShowReportedList(false);
             setCurrentIndex(1);
+            return;
+        }
+        if (crMenu === 'reported-post') {
+            setShowUnApprovedPost(false);
+            setShowPostList(false);
+            setShowCreatePost(false);
+            setShowReportedList(true);
+            setCurrentIndex(2);
             return;
         }
         if (crMenu === 'create-post') {
             setShowUnApprovedPost(false);
             setShowPostList(false);
+            setShowCreatePost(false);
             setShowCreatePost(true);
-            setCurrentIndex(2);
+            setCurrentIndex(3);
             return;
         }
         if (crMenu === 'statistics-post') {
             setShowUnApprovedPost(false);
             setShowPostList(false);
             setShowCreatePost(false);
-            setShowStatisticsPost(true)
-            return
+            setShowStatisticsPost(true);
+            setCurrentIndex(4);
+            return;
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
         if (crMenu === 'list-post') {
             setShowUnApprovedPost(false);
-            setShowPostList(true);
+            setShowReportedList(false);
             setShowCreatePost(false);
+            setShowPostList(true);
             setCurrentIndex(0);
             return;
         }
@@ -75,23 +95,33 @@ function AdminPostManagement() {
             setShowUnApprovedPost(true);
             setShowPostList(false);
             setShowCreatePost(false);
-
+            setShowReportedList(false);
             setCurrentIndex(1);
+            return;
+        }
+        if (crMenu === 'reported-post') {
+            setShowUnApprovedPost(false);
+            setShowPostList(false);
+            setShowCreatePost(false);
+            setShowReportedList(true);
+            setCurrentIndex(2);
             return;
         }
         if (crMenu === 'create-post') {
             setShowUnApprovedPost(false);
             setShowPostList(false);
+            setShowCreatePost(false);
             setShowCreatePost(true);
-            setCurrentIndex(2);
+            setCurrentIndex(3);
             return;
         }
         if (crMenu === 'statistics-post') {
             setShowUnApprovedPost(false);
             setShowPostList(false);
             setShowCreatePost(false);
-            setShowStatisticsPost(true)
-            return
+            setShowStatisticsPost(true);
+            setCurrentIndex(4);
+            return;
         }
     }, [crMenu]);
     const handleOnClickMenuItem = (i) => {
@@ -101,28 +131,36 @@ function AdminPostManagement() {
             setShowUnApprovedPost(false);
             setShowPostList(true);
             setShowCreatePost(false);
-            setShowStatisticsPost(false)
-
+            setShowStatisticsPost(false);
+            setShowReportedList(false);
         } else if (i === 1) {
             dispatch(currentMenu('unapproved'));
             setShowUnApprovedPost(true);
             setShowPostList(false);
             setShowCreatePost(false);
-            setShowStatisticsPost(false)
-
+            setShowStatisticsPost(false);
+            setShowReportedList(false);
         } else if (i === 2) {
+            dispatch(currentMenu('reported-post'));
+            setShowUnApprovedPost(false);
+            setShowPostList(false);
+            setShowStatisticsPost(false);
+            setShowCreatePost(false);
+            setShowReportedList(true);
+        } else if (i === 3) {
             dispatch(currentMenu('create-post'));
             setShowUnApprovedPost(false);
             setShowPostList(false);
-            setShowStatisticsPost(false)
+            setShowStatisticsPost(false);
             setShowCreatePost(true);
-        }
-        else if (i === 3) {
+            setShowReportedList(false);
+        } else if (i === 4) {
             dispatch(currentMenu('statistics-post'));
             setShowUnApprovedPost(false);
             setShowPostList(false);
             setShowCreatePost(false);
-            setShowStatisticsPost(true)
+            setShowStatisticsPost(true);
+            setShowReportedList(false);
         }
     };
     return (
@@ -149,6 +187,7 @@ function AdminPostManagement() {
             {showUnApprovedPost && <UnApprovedPost />}
             {showCreatePost && <CreatePost />}
             {showStatisticsPost && <PostStatistics />}
+            {showReportedList && <ReportedPostList />}
         </div>
     );
 }

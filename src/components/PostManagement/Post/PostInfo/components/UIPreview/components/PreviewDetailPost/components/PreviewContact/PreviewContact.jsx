@@ -1,17 +1,14 @@
 import classNames from 'classnames/bind';
 import styles from './PreviewContact.module.scss';
 import images from '~/assets/images';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { createConversation, getPostOfUser, getUser } from '~/api';
-import config from '~/config';
-import { currentConversation } from '~/redux/slice/messageSlice';
+import { getPostOfUser, getUser } from '~/api';
+
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 function Contact() {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
     );

@@ -59,6 +59,13 @@
     background-color: transparent;
 }
 
+.clear {
+    cursor: pointer;
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
 .loading {
     animation: spinner 0.8s linear infinite;
 }

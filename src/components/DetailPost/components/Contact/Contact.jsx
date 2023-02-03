@@ -4,7 +4,7 @@ import images from '~/assets/images';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { createConversation, getPostOfUser, getUser } from '~/api';
+import { createConversation, getPostListOfUser, getUser } from '~/api';
 import config from '~/config';
 import { currentConversation } from '~/redux/slice/messageSlice';
 const cx = classNames.bind(styles);
@@ -22,12 +22,16 @@ function Contact() {
 
     const [showPhoneNumber, setShowPhoneNumber] = useState(false);
     const [listPostOfUser, setListPostOfUser] = useState([]);
+    const [totalPost, setTotalPost] = useState(0);
     const [userPost, setUserpost] = useState('');
-
+    console.log(totalPost);
     useEffect(() => {
         crPost && getUser(crPost).then((res) => setUserpost(res.user));
         crPost &&
-            getPostOfUser(crPost).then((res) => setListPostOfUser(res.posts));
+            getPostListOfUser(`createdBy=${crPost}`).then((res) => {
+                setTotalPost(res.pagination.total);
+                setListPostOfUser(res.post);
+            });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     function formatNumber(entry = '', hide = false) {
@@ -80,7 +84,7 @@ function Contact() {
                         </p>
                         {listPostOfUser.length > 1 && (
                             <p className={cx('see-more')}>
-                                Xem thêm {listPostOfUser.length} tin khác
+                                Xem thêm {totalPost} tin khác
                             </p>
                         )}
                     </Link>

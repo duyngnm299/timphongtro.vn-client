@@ -15,7 +15,6 @@ import Button from '~/components/Button';
 import { address_list } from '~/components/AddressList';
 import { useSelector } from 'react-redux';
 import { useRef } from 'react';
-import moment from 'moment/moment';
 import {
     getAllCategories,
     createPost,
@@ -114,7 +113,6 @@ function PostInfo() {
     const udtUser = useSelector(
         (state) => state.auth.update?.currentUser?.user,
     );
-    console.log(udtUser);
     const edt = useSelector((state) => state.post.editPost?.currentPost);
     const isEdit = useSelector((state) => state.post.isEditPost?.isEdit);
     let balance = currentUser?.balance;
@@ -127,6 +125,7 @@ function PostInfo() {
     const udtFullName = udtUser?.fullName;
     // Basic info state
     const [currentPost, setCurrentPost] = useState(null);
+
     useEffect(() => {
         address_list.map((item) => {
             return setDistrictList((prevState) => [...prevState, item]);
@@ -327,6 +326,7 @@ function PostInfo() {
         const totalDay = dayInMonth(m, y);
         const result = handleDate(d, m, y, totalDay, datePostValue);
         setDateFinished(`${result[0]}/${result[1]}/${result[2]}`);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [datePostValue]);
     const handleNumberOfDayPost = (item) => {
         console.log(date);
@@ -676,6 +676,7 @@ function PostInfo() {
             if (result.isConfirmed) {
                 type === 'success' &&
                     navigate(config.routes.postlist + `/${currentUser?._id}`);
+                dispatch(currentMenu('post_list'));
             }
         });
     };
@@ -1438,7 +1439,7 @@ function PostInfo() {
                                 ref={titleRef}
                                 value={titlePost}
                                 id="title"
-                                placeholder="VD: Bán nhà riêng 50m2 chính chủ tại Cầu Giấy"
+                                placeholder="VD: Cho thuê phòng trọ giá rẻ tại đường Lê Duẩn"
                                 rows="2"
                                 type="text"
                                 onChange={(e) => {

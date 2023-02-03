@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { adminLogin } from '~/api';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
@@ -32,6 +33,8 @@ function AdminLogin() {
     const [rememberChecked, setRememberChecked] = useState(
         rmbUsername ? true : false,
     );
+    const [showPassword, setShowPassword] = useState(false);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -185,12 +188,31 @@ function AdminLogin() {
                                             e.preventDefault();
                                         }
                                     }}
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     placeholder="Mật khẩu"
                                     onChange={(e) => {
                                         handlePasswordChange(e.target.value);
                                     }}
                                 />
+                                {!showPassword ? (
+                                    <div
+                                        className={cx('show-pass')}
+                                        onClick={() =>
+                                            setShowPassword(!showPassword)
+                                        }
+                                    >
+                                        <AiOutlineEye />
+                                    </div>
+                                ) : (
+                                    <div
+                                        className={cx('show-pass')}
+                                        onClick={() =>
+                                            setShowPassword(!showPassword)
+                                        }
+                                    >
+                                        <AiOutlineEyeInvisible />
+                                    </div>
+                                )}
                             </div>
                             {message && (
                                 <span className={cx('message')}>

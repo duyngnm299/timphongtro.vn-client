@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import Button from '~/components/Button';
@@ -22,6 +21,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import images from '~/assets/images';
 import Footer from '~/layouts/components/Footer';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 // import GoogleLogin from 'react-google-login';
 const cx = classNames.bind(styles);
 
@@ -44,6 +44,7 @@ function Login() {
     const [rememberChecked, setRememberChecked] = useState(
         rmbUsername ? true : false,
     );
+    const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -226,12 +227,31 @@ function Login() {
                                             e.preventDefault();
                                         }
                                     }}
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     placeholder="Mật khẩu"
                                     onChange={(e) => {
                                         handlePasswordChange(e.target.value);
                                     }}
                                 />
+                                {!showPassword ? (
+                                    <div
+                                        className={cx('show-pass')}
+                                        onClick={() =>
+                                            setShowPassword(!showPassword)
+                                        }
+                                    >
+                                        <AiOutlineEye />
+                                    </div>
+                                ) : (
+                                    <div
+                                        className={cx('show-pass')}
+                                        onClick={() =>
+                                            setShowPassword(!showPassword)
+                                        }
+                                    >
+                                        <AiOutlineEyeInvisible />
+                                    </div>
+                                )}
                             </div>
                             {message && (
                                 <span className={cx('message')}>

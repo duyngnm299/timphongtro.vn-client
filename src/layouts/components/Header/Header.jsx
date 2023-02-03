@@ -4,7 +4,7 @@ import Tippy from '@tippyjs/react';
 // import HeadLess from '@tippyjs/react/headless';
 
 import 'tippy.js/dist/tippy.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import styles from './Header.module.scss';
 import images from '~/assets/images';
@@ -27,12 +27,23 @@ import MessageBox from './components/MessageBox';
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
+const navbar_items = [
+    { title: 'Phòng trọ', to: config.routes.motel },
+    { title: 'Nhà nguyên căn', to: config.routes.house },
+    { title: 'Văn phòng', to: config.routes.office },
+    { title: 'Chung cư - căn hộ', to: config.routes.apartment },
+    { title: 'Mặt bằng', to: config.routes.ground },
+    { title: 'Tìm người ở ghép', to: config.routes.findroomates },
+];
+
 function Header() {
     const [showSaved, setShowSaved] = useState(false);
     const [savedItem, setSavedItem] = useState([]);
     const [conversation, setConversation] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(-1);
     const savePost = useSelector((state) => state.post?.saved?.changeSaved);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
     );
@@ -70,6 +81,10 @@ function Header() {
     const handleOnClick = () => {
         currentUser && dispatch(currentMenu('new_post'));
     };
+    const handleOnClickNavbarItem = (item, index) => {
+        navigate(item.to);
+        setCurrentIndex(index);
+    };
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -84,30 +99,24 @@ function Header() {
                     {/* <Search /> */}
                     <nav className={cx('navbar')}>
                         <ul className={cx('navbar-list')}>
-                            <Link to={config.routes.motel}>
-                                <li className={cx('navbar-item')}>Phòng trọ</li>
-                            </Link>
-                            <Link to={config.routes.house}>
-                                <li className={cx('navbar-item')}>
-                                    Nhà nguyên căn
-                                </li>
-                            </Link>
-                            <Link to={config.routes.office}>
-                                <li className={cx('navbar-item')}>Văn phòng</li>
-                            </Link>
-                            <Link to={config.routes.apartment}>
-                                <li className={cx('navbar-item')}>
-                                    Chung cư, căn hộ
-                                </li>
-                            </Link>
-                            <Link to={config.routes.ground}>
-                                <li className={cx('navbar-item')}>Mặt bằng </li>
-                            </Link>
-                            <Link to={config.routes.findroomates}>
-                                <li className={cx('navbar-item')}>
-                                    Tìm người ở ghép
-                                </li>
-                            </Link>
+                            {navbar_items.map((item, index) => (
+                                <div
+                                    key={index}
+                                    onClick={() =>
+                                        handleOnClickNavbarItem(item, index)
+                                    }
+                                >
+                                    <li
+                                        className={cx(
+                                            'navbar-item',
+                                            index === currentIndex &&
+                                                'navbar-item-active',
+                                        )}
+                                    >
+                                        {item.title}
+                                    </li>
+                                </div>
+                            ))}
                         </ul>
                     </nav>
                 </div>

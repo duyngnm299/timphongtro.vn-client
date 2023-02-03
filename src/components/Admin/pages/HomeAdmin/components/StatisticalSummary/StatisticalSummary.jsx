@@ -7,9 +7,15 @@ import {
     filterPostByMonth,
     filterUserByMonth,
 } from '~/api';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { currentMenu } from '~/redux/slice/adminSlice';
+import config from '~/config';
 const cx = classNames.bind(styles);
 
 function StatisticalSummary() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [listRevenue, setListRevenue] = useState([]);
     const [listNewUser, setListNewUser] = useState([]);
 
@@ -17,7 +23,7 @@ function StatisticalSummary() {
     const [rateRevenue, setRateRevenue] = useState(0);
     const [rateNewUser, setRateNewUser] = useState(0);
     const [ratePost, setRatePost] = useState(0);
-    console.log(listPost)
+    console.log(listPost);
     const formatCash = (number) => {
         return number
             .split('')
@@ -59,10 +65,23 @@ function StatisticalSummary() {
             );
     }, [listPost]);
     console.log(rateNewUser);
+
+    const handleOnClickRevenue = () => {
+        dispatch(currentMenu('revenue'));
+        navigate(config.routes.adminTransaction);
+    };
+    const handleOnClickMember = () => {
+        dispatch(currentMenu('statistics-member'));
+        navigate(config.routes.membermng);
+    };
+    const handleOnClickPost = () => {
+        dispatch(currentMenu('statistics-post'));
+        navigate(config.routes.adminPostMng);
+    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
-                <div className={cx('revenue')}>
+                <div className={cx('revenue')} onClick={handleOnClickRevenue}>
                     <p className={cx('title')}>Doanh thu</p>
                     <div className={cx('revenue-data')}>
                         <div className={cx('left')}>
@@ -98,7 +117,7 @@ function StatisticalSummary() {
                     </div>
                     <span className={cx('text')}>So với tháng trước</span>
                 </div>
-                <div className={cx('revenue')}>
+                <div className={cx('revenue')} onClick={handleOnClickMember}>
                     <p className={cx('title')}>Số lượng thành viên mới</p>
                     <div className={cx('revenue-data')}>
                         <div className={cx('left')}>
@@ -128,7 +147,7 @@ function StatisticalSummary() {
                     </div>
                     <span className={cx('text')}>So với tháng trước</span>
                 </div>
-                <div className={cx('revenue')}>
+                <div className={cx('revenue')} onClick={handleOnClickPost}>
                     <p className={cx('title')}>Số lượng bài đăng</p>
                     <div className={cx('revenue-data')}>
                         <div className={cx('left')}>

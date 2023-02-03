@@ -38,12 +38,12 @@ function DetailRevenue() {
             });
     };
     useEffect(() => {
-        if (filter.includes('Quận') || filter.includes('Huyện')) {
+        if (filter && (filter?.includes('Quận') || filter?.includes('Huyện'))) {
             console.log(filter);
             getTransactionOfDistrict(filter).then((res) =>
                 setListTransaction(res.result),
             );
-        } else if (filter.includes('Tháng')) {
+        } else if (filter && filter?.includes('Tháng')) {
             const str = filter.slice(6, filter.length);
             getTransactionOfMonth(str).then((res) => {
                 setListTransaction(res);
@@ -57,12 +57,12 @@ function DetailRevenue() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
-        if (filter.includes('Quận') || filter.includes('Huyện')) {
+        if (filter && (filter?.includes('Quận') || filter?.includes('Huyện'))) {
             console.log(filter);
             getTransactionOfDistrict(filter).then((res) =>
                 setListTransaction(res.result),
             );
-        } else if (filter.includes('Tháng')) {
+        } else if (filter && filter.includes('Tháng')) {
             const str = filter.slice(6, filter.length);
             getTransactionOfMonth(str).then((res) => {
                 setListTransaction(res);
@@ -185,7 +185,8 @@ function DetailRevenue() {
                 <div className={cx('left')}>
                     <span className={cx('title-revenue')}>Tổng doanh thu:</span>
                     <span className={cx('total-revenue')}>
-                        {formatCash(totalTransaction.toString())}
+                        {totalTransaction &&
+                            formatCash(totalTransaction.toString())}
                     </span>
                     <span className={cx('unit')}>VND</span>
                 </div>
