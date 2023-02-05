@@ -64,7 +64,10 @@ function Register() {
         if (verifyCode.length > 0) {
             const data = JSON.stringify({ otp: verifyCode });
             const res = await verifyEmail(currentUserId, data);
-            console.log(res.newUser);
+            if (res?.response && res?.response?.data) {
+                setShowAlert(true);
+                return;
+            }
             const user = {
                 username: username,
                 password: password,
@@ -87,7 +90,6 @@ function Register() {
                 );
                 return;
             }
-            setShowAlert(true);
         }
     };
     const handleRegister = async (e) => {
@@ -214,6 +216,7 @@ function Register() {
     }
     const login = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
     const handleCloseModal = () => {
+        setVerifyCode('');
         setShowModal(false);
         deletedUser(currentUserId).then((res) => console.log(res));
     };

@@ -7,6 +7,9 @@ import { useState, useEffect } from 'react';
 import { createConversation, getPostListOfUser, getUser } from '~/api';
 import config from '~/config';
 import { currentConversation } from '~/redux/slice/messageSlice';
+import Swal from 'sweetalert2';
+import 'sweetalert2/src/sweetalert2.scss';
+
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 function Contact() {
@@ -49,7 +52,29 @@ function Contact() {
                 : '';
         return `${part1}${part2}${part3}`;
     }
+    const alert = (title, type, message) => {
+        Swal.fire({
+            title: `<h2 class="notify-title">${title}</h2>`,
+            icon: type,
+            html: `<p style="font-size: 1.4rem; margin: 0 0 20px 0">${message}</p>`,
+            confirmButtonText:
+                '<p style="font-size: 16px; padding: 10px;">Xác nhận</p>',
+            confirmButtonColor: type === 'success' ? '#a5dc86' : '#e03c31',
+            allowOutsideClick: false,
+            focusConfirm: false,
+            width: '500px',
+            padding: '30px 20px',
+        });
+    };
     const handleSendMessage = () => {
+        if (!currentUser) {
+            alert(
+                'Bạn chưa đăng nhập',
+                'error',
+                'Vui lòng đăng nhập để gửi tin nhắn!',
+            );
+            return;
+        }
         if (crPost === currentUser?._id) {
             return;
         }

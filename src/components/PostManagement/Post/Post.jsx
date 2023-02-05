@@ -16,13 +16,18 @@ function Post() {
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
     );
+    const udtUser = useSelector(
+        (state) => state.auth.update?.currentUser?.user,
+    );
+    console.log('currentUser: ', currentUser);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(() => {
         if (
-            !currentUser?.fullName ||
-            !currentUser?.phoneNumber ||
-            !currentUser?.address
+            (!currentUser?.fullName ||
+                !currentUser?.phoneNumber ||
+                !currentUser?.address) &&
+            (!udtUser?.fullName || !udtUser?.phoneNumber || !udtUser?.address)
         ) {
             alert('Vui lòng cập nhật đầy đủ thông tin cá nhân!', 'error', '');
         }

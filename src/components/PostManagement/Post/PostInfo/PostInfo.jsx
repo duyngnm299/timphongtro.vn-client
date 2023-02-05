@@ -24,8 +24,8 @@ import {
     createPreviewPost,
     createTransaction,
 } from '~/api';
-import ReactDatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+// import ReactDatePicker from 'react-datepicker';
+// import 'react-datepicker/dist/react-datepicker.css';
 import { FiCalendar } from 'react-icons/fi';
 import styles from './PostInfo.module.scss';
 import Mapbox from '~/components/Mapbox';
@@ -674,9 +674,16 @@ function PostInfo() {
             padding: '30px 20px',
         }).then((result) => {
             if (result.isConfirmed) {
-                type === 'success' &&
+                if (type === 'success') {
                     navigate(config.routes.postlist + `/${currentUser?._id}`);
-                dispatch(currentMenu('post_list'));
+                    dispatch(currentMenu('post_list'));
+                    return;
+                }
+                if (type === 'error') {
+                    navigate(config.routes.payment + `/${currentUser?._id}`);
+                    dispatch(currentMenu('payment'));
+                    return;
+                }
             }
         });
     };
@@ -2264,7 +2271,7 @@ function PostInfo() {
                             <p className={cx('title')}>Ngày bắt đầu</p>
 
                             <div className={cx('date-picker-wrapper')}>
-                                <ReactDatePicker
+                                {/* <ReactDatePicker
                                     popperClassName={cx('popper')}
                                     className={cx('date-picker')}
                                     calendarClassName={cx('calendar')}
@@ -2274,9 +2281,15 @@ function PostInfo() {
                                         handleChangeDatePicker(date)
                                     }
                                     dateFormat="dd/MM/yyyy"
+                                /> */}
+                                <input
+                                    type="text"
+                                    className={cx('input-type', 'disabled')}
+                                    value={new Date().toLocaleDateString()}
+                                    readOnly
                                 />
                                 <span className={cx('dpk-icon')}>
-                                    <FiCalendar className={cx()} />
+                                    <FiCalendar />
                                 </span>
                             </div>
                         </div>

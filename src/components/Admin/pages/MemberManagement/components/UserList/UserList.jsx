@@ -184,7 +184,9 @@ function UserList() {
     const CustomToolbar = () => {
         return (
             <div className={cx('toolbar')}>
-                <span className={cx('title-toolbar')}>DANH SÁCH BÀI ĐĂNG</span>
+                <span className={cx('title-toolbar')}>
+                    DANH SÁCH THÀNH VIÊN
+                </span>
                 <div className={cx('export')}>
                     <GridToolbar />
                 </div>

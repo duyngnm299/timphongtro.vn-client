@@ -12,8 +12,7 @@ import { useSelector } from 'react-redux';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { useDispatch } from 'react-redux';
 
-import io from 'socket.io-client';
-import { newMessage, sdMsg } from '~/redux/slice/messageSlice';
+import { newMessage } from '~/redux/slice/messageSlice';
 
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
@@ -23,15 +22,16 @@ function Message({ sk }) {
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
     );
-    const newMsg = useSelector((state) => state.message.message?.msg);
     const currentConversation = useSelector(
         (state) => state.message.conversation?.conv,
     );
-    console.log(currentConversation);
+    const currentPost = useSelector((state) => state.post?.post?.currentPost);
+
     const [conversation, setConversation] = useState([]);
     const [currentChat, setCurrentChat] = useState(
         currentConversation && currentConversation,
     );
+    const [showSendCurrentPost, setShowSendCurrentPost] = useState(false);
     const [messages, setMessages] = useState([]);
     const [newMessages, setNewMessages] = useState('');
     const [arrivalMessage, setArrivalMessage] = useState(null);
@@ -40,11 +40,10 @@ function Message({ sk }) {
     const [entering, setEntering] = useState(false);
     const [enteringText, setEnteringText] = useState('');
     const [sendMsg, setSendMsg] = useState(false);
+    const [sendCrPost, setSendCrPost] = useState(false);
+    const [arrivalPostMessage, setArrivalPostMessage] = useState(null);
     const scrollRef = useRef();
-    // const socket = useRef();
-    // console.log(socket);
     useEffect(() => {
-        // sk.current = io(`${HOST_NAME}`);
         sk &&
             sk?.current?.on('getMessage', (data) => {
                 setArrivalMessage({
@@ -55,9 +54,9 @@ function Message({ sk }) {
                     receiver: data.receiverId,
                 });
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
-        // sk.current = io(`${HOST_NAME}`);
         sk &&
             sk?.current?.on('getMessage', (data) => {
                 setArrivalMessage({
@@ -68,17 +67,59 @@ function Message({ sk }) {
                     receiver: data.receiverId,
                 });
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sendMsg]);
+    useEffect(() => {
+        sk &&
+            sk?.current?.on('getCurrentPost', (data) => {
+                setArrivalPostMessage({
+                    sender: data.senderId,
+                    post: data.post,
+                    seen: false,
+                    createdAt: Date.now(),
+                    receiver: data.receiverId,
+                });
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect(() => {
+        sk &&
+            sk?.current?.on('getCurrentPost', (data) => {
+                setArrivalPostMessage({
+                    sender: data.senderId,
+                    post: data.post,
+                    seen: false,
+                    createdAt: Date.now(),
+                    receiver: data.receiverId,
+                });
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sendCrPost]);
 
+    useEffect(() => {
+        arrivalPostMessage &&
+            currentChat?.members.includes(arrivalPostMessage.sender) &&
+            arrivalPostMessage &&
+            setMessages((prev) => [...prev, arrivalPostMessage]);
+        console.log(arrivalPostMessage);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [arrivalPostMessage]);
+
+    useEffect(() => {
+        if (currentPost && currentConversation) {
+            currentConversation.members.includes(currentPost?.createdBy[0]) &&
+                currentPost?.createdBy[0] !== currentUser?._id &&
+                setShowSendCurrentPost(true);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     useEffect(() => {
         arrivalMessage &&
             currentChat?.members.includes(arrivalMessage.sender) &&
             setMessages((prev) => [...prev, arrivalMessage]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [arrivalMessage]);
-    // useEffect(() => {
-    //     arrivalMessage && dispatch(newMessage(arrivalMessage));
-    // }, [arrivalMessage]);
-    console.log(sendMsg);
+
     // add and get user when connected
     useEffect(() => {
         // currentUser && socket.current.emit('addUser', currentUser?._id);
@@ -86,6 +127,7 @@ function Message({ sk }) {
             sk?.current?.on('getUsers', (users) => {
                 setOnlineUser(users);
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
 
     // get all conversations of user
@@ -150,7 +192,6 @@ function Message({ sk }) {
     }, [messages]);
     const handleOnClick = () => {
         dispatch(newMessage());
-        console.log('seen');
         const receiverId = currentChat.members.find(
             (member) => member !== currentUser._id,
         );
@@ -163,7 +204,6 @@ function Message({ sk }) {
     const handleOnKeyDown = (e) => {
         if (e.key === 'Enter' && newMessages.length > 0) {
             dispatch(newMessage());
-
             setSendMsg(!sendMsg);
             const data = {
                 sender: currentUser._id,
@@ -213,12 +253,39 @@ function Message({ sk }) {
             sk?.current?.on('notifyEntering', (receiverId, sender) => {
                 setEnteringText(`${sender} đang nhập...`);
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [entering]);
 
     const handleMouseBlur = () => {
         setEnteringText('');
     };
+    const handleSendCurrentPost = () => {
+        // dispatch(newMessage());
+        setSendCrPost(!sendCrPost);
+        setShowSendCurrentPost(false);
+        const data = {
+            sender: currentUser._id,
+            post: currentPost,
+            conversationId: currentChat._id,
+        };
+        const receiverId = currentChat.members.find(
+            (member) => member !== currentUser._id,
+        );
+        sk.current.emit('sendCurrentPost', {
+            senderId: currentUser._id,
+            receiverId,
+            post: currentPost,
+        });
 
+        // add message to db
+        addMessage(data)
+            .then(
+                (res) => setMessages([...messages, res.savedMessage]),
+                setNewMessages(''),
+            )
+            .catch((err) => console.log(err));
+        return;
+    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('list-message')}>
@@ -299,7 +366,7 @@ function Message({ sk }) {
                                 <input
                                     type="text"
                                     className={cx('text-input')}
-                                    placeholder="write something..."
+                                    placeholder="Nhập tin nhắn"
                                     onChange={(e) =>
                                         setNewMessages(e.target.value)
                                     }
@@ -308,6 +375,14 @@ function Message({ sk }) {
                                     onMouseDown={handleMouseDown}
                                     onBlur={handleMouseBlur}
                                 />
+                                {showSendCurrentPost && (
+                                    <button
+                                        className={cx('send-crPost')}
+                                        onClick={handleSendCurrentPost}
+                                    >
+                                        Gửi bài viết
+                                    </button>
+                                )}
                                 <button
                                     className={cx('icon-send')}
                                     onClick={handleSendMessage}

@@ -182,6 +182,14 @@ function DetailDescribe() {
     };
 
     const handleReportPost = () => {
+        if (!currentUser) {
+            alert(
+                'Báo cáo không thành công',
+                'error',
+                'Vui lòng đăng nhập để báo cáo!',
+            );
+            return;
+        }
         setShowModalReport(true);
     };
     const handleCloseModal = () => {

@@ -151,6 +151,14 @@ function Sidebar() {
             setCostsMngIndex(-1);
             return;
         }
+        if (crMenu === 'payment') {
+            setFinancialMngIndex(1);
+            setPostMngIndex(-1);
+            setInfoMngIndex(-1);
+            setUtilityMngIndex(-1);
+            setCostsMngIndex(-1);
+            return;
+        }
     }, [crMenu]);
     console.log(crMenu);
     // useEffect(() => {
@@ -244,6 +252,7 @@ function Sidebar() {
                     <button
                         className={cx('btn-payment')}
                         onClick={() => {
+                            dispatch(currentMenu('payment'));
                             navigate(
                                 config.routes.payment + `/${currentUser?._id}`,
                             );
@@ -316,7 +325,14 @@ function Sidebar() {
                         'financial-management',
                         financialMngIndex !== -1 && 'title-active',
                     )}
-                    onClick={() => setShowFinancialItem(!showFinancialItem)}
+                    onClick={() => {
+                        if (crMenu === 'payment') {
+                            dispatch(currentMenu(''));
+                            setShowFinancialItem(false);
+                        } else {
+                            setShowFinancialItem(!showFinancialItem);
+                        }
+                    }}
                 >
                     <span className={cx('left-icon')}>
                         <RiMoneyDollarCircleLine />
@@ -332,7 +348,7 @@ function Sidebar() {
                         )}
                     </span>
                 </div>
-                {showFinancialItem ? (
+                {showFinancialItem || crMenu === 'payment' ? (
                     <>
                         {financialMngItems.childrenTitle.map((item, index) => (
                             <Link to={item.to} key={index}>

@@ -9,6 +9,7 @@
     width: 100%;
     justify-content: flex-end;
     margin-bottom: 8px;
+    position: relative;
 }
 
 .msg-avatar {
@@ -38,6 +39,7 @@
 .text-own {
     position: relative;
     margin-right: 16px;
+    display: flex;
 }
 .msg-text {
     font-family: var(--font-family);
@@ -58,10 +60,90 @@
     top: 100%;
     max-width: 100px;
     width: 100px;
-    // left: 0;
+}
+
+.time-post {
+    position: absolute;
+    font-size: 1rem;
+    font-family: Lexend;
+    top: 100%;
+    max-width: 100px;
+    width: 100px;
+    left: 0px;
 }
 
 .time-own {
     right: 0;
     text-align: right;
+}
+
+.time-post-own {
+    position: absolute;
+    font-size: 1rem;
+    font-family: Lexend;
+    top: 100%;
+    max-width: 100px;
+    width: 100px;
+    right: 0px;
+    text-align: right;
+}
+
+.post-message {
+    display: flex;
+    width: 500px;
+    overflow: hidden;
+    align-items: center;
+    padding: 8px 16px;
+    &:hover {
+        opacity: 0.8;
+        cursor: pointer;
+    }
+}
+
+.left {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+}
+
+.image-post {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.msg-title {
+    height: 40px;
+    overflow: hidden;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-height: 2rem;
+    text-overflow: ellipsis;
+}
+
+.msg-address {
+    height: 40px;
+    overflow: hidden;
+    font-size: 1.3rem;
+    font-weight: normal !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-height: 2rem;
+    text-overflow: ellipsis;
+    margin: 4px 0;
+}
+
+.msg-price {
+    font-size: 1.4rem;
 }

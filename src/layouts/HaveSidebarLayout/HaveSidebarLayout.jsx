@@ -14,9 +14,12 @@ function HaveSidebarLayout({ children }) {
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
     );
+    const udtUser = useSelector(
+        (state) => state.auth.update?.currentUser?.user,
+    );
     const navigate = useNavigate();
     useEffect(() => {
-        if (!currentUser) {
+        if (!currentUser && !udtUser) {
             navigate(config.routes.login);
             return;
         }

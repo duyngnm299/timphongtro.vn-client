@@ -170,7 +170,7 @@ function AdminPostList() {
     const CustomToolbar = () => {
         return (
             <div className={cx('toolbar')}>
-                <span className={cx('title-toolbar')}>DANH SÁCH GIAO DỊCH</span>
+                <span className={cx('title-toolbar')}>DANH SÁCH BÀI ĐĂNG</span>
                 <div className={cx('export')}>
                     <GridToolbar />
                 </div>
