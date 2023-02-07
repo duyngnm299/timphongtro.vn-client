@@ -70,7 +70,7 @@ export const signUpGoogle = async (accessToken) => {
 
 export const logOut = async (dispatch, id, navigate, token, axiosJWT) => {
     try {
-        await axiosJWT.post(`${HOST_NAME}auth/logout`, id, {
+        await axiosJWT.post(`${HOST_NAME}/auth/logout`, id, {
             headers: {
                 token: `Bearer ${token}`,
             },
@@ -83,7 +83,7 @@ export const logOut = async (dispatch, id, navigate, token, axiosJWT) => {
 };
 export const adminLogOut = async (dispatch, id, navigate, token, axiosJWT) => {
     try {
-        await axiosJWT.post(`${HOST_NAME}auth/admin/logout`, id, {
+        await axiosJWT.post(`${HOST_NAME}/auth/admin/logout`, id, {
             headers: {
                 token: `Bearer ${token}`,
             },
