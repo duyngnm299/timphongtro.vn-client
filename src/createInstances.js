@@ -1,10 +1,12 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
+const HOST_NAME = process.env.REACT_APP_HOST_NAME;
+
 const refreshToken = async () => {
     try {
         const res = await axios.post(
-            'http://localhost:5000/auth/refresh',
+            `${HOST_NAME}auth/refresh`,
 
             (axios.defaults.withCredentials = true),
         );
@@ -16,7 +18,7 @@ const refreshToken = async () => {
 const refreshTokenAdmin = async () => {
     try {
         const res = await axios.post(
-            'http://localhost:5000/auth/refresh',
+            `${HOST_NAME}auth/refresh`,
 
             (axios.defaults.withCredentials = true),
         );

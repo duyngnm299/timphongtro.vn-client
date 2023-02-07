@@ -3,8 +3,10 @@ import config from '~/config';
 import { adminLogOutSuccess } from '~/redux/slice/adminSlice';
 import { logOutFailed, logOutSuccess } from '../redux/slice/authSlice';
 
+const HOST_NAME = process.env.REACT_APP_HOST_NAME;
+
 const API = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: `${HOST_NAME}`,
 });
 
 // API.interceptors.request.use((req) => {
@@ -68,7 +70,7 @@ export const signUpGoogle = async (accessToken) => {
 
 export const logOut = async (dispatch, id, navigate, token, axiosJWT) => {
     try {
-        await axiosJWT.post('http://localhost:5000/auth/logout', id, {
+        await axiosJWT.post(`${HOST_NAME}auth/logout`, id, {
             headers: {
                 token: `Bearer ${token}`,
             },
@@ -81,7 +83,7 @@ export const logOut = async (dispatch, id, navigate, token, axiosJWT) => {
 };
 export const adminLogOut = async (dispatch, id, navigate, token, axiosJWT) => {
     try {
-        await axiosJWT.post('http://localhost:5000/auth/admin/logout', id, {
+        await axiosJWT.post(`${HOST_NAME}auth/admin/logout`, id, {
             headers: {
                 token: `Bearer ${token}`,
             },
