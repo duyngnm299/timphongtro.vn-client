@@ -35,7 +35,7 @@ function NewUsers() {
                                 <img
                                     src={
                                         item?.profilePicture
-                                            ? `${HOST_NAME}${item?.profilePicture}`
+                                            ? `${HOST_NAME}/${item?.profilePicture}`
                                             : images.defaultAvt
                                     }
                                     alt=""

@@ -139,11 +139,11 @@ function Profile() {
         udtUser?.profilePicture
             ? udtUser?.profilePicture.includes('https://lh3')
                 ? udtUser?.profilePicture
-                : `${HOST_NAME}${udtUser?.profilePicture}`
+                : `${HOST_NAME}/${udtUser?.profilePicture}`
             : currentUser?.profilePicture
             ? currentUser?.profilePicture.includes('https://lh3')
                 ? currentUser?.profilePicture
-                : `${HOST_NAME}${currentUser?.profilePicture}`
+                : `${HOST_NAME}/${currentUser?.profilePicture}`
             : [],
     );
     console.log(file.length);

@@ -99,9 +99,9 @@ function Sidebar() {
                         <img
                             src={
                                 udtUser?.profilePicture
-                                    ? `${HOST_NAME}${udtUser?.profilePicture}`
+                                    ? `${HOST_NAME}/${udtUser?.profilePicture}`
                                     : currentUser?.profilePicture
-                                    ? `${HOST_NAME}${currentUser?.profilePicture}`
+                                    ? `${HOST_NAME}/${currentUser?.profilePicture}`
                                     : images.defaultAvt
                             }
                             alt="avatar"

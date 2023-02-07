@@ -224,7 +224,7 @@ function ReportedPostList() {
                                         <img
                                             src={
                                                 userReported?.profilePicture
-                                                    ? `${HOST_NAME}${userReported?.profilePicture}`
+                                                    ? `${HOST_NAME}/${userReported?.profilePicture}`
                                                     : images.defaultAvt
                                             }
                                             alt="avt"

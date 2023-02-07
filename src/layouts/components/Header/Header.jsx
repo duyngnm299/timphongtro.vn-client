@@ -171,13 +171,13 @@ function Header() {
                                                       'https://lh3',
                                                   )
                                                     ? udtUser?.profilePicture
-                                                    : `${HOST_NAME}${udtUser?.profilePicture}`
+                                                    : `${HOST_NAME}/${udtUser?.profilePicture}`
                                                 : currentUser?.profilePicture
                                                 ? currentUser?.profilePicture.includes(
                                                       'https://lh3',
                                                   )
                                                     ? currentUser?.profilePicture
-                                                    : `${HOST_NAME}${currentUser?.profilePicture}`
+                                                    : `${HOST_NAME}/${currentUser?.profilePicture}`
                                                 : images.defaultAvt
                                         }
                                         alt="avatar"

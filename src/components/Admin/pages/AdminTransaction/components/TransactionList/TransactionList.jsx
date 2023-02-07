@@ -76,7 +76,7 @@ function TransactionList() {
                         <img
                             src={
                                 params.row.profilePicture
-                                    ? `${HOST_NAME}${params.row.profilePicture}`
+                                    ? `${HOST_NAME}/${params.row.profilePicture}`
                                     : images.defaultAvt
                             }
                             alt=""

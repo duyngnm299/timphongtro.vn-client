@@ -355,7 +355,7 @@ function NavbarPostList() {
                                 <div className={cx('top')}>
                                     <div className={cx('image')}>
                                         <img
-                                            src={`${HOST_NAME}${item?.images[0]?.imagePath}`}
+                                            src={`${HOST_NAME}/${item?.images[0]?.imagePath}`}
                                             alt="abc"
                                             className={cx('img')}
                                         />

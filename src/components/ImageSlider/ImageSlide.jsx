@@ -63,7 +63,7 @@ const ImageSlider = ({
     const slideStylesWidthBackground = {
         backgroundImage: slides[currentIndex]
             ? slides[currentIndex]?.imagePath
-                ? `url(${HOST_NAME}${stringURLImg})`
+                ? `url(${HOST_NAME}/${stringURLImg})`
                 : `url(${slides[currentIndex].url})`
             : images.slider1,
         backgroundSize: 'cover',

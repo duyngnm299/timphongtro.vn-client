@@ -137,7 +137,7 @@ function ProfileUser() {
                         <img
                             src={
                                 profile?.profilePicture
-                                    ? `${HOST_NAME}${profile.profilePicture}`
+                                    ? `${HOST_NAME}/${profile.profilePicture}`
                                     : images.defaultAvt
                             }
                             alt="avatar"
@@ -332,7 +332,7 @@ function ProfileUser() {
                                             file.length
                                                 ? file
                                                 : profile?.profilePicture
-                                                ? `${HOST_NAME}${profile.profilePicture}`
+                                                ? `${HOST_NAME}/${profile.profilePicture}`
                                                 : images.defaultAvt
                                         }
                                         alt="avatar"

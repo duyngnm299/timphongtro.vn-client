@@ -317,7 +317,7 @@ function AdminDetailPost() {
                                                 className={cx('image-item')}
                                                 src={
                                                     item?.imagePath &&
-                                                    `${HOST_NAME}${item.imagePath}`
+                                                    `${HOST_NAME}/${item.imagePath}`
                                                 }
                                                 alt=""
                                             />
@@ -579,7 +579,7 @@ function AdminDetailPost() {
                                             <img
                                                 src={
                                                     user?.profilePicture
-                                                        ? `${HOST_NAME}${user?.profilePicture}`
+                                                        ? `${HOST_NAME}/${user?.profilePicture}`
                                                         : images.defaultAvt
                                                 }
                                                 alt="avatar"

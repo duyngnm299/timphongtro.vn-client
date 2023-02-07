@@ -44,8 +44,8 @@ function Header() {
                             className={cx('user-avatar')}
                             src={
                                 udtUser
-                                    ? `${HOST_NAME}${udtUser?.profilePicture}`
-                                    : `${HOST_NAME}${currentUser?.profilePicture}`
+                                    ? `${HOST_NAME}/${udtUser?.profilePicture}`
+                                    : `${HOST_NAME}/${currentUser?.profilePicture}`
                             }
                             alt="avatar"
                             // Link ảnh gốc lỗi => set ảnh khác khác ảnh no Image

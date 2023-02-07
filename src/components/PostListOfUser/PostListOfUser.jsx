@@ -141,7 +141,7 @@ function PostListOfUser() {
                             <img
                                 src={
                                     user?.profilePicture
-                                        ? `${HOST_NAME}${user?.profilePicture}`
+                                        ? `${HOST_NAME}/${user?.profilePicture}`
                                         : images.defaultAvt
                                 }
                                 alt=""

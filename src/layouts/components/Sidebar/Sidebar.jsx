@@ -188,13 +188,13 @@ function Sidebar() {
                                           'https://lh3',
                                       )
                                         ? updatedUser?.profilePicture
-                                        : `${HOST_NAME}${updatedUser?.profilePicture}`
+                                        : `${HOST_NAME}/${updatedUser?.profilePicture}`
                                     : currentUser?.profilePicture
                                     ? currentUser?.profilePicture.includes(
                                           'https://lh3',
                                       )
                                         ? currentUser?.profilePicture
-                                        : `${HOST_NAME}${currentUser?.profilePicture}`
+                                        : `${HOST_NAME}/${currentUser?.profilePicture}`
                                     : images.defaultAvt
                             }
                             alt="avatar"

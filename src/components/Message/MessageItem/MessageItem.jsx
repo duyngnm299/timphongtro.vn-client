@@ -40,7 +40,7 @@ function MessageItem({ theirUser, message, own }) {
                     <img
                         src={
                             theirUser
-                                ? `${HOST_NAME}${theirUser.profilePicture}`
+                                ? `${HOST_NAME}/${theirUser.profilePicture}`
                                 : images.defaultAvt
                         }
                         alt=""
@@ -66,7 +66,7 @@ function MessageItem({ theirUser, message, own }) {
                             <img
                                 src={
                                     message?.post &&
-                                    `${HOST_NAME}${message?.post?.images[0]?.imagePath}`
+                                    `${HOST_NAME}/${message?.post?.images[0]?.imagePath}`
                                 }
                                 alt=""
                                 className={cx('image-post')}

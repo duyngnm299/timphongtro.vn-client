@@ -320,7 +320,7 @@ function Message({ sk }) {
                                     <img
                                         src={
                                             theirUser
-                                                ? `${HOST_NAME}${theirUser.profilePicture}`
+                                                ? `${HOST_NAME}/${theirUser.profilePicture}`
                                                 : images.defaultAvt
                                         }
                                         alt=""

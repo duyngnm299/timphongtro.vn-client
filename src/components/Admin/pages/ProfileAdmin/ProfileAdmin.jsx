@@ -134,8 +134,8 @@ function ProfileAdmin() {
     const [image, setImage] = useState('');
     const [file, setFile] = useState(
         udtUser?.profilePicture
-            ? `${HOST_NAME}${udtUser?.profilePicture}`
-            : `${HOST_NAME}${currentUser?.profilePicture}`,
+            ? `${HOST_NAME}/${udtUser?.profilePicture}`
+            : `${HOST_NAME}/${currentUser?.profilePicture}`,
     );
 
     const calendarRef = useRef();
