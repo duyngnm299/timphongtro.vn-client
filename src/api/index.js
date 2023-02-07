@@ -69,6 +69,7 @@ export const signUpGoogle = async (accessToken) => {
 };
 
 export const logOut = async (dispatch, id, navigate, token, axiosJWT) => {
+    console.log(token);
     try {
         await axiosJWT.post(`${HOST_NAME}/auth/logout`, id, {
             headers: {
