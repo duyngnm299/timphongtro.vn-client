@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { getAllPostApproved, updateExpiredPost } from './api';
 
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
+
 function App() {
     const socket = useRef();
     const currentUser = useSelector(
