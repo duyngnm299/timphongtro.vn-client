@@ -3,14 +3,20 @@ import styles from './TransactionList.module.scss';
 import * as React from 'react';
 import { DataGrid, GridToolbar, viVN } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { LicenseInfo } from '@mui/x-data-grid-pro';
+import { DataGridPro } from '@mui/x-data-grid-pro';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import images from '~/assets/images';
 import { getAllTransaction, getUser } from '~/api';
+
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
 function TransactionList() {
+    LicenseInfo.setLicenseKey(
+        'x0jTPl0USVkVZV0SsMjM1kDNyADM5cjM2ETPZJVSQhVRsIDN0YTM6IVREJ1T0b9586ef25c9853decfa7709eee27a1e',
+    );
     const [listTransaction, setListTransaction] = useState([]);
     const formatCash = (number) => {
         return number
@@ -134,7 +140,7 @@ function TransactionList() {
                 }}
             >
                 <ThemeProvider theme={theme}>
-                    <DataGrid
+                    <DataGridPro
                         sx={{
                             '& .css-1jbbcbn-MuiDataGrid-columnHeaderTitle': {
                                 fontWeight: '700 !important',

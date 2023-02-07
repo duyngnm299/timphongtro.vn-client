@@ -380,7 +380,7 @@ function PostInfo() {
             inputAddressRef.current.focus();
             return;
         }
-        if (titlePost.length < 30 || titlePost.length > 99) {
+        if (titlePost.length < 30 || titlePost.length > 150) {
             setShowNotify(true);
             titleRef.current.focus();
             return;
@@ -570,7 +570,7 @@ function PostInfo() {
             inputAddressRef.current.focus();
             return;
         }
-        if (titlePost.length < 30 || titlePost.length > 99) {
+        if (titlePost.length < 30 || titlePost.length > 150) {
             setShowNotify(true);
             titleRef.current.focus();
             return;
@@ -728,7 +728,7 @@ function PostInfo() {
             inputAddressRef.current.focus();
             return;
         }
-        if (titlePost.length < 30 || titlePost.length > 99) {
+        if (titlePost.length < 30 || titlePost.length > 150) {
             setShowNotify(true);
             titleRef.current.focus();
             return;
@@ -1458,9 +1458,9 @@ function PostInfo() {
                                         setValidatePostTitle(
                                             'Vui lòng nhập tối thiểu 30 ký tự!',
                                         );
-                                    } else if (titlePost.length > 99) {
+                                    } else if (titlePost.length > 150) {
                                         setValidatePostTitle(
-                                            'Vui lòng nhập tối đa 99 kí tự!',
+                                            'Vui lòng nhập tối đa 150 kí tự!',
                                         );
                                     } else {
                                         setValidatePostTitle('');
@@ -1483,9 +1483,9 @@ function PostInfo() {
                                 ) : validatePostTitle.length > 0 ? (
                                     validatePostTitle
                                 ) : titlePost.length > 0 ? (
-                                    `${titlePost.length} / 99 ký tự`
+                                    `${titlePost.length} / 150 ký tự`
                                 ) : (
-                                    'Tối thiểu 30 ký tự, tối đa 99 ký tự'
+                                    'Tối thiểu 30 ký tự, tối đa 150 ký tự'
                                 )}
                             </p>
                         </div>

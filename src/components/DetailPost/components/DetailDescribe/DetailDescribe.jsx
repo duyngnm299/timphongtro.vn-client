@@ -251,7 +251,8 @@ function DetailDescribe() {
                     <div className={cx('title-container')}>
                         <h1 className={cx('title')}>{crPost?.title}</h1>
                         <p className={cx('sub-title')}>
-                            {`${crPost?.ward}, ${crPost?.district}, ${crPost?.province}`}
+                            {crPost?.address ||
+                                `${crPost?.ward}, ${crPost?.district}, ${crPost?.province}`}
                         </p>
                     </div>
                     <div className={cx('info')}>

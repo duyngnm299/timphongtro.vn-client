@@ -39,6 +39,7 @@ function ShowPost() {
         dispatch(currentDistrict(null));
         dispatch(priceRange(null));
         dispatch(areaRange(null));
+        dispatch(currentPost(null));
         if (currentUser?._id) {
             getUser(currentUser._id).then((res) => {
                 res?.user?.savedPost.filter((item) =>
