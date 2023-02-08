@@ -7,24 +7,24 @@ const refreshToken = async () => {
     try {
         const res = await axios.post(
             `${HOST_NAME}/auth/refresh`,
-
             (axios.defaults.withCredentials = true),
         );
+        console.log('[refreshToken]: ', res);
         return res.data;
     } catch (err) {
-        console.log(err);
+        return console.log(err);
     }
 };
 const refreshTokenAdmin = async () => {
     try {
         const res = await axios.post(
             `${HOST_NAME}/auth/refresh`,
-
             (axios.defaults.withCredentials = true),
         );
+
         return res.data;
     } catch (err) {
-        console.log(err);
+        return console.log(err);
     }
 };
 export const createAxios = (currentUser, dispatch, stateSuccess) => {
