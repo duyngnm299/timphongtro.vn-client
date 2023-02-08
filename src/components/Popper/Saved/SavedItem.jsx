@@ -47,7 +47,7 @@ function SavedItem({ data }) {
                     />
                     <div className={cx('img-container')}>
                         <img
-                            src={HOST_NAME + data?.images[0]?.imagePath}
+                            src={HOST_NAME + '/' + data?.images[0]?.imagePath}
                             alt="a"
                             className={cx('image')}
                         />

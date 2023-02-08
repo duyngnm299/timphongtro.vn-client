@@ -142,7 +142,7 @@ const ImageSlider = ({
                             <img
                                 src={
                                     slide?.imagePath
-                                        ? HOST_NAME + slide?.imagePath
+                                        ? HOST_NAME + '/' + slide?.imagePath
                                         : slide.url
                                 }
                                 alt=""

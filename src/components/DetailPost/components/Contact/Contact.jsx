@@ -93,7 +93,7 @@ function Contact() {
                         <img
                             src={
                                 userPost?.profilePicture
-                                    ? HOST_NAME + userPost?.profilePicture
+                                    ? HOST_NAME + '/' + userPost?.profilePicture
                                     : images.defaultAvt
                             }
                             alt=""
