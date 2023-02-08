@@ -1920,7 +1920,7 @@ function PostInfo() {
                                     >
                                         <img
                                             className={cx('image-item')}
-                                            src={`${HOST_NAME}${item?.imagePath}`}
+                                            src={`${HOST_NAME}/${item?.imagePath}`}
                                             alt=""
                                         />
 
