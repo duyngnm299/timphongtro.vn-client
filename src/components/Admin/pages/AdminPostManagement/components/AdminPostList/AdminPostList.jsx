@@ -6,7 +6,7 @@ import { DataGrid, GridToolbar, viVN } from '@mui/x-data-grid';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { BiPencil } from 'react-icons/bi';
 import { useEffect } from 'react';
-import { deletedUser, getAllPostApproved } from '~/api';
+import { deletedPost, getAllPostApproved } from '~/api';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -113,7 +113,7 @@ function AdminPostList() {
 
                         <button
                             className={cx('delete-btn')}
-                            onClick={() => handleDeleteUser(params.row._id)}
+                            onClick={() => handlePost(params.row._id)}
                         >
                             <AiOutlineDelete className={cx('icon')} />{' '}
                             <span className={cx('text')}>Xóa</span>
@@ -123,7 +123,7 @@ function AdminPostList() {
             },
         },
     ];
-    const handleDeleteUser = (id) => {
+    const handlePost = (id) => {
         alert2(id, 'Bạn có muốn xóa không?', '', '');
     };
     const alert = (title, type) => {
@@ -160,7 +160,7 @@ function AdminPostList() {
             padding: '30px 20px',
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await deletedUser(id);
+                await deletedPost(id);
                 setDeleteUser(!deleteUser);
                 alert('Xóa thành công!', 'success');
                 return;
