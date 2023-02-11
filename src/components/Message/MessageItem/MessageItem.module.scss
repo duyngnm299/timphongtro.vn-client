@@ -16,6 +16,9 @@
     width: 30px;
     height: 30px;
     margin: 8px 16px;
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .msg-img {
@@ -121,11 +124,11 @@
 }
 
 .msg-title {
-    height: 40px;
-    overflow: hidden;
     font-size: 1.4rem;
     text-transform: uppercase;
+    height: 40px;
     font-weight: 500;
+    overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-height: 2rem;

@@ -9,6 +9,7 @@ import config from '~/config';
 import { currentConversation } from '~/redux/slice/messageSlice';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
+import { userId } from '~/redux/slice/authSlice';
 
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
@@ -79,6 +80,7 @@ function Contact() {
             return;
         }
         const data = { senderId: currentUser?._id, receiverId: crPost };
+        dispatch(userId(crPost));
         currentUser &&
             createConversation(data).then((res) => {
                 dispatch(currentConversation(res.savedConversation));

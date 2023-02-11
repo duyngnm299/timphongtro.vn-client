@@ -69,7 +69,6 @@ export const signUpGoogle = async (accessToken) => {
 };
 
 export const logOut = async (dispatch, id, navigate, token, axiosJWT) => {
-    console.log(token);
     try {
         await axiosJWT.post(`${HOST_NAME}/auth/logout`, id, {
             headers: {
@@ -246,7 +245,6 @@ export const getUser = async (id) => {
 };
 
 export const SearchFilterPost = async (query) => {
-    console.log(query);
     try {
         const res = await API.post(`/post/search?${query}`);
         return res.data;
@@ -632,7 +630,6 @@ export const updateUserReportedPost = async (userId, post) => {
 };
 
 export const deleteReportedPostOfUser = async (userId, postId) => {
-    console.log(userId, postId);
     try {
         const res = await API.post(
             `/user/deleted-reported-post/${userId}`,
@@ -655,6 +652,56 @@ export const getReportedByPostId = async (postId) => {
             `/post/get-reported-by-post-id/${postId}`,
             postId,
         );
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getNewestMessage = async (convId) => {
+    try {
+        const res = await API.get(`/message/newest/${convId}`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const createNotification = async (data) => {
+    try {
+        const res = await API.post(`/notification/create`, data, {
+            headers: {
+                // Overwrite Axios's automatically set Content-Type
+                'Content-Type': 'application/json',
+            },
+        });
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getNotificationOfUser = async (id) => {
+    try {
+        const res = await API.get(`/notification/get-ntf-of-user/${id}`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const updateSeenNoti = async (id) => {
+    try {
+        const res = await API.post(`/notification/update-seen/${id}`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const readAllNotification = async (userId) => {
+    try {
+        const res = await API.post(`/notification/read-all/${userId}`);
         return res.data;
     } catch (error) {
         return error;

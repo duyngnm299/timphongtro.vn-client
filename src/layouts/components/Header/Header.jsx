@@ -19,7 +19,7 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getConvOfUser, getUser } from '~/api';
+import { getUser } from '~/api';
 import { currentMenu } from '~/redux/slice/menuSlice';
 import Notifications from './components/Notifications';
 import MessageBox from './components/MessageBox';
@@ -37,23 +37,24 @@ const navbar_items = [
 ];
 
 function Header() {
+    const currentUser = useSelector(
+        (state) => state.auth.login?.currentUser?.user,
+    );
+
     const [showSaved, setShowSaved] = useState(false);
     const [savedItem, setSavedItem] = useState([]);
-    const [conversation, setConversation] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(-1);
     const savePost = useSelector((state) => state.post?.saved?.changeSaved);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const currentUser = useSelector(
-        (state) => state.auth.login?.currentUser?.user,
-    );
+
     const fullName = currentUser?.fullName;
     const udtUser = useSelector(
         (state) => state.auth.update?.currentUser?.user,
     );
     const udtFullName = udtUser?.fullName;
-    const newMsg = useSelector((state) => state.message.message?.msg);
-    console.log(newMsg);
+    // set notification message
+
     useEffect(() => {
         currentUser &&
             getUser(currentUser?._id).then((res) => {
@@ -62,7 +63,6 @@ function Header() {
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    console.log(savedItem);
     useEffect(() => {
         currentUser &&
             getUser(currentUser?._id).then((res) => {
@@ -71,12 +71,12 @@ function Header() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [savePost]);
 
-    useEffect(() => {
-        currentUser &&
-            getConvOfUser(currentUser._id)
-                .then((res) => setConversation(res.conversation))
-                .catch((err) => console.log(err));
-    }, [currentUser]);
+    // useEffect(() => {
+    //     currentUser &&
+    //         getConvOfUser(currentUser._id)
+    //             .then((res) => setConversation(res.conversation))
+    //             .catch((err) => console.log(err));
+    // }, [currentUser]);
 
     const handleOnClick = () => {
         currentUser && dispatch(currentMenu('new_post'));
@@ -160,7 +160,13 @@ function Header() {
                                 </div>
                             </Tippy>
                             <Notifications />
-                            <MessageBox data={conversation} />
+                            <div
+                                onClick={() => {
+                                    // setNtfMessage(false);
+                                }}
+                            >
+                                <MessageBox />
+                            </div>
                             <Menu>
                                 <div className={cx('user-wrapper')}>
                                     <Image

@@ -68,7 +68,6 @@ function Login() {
                 dispatch(loginSuccess(res.data));
             })
             .catch((error) => {
-                console.log(error?.response?.data?.message);
                 dispatch(loginFailed(error?.response?.data?.message));
             });
     }
@@ -161,7 +160,6 @@ function Login() {
     const handleRememberAccount = () => {
         setRememberChecked(!rememberChecked);
     };
-    console.log(rememberChecked);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('content-wrapper')}>

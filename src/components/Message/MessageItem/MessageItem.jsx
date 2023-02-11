@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { currentPost } from '~/redux/slice/postSlice';
 import config from '~/config';
+import { userId } from '~/redux/slice/authSlice';
 
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
@@ -33,10 +34,16 @@ function MessageItem({ theirUser, message, own }) {
         message?.post &&
             navigate(config.routes.detailPage + `/${message?.post?._id}`);
     };
+
+    const handleOnClickAvatar = () => {
+        theirUser &&
+            navigate(config.routes.postListOfUser + `/${theirUser?._id}`);
+        theirUser && dispatch(userId(theirUser?._id));
+    };
     return (
         <div className={cx('message-item', own && 'message-own')}>
             {!own && (
-                <div className={cx('msg-avatar')}>
+                <div className={cx('msg-avatar')} onClick={handleOnClickAvatar}>
                     <img
                         src={
                             theirUser

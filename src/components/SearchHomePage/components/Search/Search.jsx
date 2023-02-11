@@ -21,7 +21,6 @@ function Search({ className }) {
     const currentCategory = useSelector(
         (state) => state.filter.category?.currentCategory,
     );
-    console.log(currentCategory);
     const currentDistrict = useSelector(
         (state) => state.filter.district?.currentDistrict,
     );
@@ -114,7 +113,6 @@ function Search({ className }) {
             return;
         }
     };
-    console.log(className);
     return (
         // Thêm thẻ div để Tippy không warning
         <div>

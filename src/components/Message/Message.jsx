@@ -13,12 +13,16 @@ import { GoPrimitiveDot } from 'react-icons/go';
 import { useDispatch } from 'react-redux';
 
 import { newMessage } from '~/redux/slice/messageSlice';
+import { useNavigate } from 'react-router-dom';
+import config from '~/config';
+import { userId } from '~/redux/slice/authSlice';
 
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 function Message({ sk }) {
-    console.log(sk);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const usId = useSelector((state) => state.auth.user?.userId);
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
     );
@@ -31,19 +35,25 @@ function Message({ sk }) {
     const [currentChat, setCurrentChat] = useState(
         currentConversation && currentConversation,
     );
+    const listOnlineUsers = useSelector(
+        (state) => state.message.online?.listUsers,
+    );
     const [showSendCurrentPost, setShowSendCurrentPost] = useState(false);
     const [messages, setMessages] = useState([]);
     const [newMessages, setNewMessages] = useState('');
     const [arrivalMessage, setArrivalMessage] = useState(null);
-    const [onlineUser, setOnlineUser] = useState([]);
+    const [showOnlineIcon, setShowOnlineIcon] = useState([]);
     const [theirUser, setTheirUser] = useState(null);
     const [entering, setEntering] = useState(false);
     const [enteringText, setEnteringText] = useState('');
     const [sendMsg, setSendMsg] = useState(false);
     const [sendCrPost, setSendCrPost] = useState(false);
     const [arrivalPostMessage, setArrivalPostMessage] = useState(null);
+    const [inMsg, setInMsg] = useState(false);
+
     const scrollRef = useRef();
     useEffect(() => {
+        setInMsg(!inMsg);
         sk &&
             sk?.current?.on('getMessage', (data) => {
                 setArrivalMessage({
@@ -82,6 +92,7 @@ function Message({ sk }) {
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     useEffect(() => {
         sk &&
             sk?.current?.on('getCurrentPost', (data) => {
@@ -96,39 +107,61 @@ function Message({ sk }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sendCrPost]);
 
+    // set list message
     useEffect(() => {
         arrivalPostMessage &&
             currentChat?.members.includes(arrivalPostMessage.sender) &&
             arrivalPostMessage &&
             setMessages((prev) => [...prev, arrivalPostMessage]);
-        console.log(arrivalPostMessage);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [arrivalPostMessage]);
 
+    // Show button send info post
     useEffect(() => {
-        if (currentPost && currentConversation) {
+        if (
+            currentPost &&
+            usId &&
+            currentConversation &&
             currentConversation.members.includes(currentPost?.createdBy[0]) &&
-                currentPost?.createdBy[0] !== currentUser?._id &&
-                setShowSendCurrentPost(true);
+            currentPost?.createdBy[0] === usId
+        ) {
+            setShowSendCurrentPost(true);
+        } else {
+            setShowSendCurrentPost(false);
+        }
+        if (!usId) {
+            setShowSendCurrentPost(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        if (
+            currentPost &&
+            usId &&
+            currentChat &&
+            currentChat.members.includes(currentPost?.createdBy[0]) &&
+            currentPost?.createdBy[0] === usId
+        ) {
+            console.log(
+                currentChat.members.includes(currentPost?.createdBy[0]) &&
+                    currentPost?.createdBy[0] === usId,
+            );
+            setShowSendCurrentPost(true);
+        } else {
+            setShowSendCurrentPost(false);
+        }
+        if (!usId) {
+            setShowSendCurrentPost(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentChat]);
     useEffect(() => {
         arrivalMessage &&
             currentChat?.members.includes(arrivalMessage.sender) &&
             setMessages((prev) => [...prev, arrivalMessage]);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [arrivalMessage]);
-
-    // add and get user when connected
-    useEffect(() => {
-        // currentUser && socket.current.emit('addUser', currentUser?._id);
-        sk &&
-            sk?.current?.on('getUsers', (users) => {
-                setOnlineUser(users);
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentUser]);
 
     // get all conversations of user
     useEffect(() => {
@@ -146,12 +179,42 @@ function Message({ sk }) {
         const theirId = currentChat?.members.find(
             (user) => user !== currentUser?._id,
         );
+        const result =
+            listOnlineUsers &&
+            listOnlineUsers.find((item) => item.userId === theirId);
+        if (result) {
+            setShowOnlineIcon(true);
+        } else {
+            setShowOnlineIcon(false);
+        }
         currentChat &&
             getUser(theirId)
                 .then((res) => setTheirUser(res.user))
                 .catch((err) => console.log(err));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentChat, currentUser]);
-
+    useEffect(() => {
+        const result =
+            listOnlineUsers &&
+            listOnlineUsers.find((item) => item.userId === theirUser?._id);
+        if (result) {
+            setShowOnlineIcon(true);
+        } else {
+            setShowOnlineIcon(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect(() => {
+        const result =
+            listOnlineUsers &&
+            listOnlineUsers.find((item) => item.userId === theirUser?._id);
+        if (result) {
+            setShowOnlineIcon(true);
+        } else {
+            setShowOnlineIcon(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [listOnlineUsers]);
     const handleSendMessage = (e) => {
         e.preventDefault();
         if (newMessages.length > 0) {
@@ -168,13 +231,6 @@ function Message({ sk }) {
                 receiverId,
                 text: newMessages,
             });
-            dispatch(
-                newMessage({
-                    senderId: currentUser._id,
-                    receiverId,
-                    text: newMessages,
-                }),
-            );
             setSendMsg(!sendMsg);
 
             // add message to db
@@ -203,7 +259,6 @@ function Message({ sk }) {
 
     const handleOnKeyDown = (e) => {
         if (e.key === 'Enter' && newMessages.length > 0) {
-            dispatch(newMessage());
             setSendMsg(!sendMsg);
             const data = {
                 sender: currentUser._id,
@@ -217,6 +272,10 @@ function Message({ sk }) {
                 senderId: currentUser._id,
                 receiverId,
                 text: newMessages,
+            });
+            sk.current.emit('seenMessage', {
+                receiverId,
+                senderId: currentUser?._id,
             });
             dispatch(
                 newMessage({
@@ -247,11 +306,23 @@ function Message({ sk }) {
             receiverId,
             currentUser.fullName || currentUser.username,
         );
+        dispatch(
+            newMessage({
+                senderId: currentUser._id,
+                receiverId,
+                text: newMessages,
+            }),
+        );
+        sk.current.emit('seenMessage', {
+            receiverId,
+            senderId: currentUser?._id,
+        });
     };
     useEffect(() => {
         sk &&
             sk?.current?.on('notifyEntering', (receiverId, sender) => {
-                setEnteringText(`${sender} đang nhập...`);
+                receiverId === currentUser?._id &&
+                    setEnteringText(`${sender} đang nhập...`);
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [entering]);
@@ -286,6 +357,11 @@ function Message({ sk }) {
             .catch((err) => console.log(err));
         return;
     };
+
+    const handleOnClickAvatar = () =>
+        theirUser &&
+        navigate(config.routes.postListOfUser + `/${theirUser?._id}`);
+    theirUser && dispatch(userId(theirUser?._id));
     return (
         <div className={cx('wrapper')}>
             <div className={cx('list-message')}>
@@ -305,8 +381,9 @@ function Message({ sk }) {
                         <div key={index} onClick={() => setCurrentChat(item)}>
                             <Conversation
                                 data={item}
-                                online={onlineUser}
-                                socket={sk}
+                                userId={item?.members?.filter(
+                                    (id) => id !== currentUser?._id,
+                                )}
                             />
                         </div>
                     ))}
@@ -315,7 +392,10 @@ function Message({ sk }) {
                 {currentChat ? (
                     <>
                         <div className={cx('header-chat-box')}>
-                            <div className={cx('user-avatar')}>
+                            <div
+                                className={cx('user-avatar')}
+                                onClick={handleOnClickAvatar}
+                            >
                                 <div className={cx('avatar-chat-box')}>
                                     <img
                                         src={
@@ -326,9 +406,11 @@ function Message({ sk }) {
                                         alt=""
                                         className={cx('img-chat-box')}
                                     />
-                                    <GoPrimitiveDot
-                                        className={cx('online-icon')}
-                                    />
+                                    {showOnlineIcon && (
+                                        <GoPrimitiveDot
+                                            className={cx('online-icon')}
+                                        />
+                                    )}
                                 </div>
                                 <div className={cx('full-name')}>
                                     {theirUser && theirUser.fullName}
@@ -374,6 +456,7 @@ function Message({ sk }) {
                                     onKeyDown={handleOnKeyDown}
                                     onMouseDown={handleMouseDown}
                                     onBlur={handleMouseBlur}
+                                    onFocus={() => dispatch(newMessage())}
                                 />
                                 {showSendCurrentPost && (
                                     <button

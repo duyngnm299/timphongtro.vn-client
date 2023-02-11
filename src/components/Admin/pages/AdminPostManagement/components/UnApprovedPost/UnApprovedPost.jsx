@@ -5,7 +5,12 @@ import { DataGrid, GridToolbar, viVN } from '@mui/x-data-grid';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { BiPencil } from 'react-icons/bi';
 import { useEffect } from 'react';
-import { adminCensorPost, deletedPost, getAllPostApproved } from '~/api';
+import {
+    adminCensorPost,
+    createNotification,
+    deletedPost,
+    getAllPostApproved,
+} from '~/api';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +24,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function UnApprovedPost() {
+function UnApprovedPost({ sk }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [listPosts, setListPosts] = useState([]);
@@ -115,7 +120,7 @@ function UnApprovedPost() {
                         </button>
                         <button
                             className={cx('censor-btn')}
-                            onClick={() => handleCensorPost(params.row._id)}
+                            onClick={() => handleCensorPost(params.row)}
                         >
                             <FontAwesomeIcon
                                 icon={faCheck}
@@ -135,15 +140,29 @@ function UnApprovedPost() {
             },
         },
     ];
-    const handleCensorPost = (id) => {
+    const handleCensorPost = (post) => {
+        // console.log();
         const data = {
             status: 'approved',
         };
-        adminCensorPost(id, data).then((res) => {
-            console.log(res.post);
+        adminCensorPost(post?._id, data).then((res) => {
             setDeletedPost(!deletePost);
             alert('Duyệt bài thành công', 'success');
         });
+        sk &&
+            sk.current.emit('approvedPost', {
+                userId: post?.createdBy[0],
+                title: 'Bài đăng của bạn đã được kiểm duyệt.',
+                postId: post?._id,
+                imagePath: post?.images[0].imagePath,
+            });
+        const ntfData = JSON.stringify({
+            userId: post?.createdBy[0],
+            title: 'Bài đăng của bạn đã được kiểm duyệt.',
+            postId: post?._id,
+            imagePath: post?.images[0].imagePath,
+        });
+        createNotification(ntfData).then((res) => console.log(res));
     };
     const handleDeletedPost = (item) => {
         alert2(item, 'Bạn có muốn xóa không?', '', '');

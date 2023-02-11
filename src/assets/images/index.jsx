@@ -8,7 +8,7 @@ const images = {
     emptySaved: require('~/assets/images/empty-state.svg').default,
     caretDown: require('~/assets/images/caretdown.svg').default,
     emptyPost: require('~/assets/images/empty-post.svg').default,
-
+    emptyNoti: require('~/assets/images/empty-noti.svg').default,
     slider1: require('~/assets/images/slider1.jpg'),
     slider2: require('~/assets/images/slider2.jpg'),
     slider3: require('~/assets/images/slider3.jpg'),

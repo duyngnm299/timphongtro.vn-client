@@ -4,25 +4,30 @@ import { publicRoutes } from '~/routes';
 import DefaultLayout from '~/layouts';
 import { useRef, useEffect } from 'react';
 import io from 'socket.io-client';
-import { useSelector } from 'react-redux';
-import { getAllPostApproved, updateExpiredPost } from './api';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    createNotification,
+    getAllPostApproved,
+    updateExpiredPost,
+} from './api';
+import { newNotification } from './redux/slice/notificationSlice';
 
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
 function App() {
     const socket = useRef();
+    const dispatch = useDispatch();
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
     );
-    const newMsg = useSelector((state) => state.message.message?.msg);
-    console.log(newMsg);
+    const adminUser = useSelector(
+        (state) => state.admin.adminLogin?.currentUser?.user,
+    );
+
     const currentDate = new Date();
     const date_diff_indays = function (date1, date2) {
         const dt1 = new Date(date1);
         const dt2 = new Date(date2);
-        console.log('[dt1]:' + dt1);
-        console.log('[dt2]:' + dt2);
-
         return Math.floor(
             (Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) -
                 Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) /
@@ -38,22 +43,57 @@ function App() {
         }
     };
     useEffect(() => {
-        socket.current = io(`${HOST_NAME}`);
-        currentUser && socket.current.emit('addUser', currentUser?._id);
+        if (currentUser) {
+            socket.current = io(`${HOST_NAME}`);
+            socket.current.emit('addUser', currentUser?._id);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
+    useEffect(() => {
+        if (adminUser) {
+            socket.current = io(`${HOST_NAME}`);
+            socket.current.emit('addUser', adminUser?._id);
+            console.log(socket.current);
+        }
+    }, [adminUser]);
     useEffect(() => {
         getAllPostApproved('status=approved').then((res) =>
             res.posts.map((item) => {
                 let check = handleDate(item.endDate);
-                console.log(check);
+
                 if (check) {
                     const data = {
                         status: 'expired',
                     };
-                    updateExpiredPost(item._id, data).then(console.log(res));
+                    updateExpiredPost(item._id, data);
+                    socket.current = io(`${HOST_NAME}`);
+                    socket.current.emit('expiredPost', {
+                        userId: item?.createdBy[0],
+                        title: 'Bài đăng của bạn đã hết hạn.',
+                        postId: item?._id,
+                        imagePath: item?.images[0].imagePath,
+                    });
+                    dispatch(
+                        newNotification({
+                            userId: item?.createdBy[0],
+                            title: 'Bài đăng của bạn đã hết hạn.',
+                            postId: item?._id,
+                            imagePath: item?.images[0].imagePath,
+                        }),
+                    );
+                    const ntfData = JSON.stringify({
+                        userId: item?.createdBy[0],
+                        title: 'Bài đăng của bạn đã hết hạn.',
+                        postId: item?._id,
+                        imagePath: item?.images[0].imagePath,
+                    });
+
+                    createNotification(ntfData).then((res) => console.log(res));
                 }
             }),
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

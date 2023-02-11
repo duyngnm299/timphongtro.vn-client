@@ -22,6 +22,9 @@ const authSlice = createSlice({
             username: null,
             password: null,
         },
+        user: {
+            userId: null,
+        },
     },
     reducers: {
         loginStart: (state) => {
@@ -82,6 +85,9 @@ const authSlice = createSlice({
                 ? action.payload[1]
                 : null;
         },
+        userId: (state, action) => {
+            state.user.userId = action.payload || null;
+        },
     },
 });
 
@@ -98,5 +104,6 @@ export const {
     updatedStart,
     updatedUser,
     rememberAccount,
+    userId,
 } = authSlice.actions;
 export default authSlice.reducer;

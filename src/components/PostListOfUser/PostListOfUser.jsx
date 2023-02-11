@@ -24,6 +24,7 @@ function PostListOfUser() {
     const crPost = useSelector(
         (state) => state.post?.post?.currentPost?.createdBy[0],
     );
+    const userId = useSelector((state) => state.auth.user?.userId);
     const [allPost, setAllPost] = useState([]);
     const [savePost, setSavePost] = useState({});
     const [totalPage, setTotalPage] = useState(0);
@@ -34,8 +35,8 @@ function PostListOfUser() {
     console.log(totalPage);
     const limit = 8;
     useEffect(() => {
-        getUser(crPost).then((res) => setUser(res.user));
-        getPostListOfUser(`createdBy=${crPost}`)
+        getUser(crPost || userId).then((res) => setUser(res.user));
+        getPostListOfUser(`createdBy=${crPost || userId}`)
             .then((res) => {
                 console.log(res.pagination);
                 setTotalPage(Math.ceil(res?.pagination?.total / limit));
@@ -59,17 +60,18 @@ function PostListOfUser() {
     const handleOnClickMore = () => {
         let nextPage = currentPage + 1;
         if (totalPage - nextPage >= 0) {
-            getPostListOfUser(`createdBy=${crPost}&page=${nextPage}`).then(
-                (res) =>
-                    res?.post.map((item) =>
-                        setAllPost((prevState) => [...prevState, item]),
-                    ),
+            getPostListOfUser(
+                `createdBy=${crPost || userId}&page=${nextPage}`,
+            ).then((res) =>
+                res?.post.map((item) =>
+                    setAllPost((prevState) => [...prevState, item]),
+                ),
             );
             setCurrentPage(nextPage);
             return;
         }
         if (totalPage - nextPage < 0) {
-            getPostListOfUser(`createdBy=${crPost}`).then((res) =>
+            getPostListOfUser(`createdBy=${crPost || userId}`).then((res) =>
                 setAllPost(res?.post),
             );
             setCurrentPage(1);

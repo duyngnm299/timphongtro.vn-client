@@ -14,26 +14,26 @@ const cx = classNames.bind(styles);
 // const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
 function MessageBox() {
+    const newMsg = useSelector((state) => state.message.message?.msg);
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
     );
-    const newMsg = useSelector((state) => state.message.message?.msg);
-
-    const [message, setMessage] = useState(false);
+    const [ntfMessage, setNtfMessage] = useState(false);
     useEffect(() => {
-        if (newMsg?.receiver === currentUser._id) {
-            setMessage(true);
+        if (newMsg && newMsg?.receiverId === currentUser?._id) {
+            setNtfMessage(true);
+        } else {
+            setNtfMessage(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentUser]);
+    }, []);
     useEffect(() => {
-        if (newMsg?.receiver === currentUser._id) {
-            setMessage(true);
+        if (newMsg && newMsg?.receiverId === currentUser?._id) {
+            setNtfMessage(true);
+        } else {
+            setNtfMessage(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [newMsg]);
-    useEffect(() => {
-        !newMsg && setMessage(false);
     }, [newMsg]);
 
     return (
@@ -50,7 +50,7 @@ function MessageBox() {
                             icon={faMessage}
                             className={cx('icon')}
                         />
-                        {message && (
+                        {ntfMessage && (
                             <GoPrimitiveDot className={cx('notify-icon')} />
                         )}
                     </button>

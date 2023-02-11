@@ -106,7 +106,6 @@ function CreatePost() {
     const currentUser = useSelector(
         (state) => state.admin.adminLogin?.currentUser?.user,
     );
-    console.log(currentUser);
     const edt = useSelector((state) => state.post.editPost?.currentPost);
     const userId = currentUser?._id;
     const fullName = currentUser?.fullName;

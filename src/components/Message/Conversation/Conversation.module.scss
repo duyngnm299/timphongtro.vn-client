@@ -2,8 +2,12 @@
     width: 100%;
     display: flex;
     align-items: center;
-    padding: 0 16px;
-    margin-top: 12px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    &:hover {
+        background-color: #e0e0e0;
+    }
 }
 
 .avatar {
@@ -64,4 +68,32 @@
 .icon {
     font-size: 20px;
     color: var(--primary);
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    width: 350px;
+    overflow: hidden;
+    color: #999;
+    line-height: 24px;
+}
+
+.name-small {
+    font-size: 1.1rem;
+    margin-right: 4px;
+}
+
+.new-msg {
+    font-size: 1.1rem;
+    width: 200px;
+    flex: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.text-bold {
+    color: #000;
+    font-weight: 500;
 }

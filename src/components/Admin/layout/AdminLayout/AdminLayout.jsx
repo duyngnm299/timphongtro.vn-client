@@ -4,7 +4,8 @@ import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 
 const cx = classNames.bind(styles);
-function Home({ children }) {
+function AdminLayout({ children, sk }) {
+    console.log('[AdminSocket]: ', sk);
     return (
         <div className={cx('wrapper')}>
             <Header />
@@ -16,4 +17,4 @@ function Home({ children }) {
     );
 }
 
-export default Home;
+export default AdminLayout;

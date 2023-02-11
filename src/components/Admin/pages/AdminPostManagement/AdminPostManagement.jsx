@@ -12,7 +12,7 @@ import ReportedPostList from './components/ReportedPostList';
 
 const cx = classNames.bind(styles);
 
-function AdminPostManagement() {
+function AdminPostManagement({ sk }) {
     const dispatch = useDispatch();
     const crMenu = useSelector((state) => state.admin.currentMenu?.menu);
     const [showPostList, setShowPostList] = useState(false);
@@ -184,7 +184,7 @@ function AdminPostManagement() {
                 ))}
             </div>
             {showPostList && <AdminPostList />}
-            {showUnApprovedPost && <UnApprovedPost />}
+            {showUnApprovedPost && <UnApprovedPost sk={sk} />}
             {showCreatePost && <CreatePost />}
             {showStatisticsPost && <PostStatistics />}
             {showReportedList && <ReportedPostList />}

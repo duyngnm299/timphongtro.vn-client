@@ -17,6 +17,7 @@ import {
     searchText,
 } from '~/redux/slice/filterSlice';
 import Footer from '~/layouts/components/Footer';
+import { userId } from '~/redux/slice/authSlice';
 
 const cx = classNames.bind(styles);
 function ShowPost() {
@@ -40,6 +41,7 @@ function ShowPost() {
         dispatch(priceRange(null));
         dispatch(areaRange(null));
         dispatch(currentPost(null));
+        dispatch(userId(null));
         if (currentUser?._id) {
             getUser(currentUser._id).then((res) => {
                 res?.user?.savedPost.filter((item) =>

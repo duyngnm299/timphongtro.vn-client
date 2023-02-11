@@ -5,6 +5,7 @@ import filterReducer from '../slice/filterSlice';
 import menuReducer from '../slice/menuSlice';
 import messageReducer from '../slice/messageSlice';
 import adminReducer from '../slice/adminSlice';
+import notificationReducer from '../slice/notificationSlice';
 // import userReducer from './userSlice';
 import {
     persistStore,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
     menu: menuReducer,
     message: messageReducer,
     admin: adminReducer,
+    notification: notificationReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

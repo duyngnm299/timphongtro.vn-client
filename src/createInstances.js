@@ -9,7 +9,6 @@ const refreshToken = async () => {
             `${HOST_NAME}/auth/refresh`,
             (axios.defaults.withCredentials = true),
         );
-        console.log('[refreshToken]: ', res);
         return res.data;
     } catch (err) {
         return console.log(err);
@@ -33,8 +32,6 @@ export const createAxios = (currentUser, dispatch, stateSuccess) => {
         async (config) => {
             let date = new Date();
             const decodedToken = jwt_decode(currentUser?.accessToken);
-            console.log(decodedToken);
-            console.log(date.getTime() / 1000);
             if (decodedToken.exp < date.getTime() / 1000) {
                 const data = await refreshToken();
 
@@ -60,8 +57,6 @@ export const createAxiosAdmin = (currentUser, dispatch, stateSuccess) => {
         async (config) => {
             let date = new Date();
             const decodedToken = jwt_decode(currentUser?.accessToken);
-            console.log(decodedToken);
-            console.log(date.getTime() / 1000);
             if (decodedToken.exp < date.getTime() / 1000) {
                 const data = await refreshTokenAdmin();
 
