@@ -89,9 +89,9 @@ function Notifications() {
                     )}
                 </div>
                 <div className={cx('notification-list')}>
-                    {listNotifications.length > 0 ? (
+                    {listNotifications?.length > 0 ? (
                         <>
-                            {listNotifications.map((item, index) => (
+                            {listNotifications?.map((item, index) => (
                                 <div
                                     key={index}
                                     className={cx('notification-item')}
