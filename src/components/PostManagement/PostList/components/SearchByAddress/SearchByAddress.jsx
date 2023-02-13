@@ -34,6 +34,7 @@ function SearchByAddress() {
                   `createdBy=${currentUser._id}&district=${districtValue}`,
               ).then((res) => dispatch(postListOfUser(res.post)))
             : dispatch(postListOfUser());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [districtValue]);
     const renderItems = () => {
         return (
@@ -72,6 +73,7 @@ function SearchByAddress() {
                 interactive
                 placement="bottom-end"
                 render={renderResult}
+                onClickOutside={() => setAddress(false)}
             >
                 <div
                     className={cx(

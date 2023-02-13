@@ -9,6 +9,10 @@ const adminSlice = createSlice({
         updateAdmin: {
             currentUser: null,
         },
+        rememberAccount: {
+            username: null,
+            password: null,
+        },
         editUser: {
             user: null,
         },
@@ -29,6 +33,9 @@ const adminSlice = createSlice({
         },
         deletePost: {
             isDeleted: false,
+        },
+        loading: {
+            current: null,
         },
     },
     reducers: {
@@ -64,6 +71,17 @@ const adminSlice = createSlice({
         adminDeletedPost: (state) => {
             state.deletePost.isDeleted = !state.deletePost.isDeleted;
         },
+        rememberAccountAdmin: (state, action) => {
+            state.rememberAccount.username = action.payload
+                ? action.payload[0]
+                : null;
+            state.rememberAccount.password = action.payload
+                ? action.payload[1]
+                : null;
+        },
+        showLoading: (state, action) => {
+            state.loading.current = action.payload || null;
+        },
     },
 });
 
@@ -78,5 +96,7 @@ export const {
     detailRevenue,
     revenueTotal,
     adminDeletedPost,
+    rememberAccountAdmin,
+    showLoading,
 } = adminSlice.actions;
 export default adminSlice.reducer;

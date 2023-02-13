@@ -9,17 +9,20 @@ import CreatePost from './components/CreatePost';
 import { useEffect } from 'react';
 import PostStatistics from './components/PostStatistics';
 import ReportedPostList from './components/ReportedPostList';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(styles);
 
 function AdminPostManagement({ sk }) {
     const dispatch = useDispatch();
     const crMenu = useSelector((state) => state.admin.currentMenu?.menu);
+    const loading = useSelector((state) => state.admin.loading?.current);
     const [showPostList, setShowPostList] = useState(false);
     const [showUnApprovedPost, setShowUnApprovedPost] = useState(false);
     const [showCreatePost, setShowCreatePost] = useState(false);
     const [showStatisticsPost, setShowStatisticsPost] = useState(false);
     const [showReportedList, setShowReportedList] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const menuItems = [
@@ -40,7 +43,7 @@ function AdminPostManagement({ sk }) {
         },
     ];
     useEffect(() => {
-        if (crMenu === 'list-post') {
+        if (crMenu === 'list_post') {
             setShowUnApprovedPost(false);
             setShowReportedList(false);
             setShowCreatePost(false);
@@ -83,7 +86,7 @@ function AdminPostManagement({ sk }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
-        if (crMenu === 'list-post') {
+        if (crMenu === 'list_post') {
             setShowUnApprovedPost(false);
             setShowReportedList(false);
             setShowCreatePost(false);
@@ -127,7 +130,7 @@ function AdminPostManagement({ sk }) {
     const handleOnClickMenuItem = (i) => {
         setCurrentIndex(i);
         if (i === 0) {
-            dispatch(currentMenu('list-post'));
+            dispatch(currentMenu('list_post'));
             setShowUnApprovedPost(false);
             setShowPostList(true);
             setShowCreatePost(false);
@@ -163,8 +166,21 @@ function AdminPostManagement({ sk }) {
             setShowReportedList(false);
         }
     };
+    useEffect(() => {
+        if (loading === 'list_post') {
+            setShowLoading(true);
+        } else {
+            setShowLoading(false);
+        }
+    }, []);
+    useEffect(() => {
+        if (loading !== 'list_post') {
+            setShowLoading(false);
+        }
+    }, [loading]);
     return (
         <div className={cx('wrapper')}>
+            {showLoading && <Loading />}
             <div className={cx('menu')}>
                 {menuItems.map((item, index) => (
                     <div

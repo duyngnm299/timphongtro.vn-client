@@ -18,12 +18,10 @@ function StatisticalSummary() {
     const dispatch = useDispatch();
     const [listRevenue, setListRevenue] = useState([]);
     const [listNewUser, setListNewUser] = useState([]);
-
     const [listPost, setListPost] = useState([]);
     const [rateRevenue, setRateRevenue] = useState(0);
     const [rateNewUser, setRateNewUser] = useState(0);
     const [ratePost, setRatePost] = useState(0);
-    console.log(listPost);
     const formatCash = (number) => {
         return number
             .split('')
@@ -64,7 +62,6 @@ function StatisticalSummary() {
                     100,
             );
     }, [listPost]);
-    console.log(rateNewUser);
 
     const handleOnClickRevenue = () => {
         dispatch(currentMenu('revenue'));

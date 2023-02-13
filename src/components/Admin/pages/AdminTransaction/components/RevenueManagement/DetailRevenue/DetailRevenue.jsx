@@ -27,7 +27,7 @@ function DetailRevenue() {
     const totalTransaction = useSelector(
         (state) => state.admin.totalRevenue?.total,
     );
-
+    console.log(filter);
     const [listTransaction, setListTransaction] = useState([]);
     const formatCash = (number) => {
         return number

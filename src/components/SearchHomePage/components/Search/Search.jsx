@@ -14,6 +14,7 @@ import { searchLink, searchText } from '~/redux/slice/filterSlice';
 import { Link } from 'react-router-dom';
 import config from '~/config';
 import { filterResult } from '~/redux/slice/filterSlice';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(styles);
 function Search({ className }) {
@@ -34,6 +35,7 @@ function Search({ className }) {
     const inputRef = useRef();
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [showLoadingModal, setShowLoadingModal] = useState(false);
     const debouncedValue = useDebounce(searchValue, 500);
 
     useEffect(() => {
@@ -73,8 +75,10 @@ function Search({ className }) {
             !priceGte &&
             !areaGte
         ) {
+            setShowLoadingModal(true);
             dispatch(searchLink(null));
             SearchFilterPost().then((res) => {
+                setShowLoadingModal(false);
                 dispatch(filterResult(res));
             });
             return;
@@ -86,6 +90,7 @@ function Search({ className }) {
             areaGte ||
             priceGte
         ) {
+            setShowLoadingModal(true);
             dispatch(
                 searchLink(
                     `title=${searchValue ? searchValue : ''}&category_name=${
@@ -109,10 +114,14 @@ function Search({ className }) {
                 }&areaGte=${areaGte ? areaGte : ''}&areaLte=${
                     areaLte ? areaLte : ''
                 }`,
-            ).then((res) => dispatch(filterResult(res)));
+            ).then((res) => {
+                setShowLoadingModal(false);
+                dispatch(filterResult(res));
+            });
             return;
         }
     };
+    console.log('[showLoadingModal]', showLoadingModal);
     return (
         // Thêm thẻ div để Tippy không warning
         <div>
@@ -131,6 +140,7 @@ function Search({ className }) {
                         tabIndex="-1"
                         {...attrs}
                     >
+                        {showLoadingModal && <Loading />}
                         {debouncedValue && (
                             <PopperWrapper className={cx('popper')}>
                                 {searchValue.length > 0 && searchResult[0] ? (

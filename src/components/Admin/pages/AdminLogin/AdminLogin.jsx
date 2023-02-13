@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './AdminLogin.module.scss';
 import Button from '~/components/Button';
@@ -14,17 +14,21 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
-import { adminLoginSuccess } from '~/redux/slice/adminSlice';
+import {
+    adminLoginSuccess,
+    rememberAccountAdmin,
+} from '~/redux/slice/adminSlice';
 import images from '~/assets/images';
+import Loading from '~/components/Loading';
 // import GoogleLogin from 'react-google-login';
 const cx = classNames.bind(styles);
 
 function AdminLogin() {
     const rmbUsername = useSelector(
-        (state) => state.auth.rememberAccount?.username,
+        (state) => state.admin.rememberAccount?.username,
     );
     const rmbPassword = useSelector(
-        (state) => state.auth.rememberAccount?.password,
+        (state) => state.admin.rememberAccount?.password,
     );
 
     const [username, setUsername] = useState(rmbUsername ? rmbUsername : '');
@@ -34,7 +38,7 @@ function AdminLogin() {
         rmbUsername ? true : false,
     );
     const [showPassword, setShowPassword] = useState(false);
-
+    const [showLoading, setShowLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -56,6 +60,7 @@ function AdminLogin() {
             setMessage(true);
             return;
         }
+        setShowLoading(true);
         try {
             adminLogin(user).then((res) => {
                 if (res?.response?.data?.message === "User don't exist!") {
@@ -64,6 +69,7 @@ function AdminLogin() {
                         'error',
                         'Tên tài khoản không tồn tại!',
                     );
+                    setShowLoading(false);
                     return;
                 }
                 if (res?.response?.data?.message === 'Incorrect password!') {
@@ -72,6 +78,7 @@ function AdminLogin() {
                         'error',
                         'Mật khẩu không chính xác',
                     );
+                    setShowLoading(false);
                     return;
                 }
                 if (res?.response?.data?.message === 'You are not an admin') {
@@ -80,20 +87,22 @@ function AdminLogin() {
                         'error',
                         'Bạn không phải là quản trị viên!',
                     );
+                    setShowLoading(false);
                     return;
                 }
                 console.log(res);
+                setShowLoading(false);
                 alert(
                     'Đăng nhập thành công',
                     'success',
                     `Chào mừng ${username} đến với website Timphongtro.vn!`,
                 );
                 dispatch(adminLoginSuccess(res));
-                // if (rememberChecked) {
-                //     dispatch(rememberAccount([username, password]));
-                // } else {
-                //     dispatch(rememberAccount());
-                // }
+                if (rememberChecked) {
+                    dispatch(rememberAccountAdmin([username, password]));
+                } else {
+                    dispatch(rememberAccountAdmin());
+                }
             });
         } catch (error) {
             // console.log(error.response.data.message);
@@ -127,6 +136,7 @@ function AdminLogin() {
         <div className={cx('wrapper')}>
             <div className={cx('content-wrapper')}>
                 <div className={cx('content')}>
+                    {showLoading && <Loading />}
                     <div className={cx('picture')}>
                         <div className={cx('logo')}>
                             <img

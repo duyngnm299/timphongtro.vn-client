@@ -7,7 +7,7 @@ import { getUserNewest } from '~/api';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { editedUser } from '~/redux/slice/adminSlice';
+import { currentMenu, editedUser } from '~/redux/slice/adminSlice';
 import config from '~/config';
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
@@ -21,6 +21,7 @@ function NewUsers() {
     }, []);
 
     const handleDetailUser = (item) => {
+        dispatch(currentMenu('list_user'));
         dispatch(editedUser(item));
         navigate(config.routes.detailMember + `/${item._id}`);
     };

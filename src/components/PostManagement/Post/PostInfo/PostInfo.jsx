@@ -521,22 +521,6 @@ function PostInfo() {
     };
 
     // POST TYPE
-    const handleChangeDatePicker = (date) => {
-        setDate(date);
-        let dateNumber = date.getDate();
-        let monthNumber = date.getMonth() + 1;
-        let yearNumber = date.getFullYear();
-        let totalDay = dayInMonth(monthNumber, yearNumber);
-        const result = handleDate(
-            dateNumber,
-            monthNumber,
-            yearNumber,
-            totalDay,
-            datePostValue,
-        );
-        setDateFinished(() => `${result[0]}/${result[1]}/${result[2]}`);
-        console.log(result);
-    };
 
     const handleUpdatePost = (e) => {
         e.preventDefault();

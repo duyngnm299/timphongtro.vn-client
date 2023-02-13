@@ -22,6 +22,7 @@ import 'sweetalert2/src/sweetalert2.scss';
 import images from '~/assets/images';
 import Footer from '~/layouts/components/Footer';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import Loading from '../Loading';
 // import GoogleLogin from 'react-google-login';
 const cx = classNames.bind(styles);
 
@@ -45,6 +46,7 @@ function Login() {
         rmbUsername ? true : false,
     );
     const [showPassword, setShowPassword] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -85,6 +87,7 @@ function Login() {
             return;
         }
         dispatch(loginStart());
+        setShowLoading(true);
         try {
             signIn(user)
                 .then((res) => {
@@ -96,6 +99,7 @@ function Login() {
                     } else {
                         dispatch(rememberAccount());
                     }
+                    setShowLoading(false);
                 })
                 .catch((error) => {
                     console.log(error?.response?.data?.message);
@@ -104,6 +108,7 @@ function Login() {
                         error.response.data.message === 'Incorrect password!'
                     ) {
                         setShowErrorNotify(true);
+                        setShowLoading(false);
                     }
                     setShowSuccessNotify(false);
                     dispatch(loginFailed(error?.response?.data?.message));
@@ -164,6 +169,7 @@ function Login() {
         <div className={cx('wrapper')}>
             <div className={cx('content-wrapper')}>
                 <div className={cx('content')}>
+                    {showLoading && <Loading />}
                     <div className={cx('picture')}>
                         <div className={cx('logo')}>
                             <img

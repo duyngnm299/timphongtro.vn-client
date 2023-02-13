@@ -14,7 +14,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '~/api/index';
-import { logOutSuccess } from '~/redux/slice/authSlice';
 import { currentMenu } from '~/redux/slice/menuSlice';
 const cx = classNames.bind(styles);
 
@@ -23,12 +22,12 @@ function MenuItem() {
     const id = currentUser?.user?._id;
 
     const accessToken = currentUser?.accessToken;
-
+    const refreshToken = currentUser?.refreshToken;
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    let axiosJWT = createAxios(currentUser, dispatch, logOutSuccess());
+    let axiosJWT = createAxios(currentUser, dispatch);
     const handleLogout = () => {
-        logOut(dispatch, id, navigate, accessToken, axiosJWT);
+        logOut(dispatch, id, navigate, accessToken, refreshToken, axiosJWT);
     };
     const handleOnClick = (index) => {
         switch (index) {

@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import config from '~/config';
 import { useDispatch } from 'react-redux';
-import { detailPost } from '~/redux/slice/adminSlice';
+import { detailPost, showLoading } from '~/redux/slice/adminSlice';
 const cx = classNames.bind(styles);
 
 function AdminPostList() {
@@ -23,14 +23,18 @@ function AdminPostList() {
     const [deleteUser, setDeleteUser] = useState(false);
 
     useEffect(() => {
-        getAllPostApproved('status=approved').then((res) =>
-            setListPosts(res.posts),
+        getAllPostApproved('status=approved').then(
+            (res) => setListPosts(res.posts),
+            dispatch(showLoading(null)),
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
-        getAllPostApproved('status=approved').then((res) =>
-            setListPosts(res.posts),
+        getAllPostApproved('status=approved').then(
+            (res) => setListPosts(res.posts),
+            dispatch(showLoading(null)),
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [deleteUser]);
     const handleEditPost = (post) => {
         dispatch(detailPost(post));

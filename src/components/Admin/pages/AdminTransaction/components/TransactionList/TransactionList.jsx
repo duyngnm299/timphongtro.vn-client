@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './TransactionList.module.scss';
 import * as React from 'react';
-import { DataGrid, GridToolbar, viVN } from '@mui/x-data-grid';
+import { GridToolbar, viVN } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LicenseInfo } from '@mui/x-data-grid-pro';
 import { DataGridPro } from '@mui/x-data-grid-pro';
@@ -9,14 +9,15 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import images from '~/assets/images';
 import { getAllTransaction, getUser } from '~/api';
+import { useDispatch } from 'react-redux';
+import { showLoading } from '~/redux/slice/adminSlice';
 
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
 function TransactionList() {
-    LicenseInfo.setLicenseKey(
-        'x0jTPl0USVkVZV0SsMjM1kDNyADM5cjM2ETPZJVSQhVRsIDN0YTM6IVREJ1T0b9586ef25c9853decfa7709eee27a1e',
-    );
+    console.log(LicenseInfo.getLicenseKey());
+    const dispatch = useDispatch();
     const [listTransaction, setListTransaction] = useState([]);
     const formatCash = (number) => {
         return number
@@ -27,7 +28,11 @@ function TransactionList() {
             });
     };
     useEffect(() => {
-        getAllTransaction().then((res) => setListTransaction(res?.transaction));
+        getAllTransaction().then((res) => {
+            setListTransaction(res?.transaction);
+            dispatch(showLoading(null));
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
         listTransaction?.map(async (item) => {
@@ -38,7 +43,6 @@ function TransactionList() {
             return item;
         });
     }, [listTransaction]);
-    console.log(listTransaction);
     const columns = [
         {
             field: 'createdAt',

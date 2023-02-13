@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import config from '~/config';
 import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlineHome } from 'react-icons/ai';
-import { currentMenu } from '~/redux/slice/adminSlice';
+import { currentMenu, showLoading } from '~/redux/slice/adminSlice';
 const cx = classNames.bind(styles);
 
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
@@ -35,8 +35,16 @@ function Sidebar() {
             setQuickMenuIndex(1);
             return;
         }
-        if (crMenu === 'list-post') {
+        if (crMenu === 'list_post') {
             setQuickMenuIndex(2);
+            return;
+        }
+        if (crMenu === 'list_user') {
+            setQuickMenuIndex(3);
+            return;
+        }
+        if (crMenu === 'list_transaction') {
+            setQuickMenuIndex(4);
             return;
         }
         if (crMenu === 'change_password') {
@@ -51,6 +59,7 @@ function Sidebar() {
             icon: <AiOutlineHome />,
             to: config.routes.admin,
             disp: currentMenu('home'),
+            loading: showLoading(null),
         },
 
         {
@@ -58,36 +67,44 @@ function Sidebar() {
             icon: <AiOutlineUser />,
             to: config.routes.adminProfile + `/${currentUser?._id}`,
             disp: currentMenu('change_profile'),
+            loading: showLoading(null),
         },
         {
             title: 'Quản lý bài đăng',
             icon: <MenuIcon />,
             to: config.routes.adminPostMng,
-            disp: currentMenu('list-post'),
+            disp: currentMenu('list_post'),
+            loading: showLoading('list_post'),
         },
         {
             title: 'Quản lý thành viên',
             icon: <FiUsers />,
             to: config.routes.membermng,
             disp: currentMenu('list_user'),
+            loading: showLoading('list_user'),
         },
         {
             title: 'Quản lý giao dịch',
             icon: <RiMoneyDollarCircleLine />,
             to: config.routes.adminTransaction,
             disp: currentMenu('list_transaction'),
+            loading: showLoading('list_transaction'),
         },
         {
             title: 'Thay đổi mật khẩu',
             icon: <MdPassword />,
             to: config.routes.adminChangePassword + `/${currentUser?._id}`,
             disp: currentMenu('change_password'),
+            loading: showLoading(null),
         },
     ];
 
     const handleOnClickQuickMenu = (item, i) => {
         if (item?.disp) {
             dispatch(item.disp);
+        }
+        if (item?.loading) {
+            dispatch(item.loading);
         }
         setQuickMenuIndex(i);
     };

@@ -7,8 +7,6 @@ import { BiPencil } from 'react-icons/bi';
 import { MdDeleteOutline } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    getPostOfUser,
-    checkExpiredPost,
     updateUser,
     deletedPost,
     getAllPostOfUser,
@@ -33,9 +31,7 @@ const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 function NavbarPostList() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const crPost = useSelector((state) => state.post.editPost?.currentPost);
     const listPost = useSelector((state) => state.post.postList?.list);
-    console.log(listPost);
     const [indexId, setIndexId] = useState(0);
     const [postList, setPostList] = useState([]);
     const [crrPost, setCurrentPost] = useState([]);
@@ -45,7 +41,6 @@ function NavbarPostList() {
     const [showAlert, setShowAlert] = useState(false);
     const [checkedAll, setCheckedAll] = useState(false);
     const [showDeleteAll, setShowDeleteAll] = useState(false);
-
     const [totalCost, setTotalCost] = useState(0);
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
@@ -57,10 +52,7 @@ function NavbarPostList() {
     let balance = currentUser?.balance;
     let updateBalance = udtUser?.balance;
     const id = currentUser?._id;
-    const date = new Date();
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
+
     useEffect(() => {
         getAllPostOfUser(`createdBy=${id}`).then((res) =>
             setPostList(res.post),
@@ -189,6 +181,7 @@ function NavbarPostList() {
             updateUser(currentUser._id, data).then((res) =>
                 dispatch(updatedUser(res)),
             );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [totalCost]);
     const handleConfirmDeleteAllPost = () => {
         setShowDeleteAll(false);
@@ -471,7 +464,9 @@ function NavbarPostList() {
                                                         'text-control',
                                                     )}
                                                 >
-                                                    Sửa tin
+                                                    {item?.status === 'expired'
+                                                        ? 'Đăng lại'
+                                                        : 'Sửa tin'}
                                                 </span>
                                             </div>
                                             <div

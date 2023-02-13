@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import config from '~/config';
 import { useDispatch } from 'react-redux';
-import { editedUser } from '~/redux/slice/adminSlice';
+import { editedUser, showLoading } from '~/redux/slice/adminSlice';
 
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
@@ -26,10 +26,17 @@ function UserList() {
     const [deleteUser, setDeleteUser] = useState(false);
 
     useEffect(() => {
-        getAllUser().then((res) => setListUsers(res.allUser));
+        getAllUser().then((res) => {
+            setListUsers(res.allUser);
+            dispatch(showLoading(null));
+        });
     }, []);
     useEffect(() => {
-        getAllUser().then((res) => setListUsers(res.allUser));
+        getAllUser().then((res) => {
+            dispatch(showLoading(null));
+            setListUsers(res.allUser);
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [deleteUser]);
     const handleEditUser = (user) => {
         dispatch(editedUser(user));

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 // import Button from '~/components/Button';
 import styles from './MenuAdmin.module.scss';
@@ -23,16 +22,25 @@ function MenuItemAdmin() {
     );
     const id = currentUser?.user?._id;
     const accessToken = currentUser?.accessToken;
+    const refreshToken = currentUser?.refreshToken;
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    let axiosJWT = createAxiosAdmin(currentUser, dispatch, adminLogOutSuccess);
+    let axiosJWT = createAxiosAdmin(currentUser, dispatch);
     const handleLogout = () => {
-        adminLogOut(dispatch, id, navigate, accessToken, axiosJWT);
+        adminLogOut(
+            dispatch,
+            id,
+            navigate,
+            accessToken,
+            refreshToken,
+            axiosJWT,
+        );
     };
     const handleOnClick = (index) => {
         switch (index) {
             case 0:
-                dispatch(currentMenu('list-post'));
+                dispatch(currentMenu('list_post'));
                 return;
             case 1:
                 dispatch(currentMenu('change_profile'));

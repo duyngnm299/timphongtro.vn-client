@@ -148,7 +148,7 @@ function addUser() {
             padding: '30px 20px',
         }).then((result) => {
             if (result.isConfirmed && type === 'success') {
-                dispatch(currentMenu('list-user'));
+                dispatch(currentMenu('list_user'));
             }
         });
     };

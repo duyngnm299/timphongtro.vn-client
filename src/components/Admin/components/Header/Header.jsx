@@ -5,14 +5,16 @@ import { IoMdNotificationsOutline } from 'react-icons/io';
 import { IoSettingsOutline } from 'react-icons/io5';
 
 import Image from '~/components/Image';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import MenuAdmin from '../MenuAdmin';
 import { useNavigate } from 'react-router-dom';
 import config from '~/config';
+import { currentMenu } from '~/redux/slice/adminSlice';
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 function Header() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const currentUser = useSelector(
         (state) => state.admin.adminLogin?.currentUser?.user,
     );
@@ -25,6 +27,7 @@ function Header() {
                 <div
                     className={cx('logo')}
                     onClick={() => {
+                        dispatch(currentMenu('home'));
                         navigate(config.routes.admin);
                     }}
                 >

@@ -37,6 +37,7 @@ export const signIn = async (user) => {
     });
     return res;
 };
+
 // export const signInGoogle = async (accessToken, navigate, dispatch) => {
 //     dispatch(loginStart());
 //     try {
@@ -68,22 +69,40 @@ export const signUpGoogle = async (accessToken) => {
     return res.data;
 };
 
-export const logOut = async (dispatch, id, navigate, token, axiosJWT) => {
+export const logOut = async (
+    dispatch,
+    id,
+    navigate,
+    token,
+    refreshToken,
+    axiosJWT,
+) => {
+    const data = JSON.stringify({ accessToken: token, refreshToken });
     try {
-        await axiosJWT.post(`${HOST_NAME}/auth/logout`, id, {
+        await axiosJWT.post(`${HOST_NAME}/auth/logout`, data, {
             headers: {
                 token: `Bearer ${token}`,
+                'Content-Type': 'application/json',
             },
         });
         dispatch(logOutSuccess());
         navigate('/dang-nhap');
     } catch (error) {
+        console.log(error);
         dispatch(logOutFailed());
     }
 };
-export const adminLogOut = async (dispatch, id, navigate, token, axiosJWT) => {
+export const adminLogOut = async (
+    dispatch,
+    id,
+    navigate,
+    token,
+    refreshToken,
+    axiosJWT,
+) => {
+    const data = JSON.stringify({ accessToken: token, refreshToken });
     try {
-        await axiosJWT.post(`${HOST_NAME}/auth/admin/logout`, id, {
+        await axiosJWT.post(`${HOST_NAME}/auth/admin/logout`, data, {
             headers: {
                 token: `Bearer ${token}`,
             },

@@ -109,7 +109,7 @@ function ProfileUser() {
     };
     const handleBack = () => {
         navigate(config.routes.membermng);
-        dispatch(currentMenu('list-user'));
+        dispatch(currentMenu('list_user'));
         dispatch(editedUser(null));
     };
     const handleAddUser = () => {

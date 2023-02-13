@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Loading from '~/components/Loading';
 import { currentMenu } from '~/redux/slice/adminSlice';
 import styles from './AdminTransaction.module.scss';
 import RevenueManagement from './components/RevenueManagement';
@@ -9,16 +10,29 @@ const cx = classNames.bind(styles);
 function AdminTransaction() {
     const dispatch = useDispatch();
     const crMenu = useSelector((state) => state.admin.currentMenu?.menu);
-    console.log(crMenu);
+    const loading = useSelector((state) => state.admin.loading?.current);
     const [showTransactionList, setShowTransactionList] = useState(false);
     const [showRevenue, setShowRevenue] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(
-        (crMenu === 'list-transaction' && 0) || 0,
+        (crMenu === 'list_transaction' && 0) || 0,
     );
+    const [showLoading, setShowLoading] = useState(false);
+    useEffect(() => {
+        if (loading === 'list_transaction') {
+            setShowLoading(true);
+        } else {
+            setShowLoading(false);
+        }
+    }, []);
+    useEffect(() => {
+        if (loading !== 'list_transaction') {
+            setShowLoading(false);
+        }
+    }, [loading]);
     console.log(crMenu);
     useEffect(() => {
         setShowTransactionList(true);
-        if (crMenu === 'list-transaction') {
+        if (crMenu === 'list_transaction') {
             setCurrentIndex(0);
             setShowTransactionList(true);
             setShowRevenue(false);
@@ -36,7 +50,7 @@ function AdminTransaction() {
     }, []);
 
     useEffect(() => {
-        if (crMenu === 'list-transaction') {
+        if (crMenu === 'list_transaction') {
             setCurrentIndex(0);
             setShowTransactionList(true);
             setShowRevenue(false);
@@ -64,7 +78,7 @@ function AdminTransaction() {
     const handleOnClickMenuItem = (index) => {
         setCurrentIndex(index);
         if (index === 0) {
-            dispatch(currentMenu('list-transaction'));
+            dispatch(currentMenu('list_transaction'));
             setShowTransactionList(true);
             setShowRevenue(false);
         } else if (index === 1) {
@@ -75,6 +89,7 @@ function AdminTransaction() {
     };
     return (
         <div className={cx('wrapper')}>
+            {showLoading && <Loading />}
             <div className={cx('menu')}>
                 {menuItems.map((item, index) => (
                     <div
