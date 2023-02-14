@@ -44,9 +44,7 @@ function App() {
     };
     useEffect(() => {
         if (currentUser) {
-            socket.current = io(`${HOST_NAME}`, {
-                transports: ['websocket', 'polling'], // use WebSocket first, if available
-            });
+            socket.current = io(`${HOST_NAME}`);
             socket.current.emit('addUser', currentUser?._id);
         }
 
@@ -54,9 +52,7 @@ function App() {
     }, [currentUser]);
     useEffect(() => {
         if (adminUser) {
-            socket.current = io(`${HOST_NAME}`, {
-                transports: ['websocket', 'polling'], // use WebSocket first, if available
-            });
+            socket.current = io(`${HOST_NAME}`);
             socket.current.emit('addUser', adminUser?._id);
             console.log(socket.current);
         }
