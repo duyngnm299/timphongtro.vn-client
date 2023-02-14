@@ -54,23 +54,26 @@ function NavbarPostList() {
     const id = currentUser?._id;
 
     useEffect(() => {
-        getAllPostOfUser(`createdBy=${id}`).then((res) =>
-            setPostList(res.post),
-        );
+        id &&
+            getAllPostOfUser(`createdBy=${id}`).then((res) =>
+                setPostList(res.post),
+            );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
         listPost
             ? setPostList(listPost)
-            : getAllPostOfUser(`createdBy=${id}`).then((res) =>
+            : id &&
+              getAllPostOfUser(`createdBy=${id}`).then((res) =>
                   setPostList(res.post),
               );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [listPost]);
     useEffect(() => {
-        getAllPostOfUser(`createdBy=${id}`).then((res) =>
-            setPostList(res.post),
-        );
+        id &&
+            getAllPostOfUser(`createdBy=${id}`).then((res) =>
+                setPostList(res.post),
+            );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dltPost]);
     useEffect(() => {

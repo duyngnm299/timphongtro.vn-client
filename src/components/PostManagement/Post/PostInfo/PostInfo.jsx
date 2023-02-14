@@ -303,6 +303,7 @@ function PostInfo() {
         setFurniture(e.target.value);
     };
     const handleChangeImage = (e) => {
+        setImage([]);
         Object.entries(e.target.files).map((item) =>
             setImage((prev) => [...prev, item[1]]),
         );
@@ -313,6 +314,9 @@ function PostInfo() {
             ]),
         );
     };
+
+    console.log(images);
+
     const handleDeleteImage = (i) => {
         setFile((prevState) => prevState.filter((item, index) => index !== i));
         setImage((prevState) =>
