@@ -18,11 +18,17 @@ import {
 import { newNotification } from '~/redux/slice/notificationSlice';
 import { useNavigate } from 'react-router-dom';
 import { BsCheckAll } from 'react-icons/bs';
+import TimeAgo from 'timeago-react';
+import * as timeago from 'timeago.js';
+
+// import it first.
+import vi from 'timeago.js/lib/lang/vi';
 import config from '~/config';
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
 function Notifications() {
+    timeago.register('vi', vi);
     const newNtf = useSelector(
         (state) => state.notification.notification?.newNtf,
     );
@@ -114,7 +120,10 @@ function Notifications() {
                                             {item?.title}
                                         </p>
                                         <p className={cx('time')}>
-                                            vài giây trước
+                                            <TimeAgo
+                                                datetime={item?.createdAt}
+                                                locale="vi"
+                                            />
                                         </p>
                                         {!item.seen ? (
                                             <GoPrimitiveDot
