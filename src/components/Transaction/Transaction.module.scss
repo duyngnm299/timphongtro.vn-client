@@ -6,6 +6,7 @@
     position: relative;
     overflow-y: auto;
     padding: 8px 0;
+    overflow-x: hidden;
 }
 
 .container {
@@ -13,6 +14,7 @@
     flex-direction: column;
     padding: 0 50px;
     height: 100%;
+    overflow-x: hidden;
 }
 
 .heading {
@@ -166,4 +168,90 @@
 .icon-refresh {
     font-size: 18px;
     line-height: 2rem;
+}
+.left {
+    display: flex;
+    align-items: center;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 1367px) {
+    .input-right,
+    .input-wrapper {
+        width: 180px;
+    }
+    .date-from + .date-from {
+        margin-left: 16px;
+    }
+    .btn-search {
+        margin-left: 16px;
+    }
+}
+
+@media (max-width: 1025px) {
+    .input-right,
+    .input-wrapper {
+        width: 170px;
+    }
+}
+
+@media (max-width: 769px) {
+    .input-right,
+    .input-wrapper {
+        width: 150px;
+    }
+    .sort {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .btn-search {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 601px) {
+    .input-right,
+    .input-wrapper {
+        width: 150px;
+    }
+
+    .left {
+        flex-wrap: wrap;
+    }
+    .date-from:last-child {
+        margin-left: 0;
+        margin-top: 8px;
+    }
+    .btn-search {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 415px) {
+    .input-right,
+    .input-wrapper {
+        width: 120px;
+    }
+    .hidden-1,
+    .hidden-2 {
+        display: none;
+    }
+    .left {
+        flex-wrap: wrap;
+    }
+    .date-from:nth-child(3) {
+        margin-left: 0;
+        margin-top: 8px;
+    }
+    .date-from:last-child {
+        margin-left: 16px;
+    }
+    .btn-search {
+        margin-left: 0;
+    }
 }

@@ -1059,6 +1059,16 @@ input[type='number'] {
     }
 }
 
+@media (max-width: 1367px) {
+    .type {
+        right: 30px;
+    }
+    .post-type {
+        width: 300px;
+        max-width: 300px;
+    }
+}
+
 @media (max-width: 1025px) {
     .info {
         width: 600px;

@@ -179,165 +179,185 @@ function Transaction() {
                 <h4 className={cx('heading')}>lịch sử giao dịch</h4>
                 <div className={cx('content')}>
                     <div className={cx('sort')}>
-                        <div className={cx('date-from')}>
-                            <div className={cx('input-wrapper')}>
-                                <label htmlFor="date-from">Từ ngày</label>
-                                <input
-                                    id="date-from"
-                                    value={date.toLocaleDateString() || ''}
-                                    type="text"
-                                    className={cx(
-                                        'input-right',
-                                        'input-calendar',
-                                    )}
-                                    onChange={(e) => setDate(e.target.value)}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setShowCalendarFrom(true);
-                                        setShowCalendarTo(false);
-                                    }}
-                                />
-                                <span className={cx('dpk-icon')}>
-                                    <FiCalendar />
-                                </span>
-                            </div>
-                            {showCalendarFrom && (
-                                <div ref={calendarRef}>
-                                    <Calendar
-                                        className={cx('calendar')}
-                                        onChange={(item) => {
-                                            setDate(item);
-                                            setShowCalendarFrom(false);
-                                        }}
-                                        minDate={
-                                            new Date(currentUser?.createdAt)
+                        <div className={cx('left')}>
+                            <div className={cx('date-from')}>
+                                <div
+                                    className={cx('input-wrapper', 'hidden-1')}
+                                >
+                                    <label htmlFor="date-from">Từ ngày</label>
+                                    <input
+                                        id="date-from"
+                                        value={date.toLocaleDateString() || ''}
+                                        type="text"
+                                        className={cx(
+                                            'input-right',
+                                            'input-calendar',
+                                        )}
+                                        onChange={(e) =>
+                                            setDate(e.target.value)
                                         }
-                                        locale={locales['vi']}
-                                        date={date}
-                                        focusedInput={showCalendarFrom}
-                                    />
-                                </div>
-                            )}
-                        </div>
-                        <div className={cx('date-from')}>
-                            <div className={cx('input-wrapper')}>
-                                <label htmlFor="date-to">Đến ngày</label>
-                                <input
-                                    id="date-to"
-                                    value={dateTo.toLocaleDateString() || ''}
-                                    type="text"
-                                    className={cx(
-                                        'input-right',
-                                        'input-calendar',
-                                    )}
-                                    onChange={(e) => setDateTo(e.target.value)}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setShowCalendarTo(true);
-                                        setShowCalendarFrom(false);
-                                    }}
-                                />
-                                <span className={cx('dpk-icon')}>
-                                    <FiCalendar />
-                                </span>
-                            </div>
-                            {showCalendarTo && (
-                                <div ref={calendarToRef}>
-                                    <Calendar
-                                        className={cx('calendar')}
-                                        onChange={(item) => {
-                                            setDateTo(item);
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowCalendarFrom(true);
                                             setShowCalendarTo(false);
                                         }}
-                                        maxDate={new Date()}
-                                        locale={locales['vi']}
-                                        date={dateTo}
-                                        focusedInput={showCalendarTo}
+                                    />
+                                    <span className={cx('dpk-icon')}>
+                                        <FiCalendar />
+                                    </span>
+                                </div>
+                                {showCalendarFrom && (
+                                    <div ref={calendarRef}>
+                                        <Calendar
+                                            className={cx('calendar')}
+                                            onChange={(item) => {
+                                                setDate(item);
+                                                setShowCalendarFrom(false);
+                                            }}
+                                            minDate={
+                                                new Date(currentUser?.createdAt)
+                                            }
+                                            locale={locales['vi']}
+                                            date={date}
+                                            focusedInput={showCalendarFrom}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                            <div className={cx('date-from')}>
+                                <div
+                                    className={cx('input-wrapper', 'hidden-2')}
+                                >
+                                    <label htmlFor="date-to">Đến ngày</label>
+                                    <input
+                                        id="date-to"
+                                        value={
+                                            dateTo.toLocaleDateString() || ''
+                                        }
+                                        type="text"
+                                        className={cx(
+                                            'input-right',
+                                            'input-calendar',
+                                        )}
+                                        onChange={(e) =>
+                                            setDateTo(e.target.value)
+                                        }
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowCalendarTo(true);
+                                            setShowCalendarFrom(false);
+                                        }}
+                                    />
+                                    <span className={cx('dpk-icon')}>
+                                        <FiCalendar />
+                                    </span>
+                                </div>
+                                {showCalendarTo && (
+                                    <div ref={calendarToRef}>
+                                        <Calendar
+                                            className={cx('calendar')}
+                                            onChange={(item) => {
+                                                setDateTo(item);
+                                                setShowCalendarTo(false);
+                                            }}
+                                            maxDate={new Date()}
+                                            locale={locales['vi']}
+                                            date={dateTo}
+                                            focusedInput={showCalendarTo}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                            <div className={cx('date-from')}>
+                                <div className={cx('input-wrapper')}>
+                                    <label htmlFor="transaction-type">
+                                        Loại giao dịch
+                                    </label>
+                                    <input
+                                        id="transaction-type"
+                                        value={transactionValue}
+                                        type="text"
+                                        className={cx('input-right')}
+                                        onChange={(e) =>
+                                            setTransactionValue(e.target.value)
+                                        }
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowTransactionType(true);
+                                            setShowCalendarTo(false);
+                                            setShowCalendarFrom(false);
+                                        }}
+                                        readOnly
+                                    />
+                                    <span className={cx('dpk-icon')}>
+                                        <BsCaretDownFill />
+                                    </span>
+                                </div>
+                                {showTransactionType && (
+                                    <div
+                                        className={cx('transaction-type-list')}
+                                        ref={transactionTypeRef}
+                                    >
+                                        {transaction_items.map(
+                                            (item, index) => (
+                                                <p
+                                                    key={index}
+                                                    className={cx(
+                                                        'transaction-type-item',
+                                                        index ===
+                                                            currentIndexTrancsaction &&
+                                                            'active',
+                                                    )}
+                                                    onClick={() => {
+                                                        setCurrentIndexTransaction(
+                                                            index,
+                                                        );
+                                                        setTransactionValue(
+                                                            item,
+                                                        );
+                                                        setShowTransactionType(
+                                                            false,
+                                                        );
+                                                    }}
+                                                >
+                                                    {item}
+                                                </p>
+                                            ),
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                            <div className={cx('date-from')}>
+                                <div className={cx('input-wrapper')}>
+                                    <label htmlFor="post-code">Mã tin</label>
+                                    <input
+                                        id="post-code"
+                                        value={postCode}
+                                        type="text"
+                                        placeholder="Nhập mã tin"
+                                        className={cx('input-right')}
+                                        onChange={(e) =>
+                                            setPostCode(e.target.value)
+                                        }
                                     />
                                 </div>
-                            )}
-                        </div>
-                        <div className={cx('date-from')}>
-                            <div className={cx('input-wrapper')}>
-                                <label htmlFor="transaction-type">
-                                    Loại giao dịch
-                                </label>
-                                <input
-                                    id="transaction-type"
-                                    value={transactionValue}
-                                    type="text"
-                                    className={cx('input-right')}
-                                    onChange={(e) =>
-                                        setTransactionValue(e.target.value)
-                                    }
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setShowTransactionType(true);
-                                        setShowCalendarTo(false);
-                                        setShowCalendarFrom(false);
-                                    }}
-                                    readOnly
-                                />
-                                <span className={cx('dpk-icon')}>
-                                    <BsCaretDownFill />
-                                </span>
-                            </div>
-                            {showTransactionType && (
-                                <div
-                                    className={cx('transaction-type-list')}
-                                    ref={transactionTypeRef}
-                                >
-                                    {transaction_items.map((item, index) => (
-                                        <p
-                                            key={index}
-                                            className={cx(
-                                                'transaction-type-item',
-                                                index ===
-                                                    currentIndexTrancsaction &&
-                                                    'active',
-                                            )}
-                                            onClick={() => {
-                                                setCurrentIndexTransaction(
-                                                    index,
-                                                );
-                                                setTransactionValue(item);
-                                                setShowTransactionType(false);
-                                            }}
-                                        >
-                                            {item}
-                                        </p>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                        <div className={cx('date-from')}>
-                            <div className={cx('input-wrapper')}>
-                                <label htmlFor="post-code">Mã tin</label>
-                                <input
-                                    id="post-code"
-                                    value={postCode}
-                                    type="text"
-                                    placeholder="Nhập mã tin"
-                                    className={cx('input-right')}
-                                    onChange={(e) =>
-                                        setPostCode(e.target.value)
-                                    }
-                                />
                             </div>
                         </div>
-                        <button
-                            className={cx('btn-search')}
-                            onClick={handleFilterTransaction}
-                        >
-                            <BiSearch className={cx('icon')} />
-                            <span className={cx('btn-text')}>Tìm kiếm</span>
-                        </button>
-                        <button
-                            className={cx('btn-refresh')}
-                            onClick={handleRefresh}
-                        >
-                            <BiRefresh className={cx('icon-refresh')} />
-                        </button>
+                        <div className={cx('right')}>
+                            <button
+                                className={cx('btn-search')}
+                                onClick={handleFilterTransaction}
+                            >
+                                <BiSearch className={cx('icon')} />
+                                <span className={cx('btn-text')}>Tìm kiếm</span>
+                            </button>
+                            <button
+                                className={cx('btn-refresh')}
+                                onClick={handleRefresh}
+                            >
+                                <BiRefresh className={cx('icon-refresh')} />
+                            </button>
+                        </div>
                     </div>
 
                     <div className={cx('table-transaction')}>

@@ -262,6 +262,17 @@
     color: #ccc;
 }
 
+@media (max-width: 1367px) {
+    .content {
+        padding: 80px;
+    }
+    .post-container {
+        grid-template-columns: 24% 24% 24% 24%;
+        column-gap: 10px;
+        justify-content: center;
+        place-items: center;
+    }
+}
 @media (max-width: 1025px) {
     .content {
         padding: 80px;
@@ -280,7 +291,6 @@
         padding: 16px;
     }
     .post-container {
-        justify-content: center;
         grid-template-columns: 33% 33% 33%;
         column-gap: 10px;
     }

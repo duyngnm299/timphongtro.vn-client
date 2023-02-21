@@ -14,9 +14,9 @@
     border: 1px solid rgb(204, 204, 204);
     background: rgb(255, 255, 255);
     outline: none;
-    padding: 16px;
+    padding: 16px 16px 0;
     width: 500px;
-    height: auto;
+    height: 100vh;
     z-index: 9999;
     display: flex;
     flex-direction: column;
@@ -245,7 +245,6 @@
     display: flex;
     flex-direction: column;
     margin-top: 16px;
-    margin-bottom: 150px;
 }
 
 .top {
@@ -283,11 +282,11 @@
     display: flex;
     flex-direction: column;
     background: #fff;
-    position: fixed;
-    width: 499px;
+    position: sticky;
     right: 0px;
+    left: 0;
     z-index: 8;
-    bottom: -1px;
+    bottom: 0;
     box-shadow: 0px -2px 2px rgba(203, 203, 203, 0.25);
 }
 
@@ -303,7 +302,7 @@
     max-height: 55px;
     display: flex;
     align-items: center;
-    margin: 0 16px;
+    margin-right: 16px;
     padding: 16px;
     border: 1px solid #2c2c2c;
     border-radius: 4px;
@@ -328,7 +327,6 @@
     border-radius: 4px;
     background: #009ba1;
     border: 1px solid #009ba1;
-    margin-right: 16px;
 }
 
 .phone-icon {
@@ -347,7 +345,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 16px;
+    padding: 16px 0 16px;
 }
 
 .edit-btn {
@@ -367,13 +365,19 @@
     margin-left: 16px;
 }
 
+@media (max-width: 1025px) {
+    .contact {
+        bottom: 48px;
+    }
+}
+
 @media (max-width: 601px) {
     .content {
         width: 400px;
+        overflow-x: hidden;
     }
-
     .contact {
-        width: 399px;
+        width: 358px;
     }
 }
 
@@ -383,7 +387,7 @@
     }
 
     .contact {
-        width: 299px;
+        width: 258px;
     }
     .text-value {
         text-overflow: ellipsis;
@@ -411,6 +415,6 @@
         display: none;
     }
     .contact {
-        width: 269px;
+        width: 238px;
     }
 }
