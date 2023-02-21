@@ -58,3 +58,23 @@
 .lat {
     font-size: 1.4rem;
 }
+.detailPost-map {
+    height: 400px;
+}
+@media (max-width: 1025px) {
+    .detailPost-map {
+        height: 350px !important;
+    }
+}
+
+@media (max-width: 769px) {
+    .detailPost-map {
+        height: 250px !important;
+    }
+}
+
+@media (max-width: 415px) {
+    .detailPost-map {
+        height: 200px !important;
+    }
+}

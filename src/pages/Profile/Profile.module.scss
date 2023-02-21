@@ -475,3 +475,103 @@ input[type='radio']:checked {
         color: green;
     }
 }
+
+@media (max-width: 1025px) {
+    .content {
+        width: 700px;
+        max-height: calc(100vh - var(--default-layout-header-height) - 49px);
+        padding-bottom: 24px;
+    }
+    .calendar {
+        width: 60%;
+    }
+}
+
+@media (max-width: 769px) {
+    .content {
+        width: 650px;
+    }
+    .calendar {
+        width: 70%;
+    }
+    .province-selected,
+    .input-selected {
+        width: 150px;
+    }
+    .input-details-address {
+        width: 100%;
+    }
+}
+
+@media (max-width: 601px) {
+    .calendar {
+        width: 80%;
+    }
+    .content {
+        width: 530px;
+    }
+    .left {
+        width: 100px;
+    }
+    .province-selected,
+    .input-selected {
+        width: 120px;
+    }
+    .input-details-address {
+        width: 100%;
+    }
+    .verify-icon {
+        right: 34%;
+    }
+}
+
+@media (max-width: 415px) {
+    .calendar,
+    .dob {
+        display: none;
+    }
+    .content {
+        width: 350px;
+    }
+    .left {
+        width: 100px;
+    }
+    .address-top {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+    .province-selected,
+    .province,
+    .input-selected {
+        width: 100%;
+    }
+
+    .verify-icon {
+        right: 4px;
+    }
+    .full-name,
+    .date-of-birth,
+    .input-right {
+        width: 100%;
+    }
+}
+
+@media (max-width: 376px) {
+    .content {
+        width: 330px;
+    }
+    .em {
+        padding-right: 24px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 321px) {
+    .content {
+        width: 300px;
+    }
+}

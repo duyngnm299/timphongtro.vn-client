@@ -33,6 +33,7 @@
 .payment {
     display: flex;
     flex-direction: column;
+    width: 100%;
     padding: 0 48px;
     label {
         font-size: 1.4rem;
@@ -202,4 +203,39 @@
     font-size: 1.3rem;
     font-family: var(--font-family);
     color: var(--primary);
+}
+
+@media (max-width: 601px) {
+    .unit {
+        left: 32%;
+    }
+}
+@media (max-width: 415px) {
+    .unit {
+        left: 50%;
+    }
+    .modal-content {
+        width: 350px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media (max-width: 376px) {
+    .unit {
+        left: 58%;
+    }
+    .modal-content {
+        width: 300px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media (max-width: 321px) {
+    .unit {
+        left: 73%;
+    }
 }

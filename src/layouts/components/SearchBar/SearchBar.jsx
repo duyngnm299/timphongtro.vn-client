@@ -44,16 +44,6 @@ function SearchBar() {
                     <SliderPrice className={cx('price-search-bar')} />
                 </div>
                 <div className={cx('sort-item')}>
-                    {/* <div className={cx('title-wrapper')}>
-                        <span className={cx('title')}>Diện tích</span>
-                        <span>
-                            <FontAwesomeIcon
-                                className={cx('icon')}
-                                icon={faChevronDown}
-                            />
-                        </span>
-                    </div>
-                    <p className={cx('sort-value')}>Tất cả</p> */}
                     <Area className={cx('area-search-bar')} />
                 </div>
                 <div className={cx('sort-item')} onClick={handleRefresh}>

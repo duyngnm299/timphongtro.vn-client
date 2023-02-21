@@ -2,7 +2,6 @@
     width: 210px;
     display: flex;
     flex-direction: column;
-
     margin-top: 48px;
 }
 
@@ -11,6 +10,7 @@
     flex-direction: column;
 }
 .filter-by-price {
+    width: 100%;
     padding: 16px;
     align-items: flex-start;
     border: 1px solid #f2f2f2;
@@ -20,7 +20,6 @@
 
 .title {
     margin-bottom: 16px;
-
     span {
         font-size: 1.4rem;
         line-height: 2rem;
@@ -47,5 +46,19 @@
     }
     .active {
         color: var(--primary);
+    }
+}
+
+@media (max-width: 769px) {
+    .wrapper,
+    .filter-by-price {
+        width: 190px;
+    }
+}
+
+@media (max-width: 601px) {
+    .wrapper {
+        display: none;
+        padding: 0 24px;
     }
 }

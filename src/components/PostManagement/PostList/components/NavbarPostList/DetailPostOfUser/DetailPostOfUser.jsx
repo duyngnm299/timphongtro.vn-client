@@ -114,14 +114,14 @@ function DetailPostOfUser({ item }) {
                     <div className={cx('report')}>
                         <FontAwesomeIcon
                             icon={faExclamation}
-                            className={cx('icon')}
+                            className={cx('icon', 'save-icon')}
                         />
                         <span>Báo xấu</span>
                     </div>
                     <div className={cx('save')}>
                         <FontAwesomeIcon
                             icon={faHeart}
-                            className={cx('icon')}
+                            className={cx('icon', 'save-icon')}
                         />
                         <span>Lưu tin</span>
                     </div>

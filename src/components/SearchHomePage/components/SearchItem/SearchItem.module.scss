@@ -57,3 +57,82 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+@media (max-width: 1025px) {
+    .title {
+        width: 800px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+@media (max-width: 945px) {
+    .wrapper {
+        width: 100%;
+        overflow: hidden;
+    }
+    .title {
+        width: 445px;
+    }
+}
+
+@media (max-width: 755px) {
+    .wrapper {
+        width: 100%;
+        overflow: hidden;
+    }
+    .title {
+        width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 600px) {
+    .wrapper {
+        width: 100%;
+        overflow: hidden;
+    }
+    .title {
+        width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .address {
+        width: 250px;
+    }
+}
+
+@media (max-width: 550px) {
+    .title,
+    .address {
+        width: 200px;
+    }
+}
+@media (max-width: 415px) {
+    .title,
+    .address {
+        width: 250px;
+    }
+    .title {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 376px) {
+    .title,
+    .address {
+        width: 250px;
+    }
+}
+
+@media (max-width: 321px) {
+    .title,
+    .address {
+        width: 200px;
+    }
+    .title {
+        font-size: 1.3rem;
+    }
+}

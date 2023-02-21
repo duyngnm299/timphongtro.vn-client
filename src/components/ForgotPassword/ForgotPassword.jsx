@@ -387,7 +387,9 @@ function ForgotPassword() {
                     </div>
                 </div>
             </div>
-            <Footer />  
+            <div className={cx('footer')}>
+                <Footer />
+            </div>
         </div>
     );
 }

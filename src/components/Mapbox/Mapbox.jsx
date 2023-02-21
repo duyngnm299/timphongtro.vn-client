@@ -23,9 +23,11 @@ const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 function Mapbox({
     searchAddress,
     className,
+    detailPost,
     detailPostOfUser,
     editPost,
     previewPost,
+    createPost,
 }) {
     const [currentPosition, setCurrentPosition] = useState({});
     const [viewPort, setViewPort] = useState({});
@@ -44,6 +46,7 @@ function Mapbox({
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    const width = window.innerWidth;
     const showDirection = () => {
         currentPosition.latitude !== undefined &&
             axios
@@ -141,6 +144,7 @@ function Mapbox({
                 detailPostOfUser && 'mapbox-details-post-user',
                 editPost && 'edit-post',
                 previewPost && 'preview-post',
+                detailPost && 'detailPost-map',
             )}
         >
             {viewPort.latitude && viewPort.longitude && (
@@ -149,11 +153,21 @@ function Mapbox({
                     initialViewState={{ ...viewPort }}
                     style={{
                         width: '100%',
-                        height: className
-                            ? '400px'
-                            : previewPost
+                        height: previewPost
                             ? '300px'
-                            : '270px',
+                            : createPost && width <= 768 && width > 414
+                            ? '230px'
+                            : createPost && width <= 414
+                            ? '180px'
+                            : createPost
+                            ? '270px'
+                            : width <= 1024 && width > 769
+                            ? '350px'
+                            : width <= 768 && width > 414
+                            ? '250px'
+                            : width <= 414
+                            ? '200px'
+                            : '400px',
                         borderRadius: '4px',
                     }}
                     interactive

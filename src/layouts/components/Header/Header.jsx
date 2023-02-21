@@ -5,7 +5,6 @@ import Tippy from '@tippyjs/react';
 
 import 'tippy.js/dist/tippy.css';
 import { Link, useNavigate } from 'react-router-dom';
-
 import styles from './Header.module.scss';
 import images from '~/assets/images';
 import Button from '~/components/Button';
@@ -16,13 +15,16 @@ import Saved from '~/components/Popper/Saved';
 import config from '~/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
-
+import { AiOutlineMenu } from 'react-icons/ai';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '~/api';
 import { currentMenu } from '~/redux/slice/menuSlice';
 import Notifications from './components/Notifications';
 import MessageBox from './components/MessageBox';
+import { FiMoreHorizontal } from 'react-icons/fi';
+import MenuList from './components/MenuList';
+import { GoPrimitiveDot } from 'react-icons/go';
 
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
@@ -31,8 +33,8 @@ const navbar_items = [
     { title: 'Phòng trọ', to: config.routes.motel },
     { title: 'Nhà nguyên căn', to: config.routes.house },
     { title: 'Văn phòng', to: config.routes.office },
-    { title: 'Chung cư - căn hộ', to: config.routes.apartment },
     { title: 'Mặt bằng', to: config.routes.ground },
+    { title: 'Chung cư - căn hộ', to: config.routes.apartment },
     { title: 'Tìm người ở ghép', to: config.routes.findroomates },
 ];
 
@@ -40,18 +42,24 @@ function Header() {
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
     );
-
+    const udtUser = useSelector(
+        (state) => state.auth.update?.currentUser?.user,
+    );
+    const newNtf = useSelector(
+        (state) => state.notification.notification?.newNtf,
+    );
     const [showSaved, setShowSaved] = useState(false);
     const [savedItem, setSavedItem] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(-1);
+    const [showMoreItem, setShowMoreItem] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
+    const [showIconNtf, setShowIconNtf] = useState(false);
     const savePost = useSelector((state) => state.post?.saved?.changeSaved);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const fullName = currentUser?.fullName;
-    const udtUser = useSelector(
-        (state) => state.auth.update?.currentUser?.user,
-    );
+
     const udtFullName = udtUser?.fullName;
     // set notification message
 
@@ -70,14 +78,14 @@ function Header() {
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [savePost]);
-
-    // useEffect(() => {
-    //     currentUser &&
-    //         getConvOfUser(currentUser._id)
-    //             .then((res) => setConversation(res.conversation))
-    //             .catch((err) => console.log(err));
-    // }, [currentUser]);
-
+    useEffect(() => {
+        if (newNtf) {
+            setShowIconNtf(true);
+        } else {
+            setShowIconNtf(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [newNtf]);
     const handleOnClick = () => {
         currentUser && dispatch(currentMenu('new_post'));
     };
@@ -85,10 +93,34 @@ function Header() {
         navigate(item.to);
         setCurrentIndex(index);
     };
+
+    const handleShowMenu = () => {
+        setShowMenu(true);
+    };
+
+    const hideMenu = (childData) => {
+        setShowMenu(childData);
+    };
     return (
         <header className={cx('wrapper')}>
+            <div className={cx('header-small')}>
+                <Link to={config.routes.home} className={cx('logo-link')}>
+                    <img className={cx('logo-img')} src={images.logo} alt="" />
+                </Link>
+                <div className={cx('menu-button')} onClick={handleShowMenu}>
+                    <AiOutlineMenu className={cx('menu-icon')} />
+                    {showIconNtf && (
+                        <GoPrimitiveDot className={cx('ntf-icon')} />
+                    )}
+                </div>
+            </div>
+            {showMenu && (
+                <div className={cx('menu-list')}>
+                    <MenuList hideMenu={hideMenu} />
+                </div>
+            )}
             <div className={cx('inner')}>
-                <div className={cx('right-header')}>
+                <div className={cx('left-header')}>
                     <Link to={config.routes.home} className={cx('logo-link')}>
                         <img
                             className={cx('logo-img')}
@@ -109,6 +141,8 @@ function Header() {
                                     <li
                                         className={cx(
                                             'navbar-item',
+                                            (index === 4 || index === 5) &&
+                                                'hide-last-item',
                                             index === currentIndex &&
                                                 'navbar-item-active',
                                         )}
@@ -117,6 +151,33 @@ function Header() {
                                     </li>
                                 </div>
                             ))}
+                            <div
+                                className={cx('more-wrapper')}
+                                onMouseEnter={() => {
+                                    setShowMoreItem(true);
+                                }}
+                                onMouseLeave={() => {
+                                    setShowMoreItem(false);
+                                }}
+                            >
+                                <FiMoreHorizontal className={cx('more-icon')} />
+                                {showMoreItem && (
+                                    <div className={cx('more-list')}>
+                                        <Link
+                                            to={navbar_items[4]?.to}
+                                            className={cx('more-item')}
+                                        >
+                                            {navbar_items[4]?.title}
+                                        </Link>
+                                        <Link
+                                            to={navbar_items[5]?.to}
+                                            className={cx('more-item')}
+                                        >
+                                            {navbar_items[5]?.title}
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
                         </ul>
                     </nav>
                 </div>

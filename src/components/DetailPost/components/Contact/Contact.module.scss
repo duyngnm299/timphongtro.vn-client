@@ -127,3 +127,18 @@
     opacity: 0.7;
     user-select: none;
 }
+
+@media (max-width: 769px) {
+    .wrapper {
+        width: 170px;
+        max-width: 170px;
+    }
+}
+
+@media (max-width: 601px) {
+    .wrapper {
+        width: 210px;
+        max-width: 210px;
+        margin-bottom: 20px;
+    }
+}

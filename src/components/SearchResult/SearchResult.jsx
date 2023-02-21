@@ -5,7 +5,7 @@ import FilterSRS from './components/FilterSRS';
 import Footer from '~/layouts/components/Footer';
 
 const cx = classNames.bind(styles);
-function SearchResult({ house }) {
+function SearchResult() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('content')}>

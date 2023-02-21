@@ -176,78 +176,120 @@ function PostListOfUser() {
                 </div>
                 <div className={cx('post-list')}>
                     <h2 className={cx('heading')}>Danh sách tin đăng</h2>
-                    <div className={cx('post-container')}>
-                        {allPost?.map((item, index) => (
-                            <Link
-                                key={index}
-                                to={config.routes.detailPage + `/${item._id}`}
-                            >
-                                <div
-                                    className={cx('post-item')}
-                                    onClick={() => handleOnClick(item)}
-                                >
-                                    <div className={cx('image-container')}>
-                                        <ImageSlider
-                                            className={cx('show-post-slider')}
-                                            slides={item && item.images}
-                                            showPost={true}
-                                        />
-                                    </div>
-                                    <div className={cx('describe')}>
-                                        <p className={cx('title')}>
-                                            {item.title}
-                                        </p>
-                                        <div className={cx('price-area')}>
-                                            <span className={cx('price')}>
-                                                {formatCash(`${item.price}`)}{' '}
-                                            </span>
-                                            <span className={cx('unit')}>
-                                                VND
-                                            </span>
-                                            <span className={cx('dot')}>·</span>
-                                            <span className={cx('area')}>
-                                                {item.area}
-                                            </span>
-                                            <span className={cx('unit')}>
-                                                m²
-                                            </span>
-                                        </div>
-                                        <p className={cx('address')}>
-                                            {`${item?.district}, ${item?.province}`}
-                                        </p>
-                                        <div className={cx('date-save')}>
-                                            <p className={cx('date')}>
-                                                {handleDate(item.createdAt)}
-                                            </p>
+                    {allPost?.length > 0 ? (
+                        <>
+                            <div className={cx('post-container')}>
+                                {allPost?.map((item, index) => (
+                                    <Link
+                                        key={index}
+                                        to={
+                                            config.routes.detailPage +
+                                            `/${item._id}`
+                                        }
+                                    >
+                                        <div
+                                            className={cx('post-item')}
+                                            onClick={() => handleOnClick(item)}
+                                        >
+                                            <div
+                                                className={cx(
+                                                    'image-container',
+                                                )}
+                                            >
+                                                <ImageSlider
+                                                    className={cx(
+                                                        'show-post-slider',
+                                                    )}
+                                                    slides={item && item.images}
+                                                    showPost={true}
+                                                />
+                                            </div>
+                                            <div className={cx('describe')}>
+                                                <p className={cx('title')}>
+                                                    {item.title}
+                                                </p>
+                                                <div
+                                                    className={cx('price-area')}
+                                                >
+                                                    <span
+                                                        className={cx('price')}
+                                                    >
+                                                        {formatCash(
+                                                            `${item.price}`,
+                                                        )}{' '}
+                                                    </span>
+                                                    <span
+                                                        className={cx('unit')}
+                                                    >
+                                                        VND
+                                                    </span>
+                                                    <span className={cx('dot')}>
+                                                        ·
+                                                    </span>
+                                                    <span
+                                                        className={cx('area')}
+                                                    >
+                                                        {item.area}
+                                                    </span>
+                                                    <span
+                                                        className={cx('unit')}
+                                                    >
+                                                        m²
+                                                    </span>
+                                                </div>
+                                                <p className={cx('address')}>
+                                                    {`${item?.district}, ${item?.province}`}
+                                                </p>
+                                                <div
+                                                    className={cx('date-save')}
+                                                >
+                                                    <p className={cx('date')}>
+                                                        {handleDate(
+                                                            item.createdAt,
+                                                        )}
+                                                    </p>
 
-                                            <p className={cx('save')}>
-                                                {item.postType}
-                                            </p>
+                                                    <p className={cx('save')}>
+                                                        {item.postType}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Link>
+                                ))}
+                            </div>
+                            {totalPage > 1 && (
+                                <div className={cx('more-post')}>
+                                    <Button
+                                        className={cx('more-btn')}
+                                        outline
+                                        rightIcon={
+                                            totalPage > currentPage ? (
+                                                <MdKeyboardArrowDown />
+                                            ) : (
+                                                <MdKeyboardArrowUp />
+                                            )
+                                        }
+                                        more={true}
+                                        onClick={handleOnClickMore}
+                                    >
+                                        {totalPage > currentPage
+                                            ? 'Mở rộng'
+                                            : 'Thu gọn'}
+                                    </Button>
                                 </div>
-                            </Link>
-                        ))}
-                    </div>
-                    {totalPage > 1 && (
-                        <div className={cx('more-post')}>
-                            <Button
-                                className={cx('more-btn')}
-                                outline
-                                rightIcon={
-                                    totalPage > currentPage ? (
-                                        <MdKeyboardArrowDown />
-                                    ) : (
-                                        <MdKeyboardArrowUp />
-                                    )
-                                }
-                                more={true}
-                                onClick={handleOnClickMore}
-                            >
-                                {totalPage > currentPage
-                                    ? 'Mở rộng'
-                                    : 'Thu gọn'}
-                            </Button>
+                            )}
+                        </>
+                    ) : (
+                        <div className={cx('empty-list')}>
+                            <img
+                                src={images.emptyPost}
+                                alt=""
+                                className={cx('empty-list-img')}
+                            />
+                            <span className={cx('empty-list-text')}>
+                                Không có bài đăng nào
+                            </span>
                         </div>
                     )}
                 </div>

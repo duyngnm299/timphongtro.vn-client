@@ -14,6 +14,7 @@ const ImageSlider = ({
     imgBottom,
     searchResult,
     showPost,
+    detailPost,
     detailPostOfUser,
     adminDetailPost,
     previewPost,
@@ -78,6 +79,7 @@ const ImageSlider = ({
                 detailPostOfUser && 'detail-post-user',
                 adminDetailPost && 'admin-detail-post',
                 previewPost && 'previewPost',
+                detailPost && 'slider-detail-post-wrapper',
             )}
         >
             <div
@@ -122,6 +124,7 @@ const ImageSlider = ({
                     searchResult && 'srs',
                     showPost && 'sp',
                     adminDetailPost && 'admin-dtp',
+                    detailPost && 'slider-detail-post',
                 )}
             ></div>
             <div
@@ -130,6 +133,7 @@ const ImageSlider = ({
                     imgBottom && 'img-bottom-container',
                     detailPostOfUser && 'hide-arrow',
                     adminDetailPost && 'hide-arrow',
+                    detailPost && 'detailPost-img-bottom',
                 )}
             >
                 {slides.map((slide, slideIndex) =>

@@ -19,3 +19,28 @@
     position: relative;
     bottom: 0;
 }
+
+@media (max-width: 1025px) {
+    .wrapper {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 769px) {
+    .content {
+        width: 680px;
+    }
+}
+
+@media (max-width: 601px) {
+    .content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .contact {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+}

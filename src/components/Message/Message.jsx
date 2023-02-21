@@ -10,6 +10,8 @@ import { useState, useEffect, useRef } from 'react';
 import { addMessage, getConvOfUser, getMessages, getUser } from '~/api';
 import { useSelector } from 'react-redux';
 import { GoPrimitiveDot } from 'react-icons/go';
+import { BiArrowBack } from 'react-icons/bi';
+
 import { useDispatch } from 'react-redux';
 
 import { newMessage } from '~/redux/slice/messageSlice';
@@ -50,7 +52,44 @@ function Message({ sk }) {
     const [sendCrPost, setSendCrPost] = useState(false);
     const [arrivalPostMessage, setArrivalPostMessage] = useState(null);
     const [inMsg, setInMsg] = useState(false);
-
+    const [width, setWidth] = useState(0);
+    const [showChat, setShowChat] = useState(false);
+    const [showConversation, setShowConversation] = useState(false);
+    useEffect(() => {
+        const updateWindowWidth = () => {
+            const newWidth = window.innerWidth;
+            if (newWidth < 601) {
+                setWidth(1);
+                setShowConversation(true);
+            } else {
+                setWidth(0);
+            }
+            console.log('updating width');
+        };
+        updateWindowWidth();
+        // console.log(window?.innerWidth);
+        window.addEventListener('DOMContentLoaded', updateWindowWidth);
+        return () =>
+            window.removeEventListener('DOMContentLoaded', updateWindowWidth);
+    }, []);
+    useEffect(() => {
+        const updateWindowWidth = () => {
+            const newWidth = window.innerWidth;
+            if (newWidth < 601) {
+                setWidth(1);
+                setShowConversation(true);
+            } else {
+                setWidth(0);
+            }
+            console.log('updating width');
+        };
+        updateWindowWidth();
+        // console.log(window?.innerWidth);
+        // window.addEventListener('DOMContentLoaded', updateWindowWidth)
+        window.addEventListener('resize', updateWindowWidth);
+        return () => window.removeEventListener('resize', updateWindowWidth);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [window?.innerWidth]);
     const scrollRef = useRef();
     useEffect(() => {
         setInMsg(!inMsg);
@@ -364,123 +403,356 @@ function Message({ sk }) {
     theirUser && dispatch(userId(theirUser?._id));
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('list-message')}>
-                <div className={cx('header')}>
-                    <h1 className={cx('title')}>Tin nhắn</h1>
-                    <div className={cx('search-message')}>
-                        <SearchIcon className={cx('icon-search')} />
-                        <input
-                            type="text"
-                            className={cx('search-input')}
-                            placeholder="Tìm kiếm tin nhắn"
-                        />
-                    </div>
-                </div>
-                {conversation &&
-                    conversation[0]?.map((item, index) => (
-                        <div key={index} onClick={() => setCurrentChat(item)}>
-                            <Conversation
-                                data={item}
-                                userId={item?.members?.filter(
-                                    (id) => id !== currentUser?._id,
-                                )}
-                            />
-                        </div>
-                    ))}
-            </div>
-            <div className={cx('chat-box')}>
-                {currentChat ? (
-                    <>
-                        <div className={cx('header-chat-box')}>
-                            <div
-                                className={cx('user-avatar')}
-                                onClick={handleOnClickAvatar}
-                            >
-                                <div className={cx('avatar-chat-box')}>
-                                    <img
-                                        src={
-                                            theirUser
-                                                ? `${HOST_NAME}/${theirUser.profilePicture}`
-                                                : images.defaultAvt
-                                        }
-                                        alt=""
-                                        className={cx('img-chat-box')}
+            {width === 1 ? (
+                <div>
+                    {showConversation && (
+                        <div className={cx('list-message')}>
+                            <div className={cx('header')}>
+                                <h1 className={cx('title')}>Tin nhắn</h1>
+                                <div className={cx('search-message')}>
+                                    <SearchIcon className={cx('icon-search')} />
+                                    <input
+                                        type="text"
+                                        className={cx('search-input')}
+                                        placeholder="Tìm kiếm tin nhắn"
                                     />
-                                    {showOnlineIcon && (
-                                        <GoPrimitiveDot
-                                            className={cx('online-icon')}
-                                        />
-                                    )}
-                                </div>
-                                <div className={cx('full-name')}>
-                                    {theirUser && theirUser.fullName}
                                 </div>
                             </div>
-                            <div className={cx('info-icon-container')}>
-                                <MdInfoOutline className={cx('info-icon')} />
+                            {conversation &&
+                                conversation[0]?.map((item, index) => (
+                                    <div
+                                        key={index}
+                                        onClick={() => {
+                                            if (width === 1) {
+                                                setShowConversation(false);
+                                                setShowChat(true);
+                                            }
+                                            setCurrentChat(item);
+                                        }}
+                                    >
+                                        <Conversation
+                                            data={item}
+                                            userId={item?.members?.filter(
+                                                (id) => id !== currentUser?._id,
+                                            )}
+                                        />
+                                    </div>
+                                ))}
+                        </div>
+                    )}
+                    {showChat && (
+                        <div className={cx('chat-box-wrapper')}>
+                            <div className={cx('chat-box')}>
+                                {currentChat ? (
+                                    <>
+                                        <div className={cx('header-chat-box')}>
+                                            <div className={cx('header-left')}>
+                                                <div
+                                                    className={cx('back')}
+                                                    onClick={() => {
+                                                        if (width === 1) {
+                                                            setShowConversation(
+                                                                true,
+                                                            );
+                                                            setShowChat(false);
+                                                        }
+                                                    }}
+                                                >
+                                                    <BiArrowBack
+                                                        className={cx(
+                                                            'icon-back',
+                                                        )}
+                                                    />
+                                                </div>
+                                                <div
+                                                    className={cx(
+                                                        'user-avatar',
+                                                    )}
+                                                    onClick={
+                                                        handleOnClickAvatar
+                                                    }
+                                                >
+                                                    <div
+                                                        className={cx(
+                                                            'avatar-chat-box',
+                                                        )}
+                                                    >
+                                                        <img
+                                                            src={
+                                                                theirUser
+                                                                    ? `${HOST_NAME}/${theirUser.profilePicture}`
+                                                                    : images.defaultAvt
+                                                            }
+                                                            alt=""
+                                                            className={cx(
+                                                                'img-chat-box',
+                                                            )}
+                                                        />
+                                                        {showOnlineIcon && (
+                                                            <GoPrimitiveDot
+                                                                className={cx(
+                                                                    'online-icon',
+                                                                )}
+                                                            />
+                                                        )}
+                                                    </div>
+                                                    <div
+                                                        className={cx(
+                                                            'full-name',
+                                                        )}
+                                                    >
+                                                        {theirUser &&
+                                                            theirUser.fullName}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                className={cx(
+                                                    'info-icon-container',
+                                                )}
+                                            >
+                                                <MdInfoOutline
+                                                    className={cx('info-icon')}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div
+                                            className={cx('message-container')}
+                                            onClick={handleOnClick}
+                                        >
+                                            {messages.map((item, index) => (
+                                                <div
+                                                    key={index}
+                                                    ref={scrollRef}
+                                                >
+                                                    <MessageItem
+                                                        theirUser={
+                                                            theirUser &&
+                                                            theirUser
+                                                        }
+                                                        message={item}
+                                                        own={
+                                                            currentUser &&
+                                                            item?.sender ===
+                                                                currentUser?._id
+                                                        }
+                                                    />
+                                                </div>
+                                            ))}
+                                            {enteringText.length ? (
+                                                <p className={cx('entering')}>
+                                                    {enteringText}
+                                                </p>
+                                            ) : (
+                                                ''
+                                            )}
+                                        </div>
+
+                                        <div className={cx('bottom')}>
+                                            <div className={cx('text-send')}>
+                                                <input
+                                                    type="text"
+                                                    className={cx('text-input')}
+                                                    placeholder="Nhập tin nhắn"
+                                                    onChange={(e) =>
+                                                        setNewMessages(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    value={newMessages}
+                                                    onKeyDown={handleOnKeyDown}
+                                                    onMouseDown={
+                                                        handleMouseDown
+                                                    }
+                                                    onBlur={handleMouseBlur}
+                                                    onFocus={() =>
+                                                        dispatch(newMessage())
+                                                    }
+                                                />
+                                                {showSendCurrentPost && (
+                                                    <button
+                                                        className={cx(
+                                                            'send-crPost',
+                                                        )}
+                                                        onClick={
+                                                            handleSendCurrentPost
+                                                        }
+                                                    >
+                                                        Gửi bài viết
+                                                    </button>
+                                                )}
+                                                <button
+                                                    className={cx('icon-send')}
+                                                    onClick={handleSendMessage}
+                                                >
+                                                    <IoSend />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <span className={cx('no-current-chat')}>
+                                        Mở cuộc hội thoại để bắt đầu trò chuyện
+                                    </span>
+                                )}
                             </div>
                         </div>
-                        <div
-                            className={cx('message-container')}
-                            onClick={handleOnClick}
-                        >
-                            {messages.map((item, index) => (
-                                <div key={index} ref={scrollRef}>
-                                    <MessageItem
-                                        theirUser={theirUser && theirUser}
-                                        message={item}
-                                        own={
-                                            currentUser &&
-                                            item?.sender === currentUser?._id
-                                        }
+                    )}
+                </div>
+            ) : (
+                <>
+                    <div className={cx('list-message')}>
+                        <div className={cx('header')}>
+                            <h1 className={cx('title')}>Tin nhắn</h1>
+                            <div className={cx('search-message')}>
+                                <SearchIcon className={cx('icon-search')} />
+                                <input
+                                    type="text"
+                                    className={cx('search-input')}
+                                    placeholder="Tìm kiếm tin nhắn"
+                                />
+                            </div>
+                        </div>
+                        {conversation &&
+                            conversation[0]?.map((item, index) => (
+                                <div
+                                    key={index}
+                                    onClick={() => setCurrentChat(item)}
+                                >
+                                    <Conversation
+                                        data={item}
+                                        userId={item?.members?.filter(
+                                            (id) => id !== currentUser?._id,
+                                        )}
                                     />
                                 </div>
                             ))}
-                            {enteringText.length ? (
-                                <p className={cx('entering')}>{enteringText}</p>
+                    </div>
+                    <div className={cx('chat-box-wrapper')}>
+                        <div className={cx('chat-box')}>
+                            {currentChat ? (
+                                <>
+                                    <div className={cx('header-chat-box')}>
+                                        <div
+                                            className={cx('user-avatar')}
+                                            onClick={handleOnClickAvatar}
+                                        >
+                                            <div
+                                                className={cx(
+                                                    'avatar-chat-box',
+                                                )}
+                                            >
+                                                <img
+                                                    src={
+                                                        theirUser
+                                                            ? `${HOST_NAME}/${theirUser.profilePicture}`
+                                                            : images.defaultAvt
+                                                    }
+                                                    alt=""
+                                                    className={cx(
+                                                        'img-chat-box',
+                                                    )}
+                                                />
+                                                {showOnlineIcon && (
+                                                    <GoPrimitiveDot
+                                                        className={cx(
+                                                            'online-icon',
+                                                        )}
+                                                    />
+                                                )}
+                                            </div>
+                                            <div className={cx('full-name')}>
+                                                {theirUser &&
+                                                    theirUser.fullName}
+                                            </div>
+                                        </div>
+                                        <div
+                                            className={cx(
+                                                'info-icon-container',
+                                            )}
+                                        >
+                                            <MdInfoOutline
+                                                className={cx('info-icon')}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div
+                                        className={cx('message-container')}
+                                        onClick={handleOnClick}
+                                    >
+                                        {messages.map((item, index) => (
+                                            <div key={index} ref={scrollRef}>
+                                                <MessageItem
+                                                    theirUser={
+                                                        theirUser && theirUser
+                                                    }
+                                                    message={item}
+                                                    own={
+                                                        currentUser &&
+                                                        item?.sender ===
+                                                            currentUser?._id
+                                                    }
+                                                />
+                                            </div>
+                                        ))}
+                                        {enteringText.length ? (
+                                            <p className={cx('entering')}>
+                                                {enteringText}
+                                            </p>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </div>
+
+                                    <div className={cx('bottom')}>
+                                        <div className={cx('text-send')}>
+                                            <input
+                                                type="text"
+                                                className={cx('text-input')}
+                                                placeholder="Nhập tin nhắn"
+                                                onChange={(e) =>
+                                                    setNewMessages(
+                                                        e.target.value,
+                                                    )
+                                                }
+                                                value={newMessages}
+                                                onKeyDown={handleOnKeyDown}
+                                                onMouseDown={handleMouseDown}
+                                                onBlur={handleMouseBlur}
+                                                onFocus={() =>
+                                                    dispatch(newMessage())
+                                                }
+                                            />
+                                            {showSendCurrentPost && (
+                                                <button
+                                                    className={cx(
+                                                        'send-crPost',
+                                                    )}
+                                                    onClick={
+                                                        handleSendCurrentPost
+                                                    }
+                                                >
+                                                    Gửi bài viết
+                                                </button>
+                                            )}
+                                            <button
+                                                className={cx('icon-send')}
+                                                onClick={handleSendMessage}
+                                            >
+                                                <IoSend />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </>
                             ) : (
-                                ''
+                                <span className={cx('no-current-chat')}>
+                                    Mở cuộc hội thoại để bắt đầu trò chuyện
+                                </span>
                             )}
                         </div>
-
-                        <div className={cx('bottom')}>
-                            <div className={cx('text-send')}>
-                                <input
-                                    type="text"
-                                    className={cx('text-input')}
-                                    placeholder="Nhập tin nhắn"
-                                    onChange={(e) =>
-                                        setNewMessages(e.target.value)
-                                    }
-                                    value={newMessages}
-                                    onKeyDown={handleOnKeyDown}
-                                    onMouseDown={handleMouseDown}
-                                    onBlur={handleMouseBlur}
-                                    onFocus={() => dispatch(newMessage())}
-                                />
-                                {showSendCurrentPost && (
-                                    <button
-                                        className={cx('send-crPost')}
-                                        onClick={handleSendCurrentPost}
-                                    >
-                                        Gửi bài viết
-                                    </button>
-                                )}
-                                <button
-                                    className={cx('icon-send')}
-                                    onClick={handleSendMessage}
-                                >
-                                    <IoSend />
-                                </button>
-                            </div>
-                        </div>
-                    </>
-                ) : (
-                    <span className={cx('no-current-chat')}>
-                        Mở cuộc hội thoại để bắt đầu trò chuyện
-                    </span>
-                )}
-            </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 }

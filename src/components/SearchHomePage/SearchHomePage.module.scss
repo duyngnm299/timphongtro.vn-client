@@ -65,3 +65,48 @@
         line-height: 2rem;
     }
 }
+
+@media (max-width: 945px) {
+    .wrapper {
+        width: 750px;
+    }
+}
+
+@media (max-width: 755px) {
+    .wrapper {
+        width: 600px;
+    }
+}
+// Small tablet
+@media (max-width: 600px) {
+    .wrapper {
+        width: 550px;
+    }
+}
+
+@media (max-width: 550px) {
+    .wrapper {
+        width: 450px;
+    }
+}
+@media (max-width: 415px) {
+    .wrapper {
+        width: 380px;
+    }
+}
+
+@media (max-width: 376px) {
+    .wrapper {
+        width: 350px;
+    }
+}
+
+@media (max-width: 321px) {
+    .wrapper {
+        width: 300px;
+        height: auto;
+    }
+    .search-filter {
+        display: none;
+    }
+}

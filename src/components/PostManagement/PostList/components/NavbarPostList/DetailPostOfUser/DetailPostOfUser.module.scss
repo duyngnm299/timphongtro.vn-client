@@ -21,7 +21,30 @@
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
+    animation: showMenu 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    -webkit-animation: showMenu 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
+@-webkit-keyframes showMenu {
+    0% {
+        -webkit-transform: translateX(500px);
+        transform: translateX(500px);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+@keyframes showMenu {
+    0% {
+        -webkit-transform: translateX(500px);
+        transform: translateX(500px);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
 .image-slider {
     width: 100%;
     height: 280px;
@@ -91,6 +114,7 @@
 .describe-text {
     font-size: 1.4rem;
     font-weight: normal;
+    text-align: justify;
 }
 
 .save-and-report {
@@ -341,4 +365,52 @@
 }
 .edit + .edit {
     margin-left: 16px;
+}
+
+@media (max-width: 601px) {
+    .content {
+        width: 400px;
+    }
+
+    .contact {
+        width: 399px;
+    }
+}
+
+@media (max-width: 415px) {
+    .content {
+        width: 300px;
+    }
+
+    .contact {
+        width: 299px;
+    }
+    .text-value {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .image-slider {
+        height: 180px;
+    }
+    .chat-icon,
+    .phone-icon {
+        display: none;
+    }
+    .chat-text,
+    .phone-text {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 376px) {
+    .content {
+        width: 270px;
+    }
+    .save-icon {
+        display: none;
+    }
+    .contact {
+        width: 269px;
+    }
 }

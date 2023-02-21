@@ -28,6 +28,10 @@
         border-radius: 5px;
     }
 }
+.action-btn-small {
+    height: 36px;
+    padding: 4px 8px;
+}
 
 .badge {
     position: absolute;
@@ -41,7 +45,10 @@
     font-size: 24px;
     width: 24px;
 }
-
+.icon-small {
+    font-size: 20px;
+    width: 20px;
+}
 .content-wrapper {
     width: 100%;
     overflow-x: hidden;
@@ -160,4 +167,14 @@
     width: 150px;
     height: 150px;
     object-fit: contain;
+}
+
+@media (max-width: 415px) {
+    .message-list,
+    .message-body,
+    .message-popper {
+        width: 300px;
+        max-width: 300px;
+        overflow-x: hidden;
+    }
 }

@@ -20,3 +20,20 @@
     width: 100%;
     margin-top: 40px;
 }
+
+@media (max-width: 769px) {
+    .content {
+        width: 680px;
+    }
+}
+
+@media (max-width: 601px) {
+    .wrapper {
+        margin-top: 0;
+    }
+    .content {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}

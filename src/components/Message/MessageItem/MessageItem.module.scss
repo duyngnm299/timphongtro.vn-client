@@ -45,6 +45,8 @@
     display: flex;
 }
 .msg-text {
+    max-width: 100%;
+    word-wrap: break-word;
     font-family: var(--font-family);
     padding: 8px 16px;
     font-size: 1.4rem;
@@ -149,4 +151,60 @@
 
 .msg-price {
     font-size: 1.4rem;
+}
+@media (max-width: 1025px) {
+    .post-message {
+        width: 400px;
+    }
+    .msg-text {
+        max-width: 400px;
+        white-space: pre-wrap;
+    }
+}
+
+@media (max-width: 769px) {
+    .post-message {
+        width: 350px;
+    }
+    .msg-text {
+        max-width: 350px;
+        white-space: pre-wrap;
+    }
+}
+
+@media (max-width: 415px) {
+    .post-message {
+        width: 300px;
+    }
+    .msg-text {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 376px) {
+    .image-post {
+        width: 120px;
+        height: 100px;
+    }
+    .left {
+        width: 120px;
+    }
+}
+
+@media (max-width: 321px) {
+    .post-message {
+        flex-direction: column;
+        width: 200px;
+    }
+    .msg-text {
+        max-width: 200px;
+    }
+    .image-post {
+        width: 100%;
+        height: 100px;
+    }
+    .left {
+        width: 100%;
+        margin-right: 0;
+    }
 }

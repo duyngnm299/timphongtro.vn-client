@@ -3,6 +3,7 @@ import config from '~/config';
 // Pages
 import { HaveSearchBarLayout } from '~/layouts';
 import { DefaultLayout } from '~/layouts';
+import MessageLayout from '~/layouts/MessageLayout';
 import Home from '~/pages/Home/';
 import Motel from '~/pages/Motel';
 import House from '~/pages/House';
@@ -133,6 +134,7 @@ const publicRoutes = [
         component: Ground,
         layout: HaveSearchBarLayout,
     },
+
     {
         path: config.routes.detailPage + '/:id',
         component: DetailPost,
@@ -152,6 +154,7 @@ const publicRoutes = [
     {
         path: config.routes.message,
         component: Message,
+        layout: MessageLayout,
     },
     {
         path: config.routes.post,

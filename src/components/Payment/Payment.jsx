@@ -2,16 +2,10 @@ import classNames from 'classnames/bind';
 import { useState } from 'react';
 import styles from './Payment.module.scss';
 import { IoCloseOutline } from 'react-icons/io5';
-import Loading from '../Loading';
+
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
-import {
-    sendMail,
-    deletedUser,
-    verifyEmail,
-    updateUser,
-    createTransaction,
-} from '~/api';
+import { sendMail, verifyEmail, updateUser, createTransaction } from '~/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatedUser } from '~/redux/slice/authSlice';
 const cx = classNames.bind(styles);

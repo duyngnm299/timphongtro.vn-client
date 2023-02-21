@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { newMessage, onlineUsers } from '~/redux/slice/messageSlice';
 import { useState } from 'react';
 import { newNotification } from '~/redux/slice/notificationSlice';
+import Footer from '~/layouts/components/Footer';
 
 const cx = classNames.bind(styles);
 const Home = ({ sk }) => {
@@ -101,7 +102,6 @@ const Home = ({ sk }) => {
         { url: images.slider4, title: 'city' },
         { url: images.slider5, title: 'italy' },
     ];
-
     return (
         <div className={cx('wrapper')}>
             <div className={cx('slider-container')}>
@@ -110,6 +110,9 @@ const Home = ({ sk }) => {
             </div>
             <div className={cx('post-container')}>
                 <ShowPost />
+            </div>
+            <div className={cx('footer')}>
+                <Footer />
             </div>
         </div>
     );

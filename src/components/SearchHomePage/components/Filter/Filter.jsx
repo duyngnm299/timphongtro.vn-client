@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import styles from './Filter.module.scss';
-import { MdKeyboardArrowDown } from 'react-icons/md';
 import { BiRefresh } from 'react-icons/bi';
 import District from './District';
 import SliderPrice from './SliderPrice';

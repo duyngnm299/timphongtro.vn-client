@@ -12,16 +12,13 @@
 }
 .content {
     display: flex;
-    width: 800px;
-    height: 576px;
-    max-height: 576px;
-    box-shadow: rgb(44 44 44 / 8%) 0px 4px 16px;
+    justify-content: center;
+    width: 100%;
     border-radius: 20px;
 }
 
 .picture {
     width: 336px;
-    max-height: 576px;
     background-color: #ffeceb;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
@@ -102,7 +99,7 @@
     width: 100%;
     font-size: 1.4rem;
     color: rgb(44, 44, 44);
-    padding: 13px 16px 13px 43px;
+    padding: 13px 43px;
     border: 1px solid #ccc;
     border-radius: 8px;
     text-overflow: ellipsis;
@@ -373,5 +370,109 @@ input[type='checkbox']:checked {
         &:hover {
             opacity: 0.8;
         }
+    }
+}
+
+@media (max-width: 769px) {
+    .content {
+        width: 100%;
+    }
+    .picture {
+        width: 250px;
+    }
+    .img-below {
+        width: 80%;
+    }
+
+    .imgLogin {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 250px;
+        object-fit: cover;
+    }
+    .text-login {
+        display: block;
+        margin-left: 0;
+        text-align: center;
+        font-size: 1.6rem;
+        margin-top: 20px;
+    }
+
+    .auth {
+        width: 364px;
+    }
+}
+
+@media (max-width: 601px) {
+    .auth {
+        border-radius: 20px;
+    }
+    .picture {
+        display: none;
+    }
+    .footer {
+        display: none;
+    }
+    .welcome {
+        margin-top: 16px;
+    }
+}
+
+@media (max-width: 415px) {
+    .auth {
+        width: 80%;
+    }
+    .title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 376px) {
+    .remember-text,
+    .forgot-text,
+    .input,
+    .google-text,
+    .nm-text,
+    .hl-text {
+        font-size: 1.3rem !important;
+    }
+
+    .login-with-google {
+        padding: 8px 16px;
+    }
+    .google-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 321px) {
+    .welcome {
+        margin-top: 0;
+    }
+    .title {
+        font-size: 1.6rem;
+        margin-bottom: 24px;
+    }
+    .remember-forgot {
+        display: flex;
+        flex-direction: column;
+    }
+    .or .text {
+        font-size: 1.3rem;
+    }
+    .or {
+        margin: 8px 0;
+    }
+    .login-with-google {
+        padding: 8px;
+    }
+    .google-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .google-text {
+        font-size: 1.2rem;
     }
 }

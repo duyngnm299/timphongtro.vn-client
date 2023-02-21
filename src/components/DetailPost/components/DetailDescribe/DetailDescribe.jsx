@@ -30,6 +30,7 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as HeartIcon } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(styles);
 const selectionItems = [
@@ -39,6 +40,7 @@ const selectionItems = [
     { text: 'Không liên lạc được', isChecked: false },
     { text: 'Tin không có thật', isChecked: false },
 ];
+
 function DetailDescribe() {
     const currentUser = useSelector(
         (state) => state.auth?.login?.currentUser?.user,
@@ -59,6 +61,19 @@ function DetailDescribe() {
     const [submitReport, setSubmitReport] = useState(false);
     const [idReported, setIdReported] = useState('');
     const [reported, setReported] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
+    useEffect(() => {
+        setShowLoading(true);
+    }, []);
+
+    useEffect(() => {
+        console.log('loading....');
+        if (crPost) {
+            setShowLoading(false);
+            console.log('stop loading...');
+            return;
+        }
+    }, [crPost]);
     const formatCash = (number) => {
         return number
             .split('')
@@ -237,12 +252,14 @@ function DetailDescribe() {
     };
     return (
         <div className={cx('detail-content')}>
+            {showLoading && <Loading />}
             <div className={cx('image-slider')}>
                 {crPost && (
                     <ImageSlider
                         slides={crPost?.images}
                         imgBottom={true}
                         className={cx('slider-detail-post')}
+                        detailPost={true}
                     />
                 )}
             </div>
@@ -473,6 +490,7 @@ function DetailDescribe() {
                 <h4 className={cx('title-info-describe')}>Xem trên bản đồ</h4>
                 <Mapbox
                     className={cx('mapbox-details-post')}
+                    detailPost={true}
                     searchAddress={crPost?.address}
                 />
             </div>

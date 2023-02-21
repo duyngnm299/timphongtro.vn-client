@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import config from '~/config';
 import Button from '~/components/Button';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import Loading from '~/components/Loading';
 const cx = classNames.bind(styles);
 
 function Result() {
@@ -17,11 +18,12 @@ function Result() {
     const [listResult, setListResult] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [showLoading, setShowLoading] = useState(false);
     const crPost = useSelector((state) => state.post.post?.currentPost);
     const linkSearch = useSelector((state) => state.filter.linkSearch?.link);
     const sort = useSelector((state) => state.filter.sort?.link);
     console.log(linkSearch);
-    console.log(sort)
+    console.log(sort);
     const currentCategory = useSelector(
         (state) => state.filter.category?.currentCategory,
     );
@@ -35,6 +37,7 @@ function Result() {
     const dispatch = useDispatch();
     const limit = 8;
     useEffect(() => {
+        setShowLoading(true);
         setListResult(filterResultPost);
         filterResultPost &&
             filterResultPost?.map((item) =>
@@ -46,6 +49,16 @@ function Result() {
             setTotalPage(Math.ceil(filterResultPg?.total / limit));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filterResultPost]);
+    useEffect(() => {
+        if (listResult?.length > 0) {
+            setShowLoading(false);
+            return;
+        }
+        if (listResult?.length === 0) {
+            setShowLoading(false);
+            return;
+        }
+    }, [listResult]);
     const formatCash = (number) => {
         return number
             .split('')
@@ -93,16 +106,13 @@ function Result() {
         let nextPage = currentPage + 1;
         if (totalPage - nextPage >= 0) {
             SearchFilterPost(
-                `${linkSearch && linkSearch}&${
-                    sort && sort
-                }&page=${nextPage}`,
-            ).then((res) =>
-                {
-                    console.log(res)
-                    res?.post.map((item) =>
+                `${linkSearch && linkSearch}&${sort && sort}&page=${nextPage}`,
+            ).then((res) => {
+                console.log(res);
+                res?.post.map((item) =>
                     setListResult((prevState) => [...prevState, item]),
-                )}
-            );
+                );
+            });
             setCurrentPage(nextPage);
             return;
         }
@@ -110,8 +120,8 @@ function Result() {
             SearchFilterPost(
                 `${linkSearch && linkSearch}&${sort && sort}`,
             ).then((res) => {
-                console.log(res)
-                setListResult(res?.post)
+                console.log(res);
+                setListResult(res?.post);
             });
             setCurrentPage(1);
             return;
@@ -119,6 +129,7 @@ function Result() {
     };
     return (
         <div className={cx('wrapper')}>
+            {showLoading && <Loading />}
             <h1 className={cx('title')}>
                 {currentCategory
                     ? currentCategory === 'Tìm người ở ghép'
@@ -178,9 +189,10 @@ function Result() {
                                         </span>
                                     </div>
                                     <div className={cx('describe')}>
-                                        {item?.describe ?
-                                            JSON?.parse(item?.describe)
-                                                ?.describe : ''}
+                                        {item?.describe
+                                            ? JSON?.parse(item?.describe)
+                                                  ?.describe
+                                            : ''}
                                     </div>
                                     <div className={cx('date-and-type')}>
                                         <div className={cx('date-createdby')}>

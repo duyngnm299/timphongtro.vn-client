@@ -27,7 +27,7 @@ function MenuItem() {
     const dispatch = useDispatch();
     let axiosJWT = createAxios(currentUser, dispatch);
     const handleLogout = () => {
-        logOut(dispatch, id, navigate, accessToken, refreshToken, axiosJWT);
+        logOut(dispatch, navigate, accessToken, refreshToken, axiosJWT);
     };
     const handleOnClick = (index) => {
         switch (index) {

@@ -17,3 +17,20 @@
     margin-top: var(search-bar-height);
     flex: 1;
 }
+@media (max-width: 1190px) {
+    .container {
+        margin-top: calc(var(--default-layout-header-height) - 16px);
+    }
+}
+
+@media (max-width: 1025px) {
+    .content {
+        margin-top: 104px;
+    }
+}
+
+@media (max-width: 415px) {
+    .content {
+        margin-top: 57px;
+    }
+}

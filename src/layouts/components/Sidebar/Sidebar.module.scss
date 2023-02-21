@@ -7,6 +7,7 @@
     position: sticky;
     top: 0;
     bottom: 0;
+    left: 0;
     height: calc(100vh - var(--default-layout-header-height) + 8px);
     overflow: auto;
     max-height: calc(100vh - var(--default-layout-header-height) + 8px);
@@ -331,8 +332,71 @@
     line-height: 2.2rem;
     user-select: none;
     cursor: pointer;
-
     &:hover {
         background-color: rgb(242, 242, 242);
+    }
+}
+
+.menu {
+    display: none;
+}
+
+@media (max-width: 1025px) {
+    .wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        box-shadow: rgba(182, 182, 182, 0.18) 0px 4px 8px;
+        position: fixed;
+        top: unset;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 49px;
+        max-height: 49px;
+        background-color: #fff;
+        box-shadow: rgba(182, 182, 182, 0.5) 0px 4px 8px;
+
+        overflow: hidden;
+        z-index: 99999999;
+    }
+    .menu {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .menu-item {
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    .menu-item-icon {
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        padding: 2px;
+    }
+    .menu-item:nth-child(3) .menu-item-icon {
+        border-radius: 4px;
+        color: #fff;
+        background-color: var(--primary);
+    }
+    .menu-item-text {
+        font-size: 1.2rem;
+    }
+    .menu-active {
+        color: var(--primary);
+    }
+}
+
+@media (max-width: 415px) {
+    .menu-item-text {
+        font-size: 1rem;
     }
 }

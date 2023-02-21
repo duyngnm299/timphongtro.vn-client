@@ -9,6 +9,8 @@ import styles from './Saved.module.scss';
 import SavedItem from './SavedItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import config from '~/config';
 
 const cx = classNames.bind(styles);
 
@@ -21,7 +23,7 @@ function Saved({
     hide,
     // onChange = defaultFn,
 }) {
-    console.log(items);
+    const navigate = useNavigate();
     const renderItems = () => {
         return items?.map((item, index) => {
             return <SavedItem key={index} data={item}></SavedItem>;
@@ -49,14 +51,6 @@ function Saved({
                             />
                         </div>
                     )}
-                </div>
-                <div className={cx('see-all')}>
-                    <p className={cx('text')}>
-                        Xem tất cả{' '}
-                        <span>
-                            <FontAwesomeIcon icon={faArrowRight} />
-                        </span>
-                    </p>
                 </div>
             </PopperWrapper>
         </div>

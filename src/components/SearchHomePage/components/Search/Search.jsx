@@ -124,25 +124,30 @@ function Search({ className }) {
     console.log('[showLoadingModal]', showLoadingModal);
     return (
         // Thêm thẻ div để Tippy không warning
-        <div>
+        <div className={cx('tippy-wrapper')}>
             <HeadlessTippy
                 interactive
                 appendTo={() => document.body}
                 // visible
                 visible={searchValue.length > 0 && showResult}
                 placement="bottom"
+                offset={className && [-40, 0]}
                 render={(attrs) => (
                     <div
                         className={cx(
-                            'search-result',
-                            className && 'search-bar-result',
+                            className ? 'search-bar-result' : 'search-result',
                         )}
                         tabIndex="-1"
                         {...attrs}
                     >
                         {showLoadingModal && <Loading />}
                         {debouncedValue && (
-                            <PopperWrapper className={cx('popper')}>
+                            <PopperWrapper
+                                className={cx(
+                                    'popper',
+                                    className && 'search-bar-popper',
+                                )}
+                            >
                                 {searchValue.length > 0 && searchResult[0] ? (
                                     <h4 className={cx('search-title')}>
                                         Đề xuất

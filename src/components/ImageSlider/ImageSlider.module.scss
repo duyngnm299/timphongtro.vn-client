@@ -58,7 +58,6 @@
     width: 45px;
     height: 45px;
     font-size: 30px;
-
     font-weight: 400;
     color: #000;
     background-color: #fff;
@@ -95,8 +94,8 @@
     display: flex;
     justify-content: left;
     z-index: 2;
-    right: 50%;
     left: 50%;
+    transform: translateX(-50%);
 }
 
 .dot {
@@ -113,8 +112,6 @@
     align-items: center;
     max-height: 80px;
     height: 80px;
-    left: 0;
-    right: 0;
     overflow-y: hidden;
     overflow-x: auto;
 }
@@ -160,4 +157,70 @@
 .detail-post-user {
     max-width: 500px;
     height: 280px;
+}
+
+@media (max-width: 1190px) {
+    .left-arrow,
+    .right-arrow {
+        width: 30px;
+        height: 30px;
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 1025px) {
+    .left-arrow,
+    .right-arrow {
+        width: 25px;
+        height: 25px;
+        margin-top: 30px;
+    }
+    .slider-detail-post-wrapper {
+        height: 350px !important;
+    }
+    .slider-detail-post {
+        height: 350px;
+    }
+}
+
+@media (max-width: 769px) {
+    .left-arrow,
+    .right-arrow {
+        display: none;
+    }
+    .slider-detail-post-wrapper {
+        height: 305px !important;
+    }
+    .slider-detail-post {
+        height: 305px;
+    }
+    .detailPost-img-bottom {
+        display: none;
+    }
+    .result-img {
+        width: 200px;
+        height: 179px;
+    }
+}
+
+@media (max-width: 415px) {
+    .slider-detail-post-wrapper {
+        height: 200px !important;
+    }
+    .slider-detail-post {
+        height: 200px;
+    }
+    .result-img {
+        width: 100%;
+        height: 179px;
+    }
+    .srs {
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .detail-post-user {
+        height: 180px;
+    }
 }

@@ -2,15 +2,14 @@
     display: flex;
     width: 100%;
     background-color: #f2f2f2;
-    width: 100%;
 }
 
 .content {
     display: flex;
-    width: 1140px;
-    margin: 0 auto;
+    width: 100%;
+    padding: 0 198px;
+    justify-content: center;
 }
-
 .left {
     margin-top: 40px;
     overflow: hidden;
@@ -71,7 +70,7 @@
 .platform-img {
     width: 130px;
     height: 30px;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .platform-img + .platform-img {
@@ -138,6 +137,7 @@
     display: flex;
     align-items: center;
     width: 37.5%;
+    white-space: nowrap;
 }
 .link-footer {
     width: 100%;
@@ -197,4 +197,105 @@
     width: 140;
     height: 55px;
     object-fit: cover;
+}
+
+@media (max-width: 1240px) {
+    .content {
+        display: flex;
+        flex-direction: column;
+        padding: 0 32px;
+        align-items: left;
+        overflow: hidden;
+    }
+    .left {
+        width: 100%;
+    }
+    .right {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .guide {
+        width: 33%;
+    }
+    .footer-email {
+        width: 33%;
+    }
+}
+
+@media (max-width: 1023px) {
+    .content {
+        padding: 0 16px;
+    }
+    .platform {
+        width: 100%;
+    }
+    .logo-img {
+        width: 180px;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 580px) {
+    .left,
+    .platform {
+        margin-top: 16px;
+    }
+    .info-contact {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .logo {
+        margin-bottom: 16px;
+    }
+    .right {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .logo-img {
+        width: 180px;
+        margin-left: 0;
+    }
+    .hotline,
+    .supported {
+        margin-bottom: 8px;
+    }
+    .hotline,
+    .supported,
+    .customer-care {
+        width: 100%;
+    }
+    .platform-img {
+        width: 100px;
+    }
+
+    .icon-large {
+        font-size: 24px;
+    }
+    .right,
+    .link-footer {
+        margin-top: 0;
+    }
+    .guide {
+        display: none;
+    }
+    .footer-email {
+        width: 100%;
+    }
+    .certificated {
+        margin-top: 16px;
+    }
+}
+
+@media (max-width: 430px) {
+    .info-contact {
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+    .link-footer {
+        display: none;
+    }
 }

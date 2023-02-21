@@ -331,7 +331,9 @@ function Login() {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <div className={cx('footer')}>
+                <Footer />
+            </div>
         </div>
     );
 }

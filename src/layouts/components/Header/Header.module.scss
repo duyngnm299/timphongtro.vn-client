@@ -3,7 +3,6 @@
     --search-height: 32px;
     --search-top-spacer: 9px;
     --search-button-width: 52px;
-
     position: fixed;
     top: 0;
     left: 0;
@@ -25,7 +24,7 @@
     padding: 17px 15px;
 }
 
-.right-header {
+.left-header {
     display: flex;
     align-items: center;
 }
@@ -43,6 +42,7 @@
 .navbar-list {
     list-style: none;
     display: flex;
+    align-items: center;
 }
 
 .navbar-item {
@@ -153,4 +153,119 @@
     color: var(--white);
     font-family: var(--font-family);
     background-color: var(--primary);
+}
+
+.more-wrapper {
+    display: none;
+}
+
+.more-list {
+    display: none;
+}
+
+.header-small {
+    display: none;
+}
+@media (max-width: 1420px) {
+    // .username {
+    //     display: none;
+    // }
+    .hide-last-item {
+        display: none;
+    }
+    .more-wrapper {
+        position: relative;
+        display: flex;
+        margin-left: 24px;
+        padding: 8px;
+        cursor: pointer;
+
+        .more-icon {
+            font-size: 20px;
+        }
+        &:hover {
+            background-color: #f2f2f2;
+            border-radius: 4px;
+        }
+    }
+    .more-list {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        box-shadow: rgb(44 44 44 / 8%) 0px 4px 16px;
+        padding: 8px 0;
+        width: 200px;
+        background-color: #fff;
+        border-radius: 8px;
+    }
+    .more-item {
+        display: block;
+        font-size: 1.4rem;
+        font-weight: normal;
+        color: #000;
+        z-index: 9999999;
+        padding: 8px 12px;
+        &:hover {
+            background-color: #f2f2f2;
+        }
+    }
+}
+@media (max-width: 1190px) {
+    .username {
+        display: none;
+    }
+    .wrapper {
+        height: calc(var(--default-layout-header-height) - 16px);
+    }
+}
+// Mobile & Tablet
+@media (max-width: 1025px) {
+    .inner {
+        display: none;
+    }
+    .header-small {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .menu-button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: 16px;
+        padding: 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        &:hover {
+            background-color: #f2f2f2;
+        }
+    }
+    .menu-icon {
+        font-size: 24px;
+    }
+    .ntf-icon {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        color: var(--primary);
+        font-size: 26px;
+    }
+    .username {
+        display: none;
+    }
+}
+
+// Tablet
+@media (min-width: 740px) and (max-width: 1023px) {
+}
+
+// Mobile
+@media (max-width: 739px) {
 }

@@ -323,7 +323,7 @@ function Profile() {
                             ) : (
                                 ''
                             )}
-                            <div className={cx('date-of-birth')}>
+                            <div className={cx('date-of-birth', 'dob')}>
                                 <div className={cx('left')}>
                                     <span className={cx('left-text')}>
                                         Ngày sinh
@@ -945,7 +945,7 @@ function Profile() {
                                         ref={emailRef}
                                         value={currentUser?.email || ''}
                                         type="text"
-                                        className={cx('input-right')}
+                                        className={cx('input-right', 'em')}
                                         readOnly
                                     />
                                 </div>

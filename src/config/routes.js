@@ -33,6 +33,7 @@ const routes = {
     postListOfUser: '/tat-ca-tin-dang-ca-nhan',
     forgotPassword: '/quen-mat-khau',
     payment: '/nap-tien',
+    savedPost: '/tin-da-luu',
 };
 
 export default routes;

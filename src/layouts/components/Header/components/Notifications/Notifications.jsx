@@ -27,7 +27,7 @@ import config from '~/config';
 const cx = classNames.bind(styles);
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
-function Notifications() {
+function Notifications({ menu }) {
     timeago.register('vi', vi);
     const newNtf = useSelector(
         (state) => state.notification.notification?.newNtf,
@@ -175,7 +175,7 @@ function Notifications() {
                     // visible
                     visible={showNotifications}
                     delay={[0, 1000]}
-                    offset={[90, 8]}
+                    offset={menu ? [0, 8] : [90, 8]}
                     interactive
                     placement="bottom-end"
                     render={renderResult}
@@ -183,12 +183,15 @@ function Notifications() {
                 >
                     <div className={cx('ntf-button-wrapper')}>
                         <button
-                            className={cx('action-btn')}
+                            className={cx(
+                                'action-btn',
+                                menu && 'action-btn-small',
+                            )}
                             onClick={handleOnClickNotiButton}
                         >
                             <FontAwesomeIcon
                                 icon={faBell}
-                                className={cx('icon')}
+                                className={cx('icon', menu && 'icon-small')}
                             />
                         </button>
                         {showIcon && <GoPrimitiveDot className={cx('badge')} />}

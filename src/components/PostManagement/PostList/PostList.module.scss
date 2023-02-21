@@ -35,3 +35,39 @@
 .search-by-address {
     margin-left: 8px;
 }
+
+@media (max-width: 1025px) {
+    .heading {
+        padding-top: 16px;
+        padding-left: 20px;
+    }
+    .search-filter {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .search {
+        width: 350px;
+        max-width: 350px;
+    }
+}
+
+@media (max-width: 415px) {
+    .search-filter {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .search-by-address {
+        margin-left: 0;
+        margin-top: 16px;
+    }
+}
+
+@media (max-width: 376px) {
+    .search {
+        width: 100%;
+        max-width: 100%;
+    }
+}

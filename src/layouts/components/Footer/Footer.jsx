@@ -22,6 +22,7 @@ function Footer() {
                     </span>
                     <div className={cx('info')}>
                         <div className={cx('info-top')}>
+                            {/* Mai thay icon call, Đã responsive đến đây */}
                             <HiOutlineLocationMarker className={cx('icon')} />
                             <span className={cx('address-text')}>
                                 48 Cao Thắng, Thanh Bình, Hải Châu, Đà Nẵng

@@ -24,6 +24,7 @@ import 'sweetalert2/src/sweetalert2.scss';
 import { currentPost } from '~/redux/slice/postSlice';
 import { currentMenu } from '~/redux/slice/menuSlice';
 import config from '~/config';
+import Loading from '~/components/Loading';
 const cx = classNames.bind(styles);
 
 const item = ['Tất cả', 'Hết hạn', 'Đang hiển thị', 'Chờ hiển thị'];
@@ -42,6 +43,7 @@ function NavbarPostList() {
     const [checkedAll, setCheckedAll] = useState(false);
     const [showDeleteAll, setShowDeleteAll] = useState(false);
     const [totalCost, setTotalCost] = useState(0);
+    const [showLoading, setShowLoading] = useState(false);
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
     );
@@ -54,13 +56,16 @@ function NavbarPostList() {
     const id = currentUser?._id;
 
     useEffect(() => {
+        setShowLoading(true);
         id &&
-            getAllPostOfUser(`createdBy=${id}`).then((res) =>
-                setPostList(res.post),
+            getAllPostOfUser(`createdBy=${id}`).then(
+                (res) => setPostList(res.post),
+                setShowLoading(false),
             );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
+        setShowLoading(true);
         listPost
             ? setPostList(listPost)
             : id &&
@@ -79,29 +84,48 @@ function NavbarPostList() {
     useEffect(() => {
         setShowDetailPost(false);
     }, [modal]);
-
+    useEffect(() => {
+        if (postList.length > 0) {
+            setShowLoading(false);
+            return;
+        }
+        if (postList.length === 0) {
+            setShowLoading(false);
+            return;
+        }
+    }, [postList]);
     const handleShowPost = (index) => {
         switch (index) {
             case 0:
-                getAllPostOfUser(`createdBy=${id}`).then((res) =>
-                    setPostList(res.post),
-                );
+                getAllPostOfUser(`createdBy=${id}`).then((res) => {
+                    setPostList(res.post);
+                    setShowLoading(true);
+                });
                 return;
             case 1:
-                getAllPostOfUser(`createdBy=${id}&status=expired`).then((res) =>
-                    setPostList(res.post),
+                getAllPostOfUser(`createdBy=${id}&status=expired`).then(
+                    (res) => {
+                        setPostList(res.post);
+                        setShowLoading(true);
+                    },
                 );
 
                 return;
             case 2:
                 getAllPostOfUser(`createdBy=${id}&status=approved`).then(
-                    (res) => setPostList(res.post),
+                    (res) => {
+                        setPostList(res.post);
+                        setShowLoading(true);
+                    },
                 );
                 return;
             case 3:
                 getAllPostOfUser(
                     `createdBy=${id}&status=waiting for approva`,
-                ).then((res) => setPostList(res.post));
+                ).then((res) => {
+                    setPostList(res.post);
+                    setShowLoading(true);
+                });
                 return;
             default:
                 break;
@@ -252,6 +276,7 @@ function NavbarPostList() {
 
     return (
         <div className={cx('wrapper')}>
+            {showLoading && <Loading />}
             <div className={cx('navbar')}>
                 {item?.map((item, index) => (
                     <div
@@ -437,7 +462,10 @@ function NavbarPostList() {
                                     <div className={cx('right')}>
                                         <>
                                             <div
-                                                className={cx('button')}
+                                                className={cx(
+                                                    'button',
+                                                    'detail-post',
+                                                )}
                                                 onClick={(e) =>
                                                     handleDetailsPost(item, e)
                                                 }

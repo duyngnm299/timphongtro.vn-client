@@ -145,28 +145,24 @@ function Category({ className }) {
                     onClick={() => setShowCategory(!showCategory)}
                 >
                     {className ? (
-                        <>
-                            <div className={cx('category-sb-item')}>
-                                <div className={cx('title-wrapper')}>
-                                    <span className={cx('title')}>
-                                        Phân loại
-                                    </span>
-                                    <span>
-                                        <FontAwesomeIcon
-                                            className={cx('arrow-down')}
-                                            icon={faChevronDown}
-                                        />
-                                    </span>
-                                </div>
-
-                                <p className={cx('sort-value')}>
-                                    {' '}
-                                    {crCategory && checked[0]
-                                        ? checked[0].category_name
-                                        : 'Tất cả'}
-                                </p>
+                        <div className={cx('category-search-bar-item')}>
+                            <div className={cx('title-wrapper')}>
+                                <span className={cx('title')}>Phân loại</span>
+                                <span>
+                                    <FontAwesomeIcon
+                                        className={cx('arrow-down')}
+                                        icon={faChevronDown}
+                                    />
+                                </span>
                             </div>
-                        </>
+
+                            <p className={cx('sort-value')}>
+                                {' '}
+                                {crCategory && checked[0]
+                                    ? checked[0].category_name
+                                    : 'Tất cả'}
+                            </p>
+                        </div>
                     ) : crCategory && checked.length > 0 ? (
                         <>
                             <span className={cx('icon-left')}>
@@ -213,9 +209,9 @@ function Category({ className }) {
                     // visible
                     visible={showCategory}
                     delay={[0, 1000]}
-                    offset={className ? [70, 8] : [90, 8]}
+                    offset={className ? [70, 8] : [0, 8]}
                     interactive
-                    placement="bottom-end"
+                    placement="bottom"
                     render={renderResult}
                     onClickOutside={() => setShowCategory(false)}
                 >
@@ -228,7 +224,7 @@ function Category({ className }) {
                     >
                         {className ? (
                             <>
-                                <div className={cx('category-sb-item')}>
+                                <div className={cx('category-search-bar-item')}>
                                     <div className={cx('title-wrapper')}>
                                         <span className={cx('title')}>
                                             Phân loại

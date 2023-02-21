@@ -104,7 +104,7 @@ function SliderPrice({ className }) {
                 {className ? (
                     <div onClick={() => setShowSliderArea(!showSliderArea)}>
                         <div className={cx('title-wrapper')}>
-                            <span className={cx('title')}>Mức giá</span>
+                            <span className={cx('title')}>Diện tích</span>
                             <span>
                                 <FontAwesomeIcon
                                     className={cx('arrow-down')}

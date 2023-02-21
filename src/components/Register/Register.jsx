@@ -417,7 +417,9 @@ function Register() {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <div className={cx('footer')}>
+                <Footer />
+            </div>
             {/* Modal verify email */}
             {loading && <Loading />}
             {showModal && (

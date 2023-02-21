@@ -233,6 +233,7 @@ function PostInfo() {
     const [pricePostType, setPricePostType] = useState(10000);
     const [showModal, setShowModal] = useState(false);
     const [showUIPreview, setShowUIPreview] = useState(false);
+    const [width, setWidth] = useState(0);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const categoryRef = useRef();
@@ -792,6 +793,40 @@ function PostInfo() {
         setShowUIPreview(true);
         deletedPost(res?.savedPost?._id);
     };
+
+    useEffect(() => {
+        const updateWindowWidth = () => {
+            const newWidth = window.innerWidth;
+            if (newWidth < 769) {
+                setWidth(1);
+            } else {
+                setWidth(0);
+            }
+            console.log('updating width');
+        };
+        updateWindowWidth();
+        // console.log(window?.innerWidth);
+        window.addEventListener('DOMContentLoaded', updateWindowWidth);
+        return () =>
+            window.removeEventListener('DOMContentLoaded', updateWindowWidth);
+    }, []);
+    useEffect(() => {
+        const updateWindowWidth = () => {
+            const newWidth = window.innerWidth;
+            if (newWidth < 769) {
+                setWidth(1);
+            } else {
+                setWidth(0);
+            }
+            console.log('updating width');
+        };
+        updateWindowWidth();
+        // console.log(window?.innerWidth);
+        // window.addEventListener('DOMContentLoaded', updateWindowWidth)
+        window.addEventListener('resize', updateWindowWidth);
+        return () => window.removeEventListener('resize', updateWindowWidth);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [window?.innerWidth]);
     return (
         <div className={cx('wrapper')}>
             {showUIPreview && <UIPreview />}
@@ -877,7 +912,12 @@ function PostInfo() {
                             </div>
                         </div>
                         <p className={cx('address-title')}>Địa chỉ</p>
-                        <div className={cx('form-container')}>
+                        <div
+                            className={cx(
+                                'form-container',
+                                'form-container-small',
+                            )}
+                        >
                             <div className={cx('form-group')}>
                                 <label className={cx('title')}>
                                     Tỉnh, thành phố{' '}
@@ -1108,7 +1148,12 @@ function PostInfo() {
                             </div>
                         </div>
 
-                        <div className={cx('form-container')}>
+                        <div
+                            className={cx(
+                                'form-container',
+                                'form-container-small',
+                            )}
+                        >
                             <div className={cx('form-group')}>
                                 <label className={cx('title')}>
                                     Phường, xã{' '}
@@ -1409,6 +1454,7 @@ function PostInfo() {
                                                     : false
                                             }
                                             searchAddress={valueInputAddress}
+                                            createPost={true}
                                         />
                                     </div>
                                 </div>
@@ -1634,7 +1680,7 @@ function PostInfo() {
                                       ))
                                     : ''}
                             </div>
-                            <div className={cx('form-group')}>
+                            <div className={cx('form-group', 'unit-small')}>
                                 <label className={cx('title')}>
                                     Đơn vị
                                     <span>
@@ -1850,7 +1896,9 @@ function PostInfo() {
                                 htmlFor="upload-image"
                             >
                                 <UploadImage />
-                                <p>Bấm vào đây để chọn ảnh cần tải lên</p>
+                                <p className={cx('upload-image-text')}>
+                                    Bấm vào đây để chọn ảnh cần tải lên
+                                </p>
                             </label>
                             <input
                                 ref={imageRef}
@@ -1933,7 +1981,12 @@ function PostInfo() {
                     <div className={cx('contact-info')}>
                         <h2 className={cx('heading')}>Thông tin liên hệ</h2>
                         <div className={cx('form-group')}>
-                            <div className={cx('form-container')}>
+                            <div
+                                className={cx(
+                                    'form-container',
+                                    'form-container-small',
+                                )}
+                            >
                                 <div className={cx('form-group')}>
                                     <label className={cx('title')}>
                                         Tên liên hệ{' '}
@@ -2011,7 +2064,12 @@ function PostInfo() {
                                         ))}
                                 </div>
                             </div>
-                            <div className={cx('form-container')}>
+                            <div
+                                className={cx(
+                                    'form-container',
+                                    'form-container-small',
+                                )}
+                            >
                                 <div className={cx('form-group')}>
                                     <label className={cx('title')}>
                                         Địa chỉ{' '}
@@ -2091,6 +2149,314 @@ function PostInfo() {
                             </div>
                         </div>
                     </div>
+                    {width === 1 &&
+                        (!currentPost || currentPost.status === 'expired') && (
+                            <div className={cx('type-small')}>
+                                <div className={cx('post-type-small')}>
+                                    <div className={cx('post-type-small-left')}>
+                                        <div
+                                            className={cx(
+                                                'form-group',
+                                                'form-group-small',
+                                            )}
+                                        >
+                                            <p className={cx('title')}>
+                                                Loại tin đăng
+                                            </p>
+                                            <div className={cx('type-wrapper')}>
+                                                <div
+                                                    className={cx(
+                                                        'input-type-wrapper',
+                                                    )}
+                                                >
+                                                    <input
+                                                        className={cx(
+                                                            'input-type',
+                                                        )}
+                                                        type="text"
+                                                        value={typeValue}
+                                                        readOnly
+                                                        onClick={() =>
+                                                            setType(!type)
+                                                        }
+                                                        onBlur={() =>
+                                                            setTimeout(() => {
+                                                                setType(false);
+                                                            }, 200)
+                                                        }
+                                                    />
+                                                    <span
+                                                        className={cx(
+                                                            'type-icon',
+                                                        )}
+                                                    >
+                                                        <BsChevronDown />
+                                                    </span>
+                                                </div>
+                                                {type && (
+                                                    <div
+                                                        className={cx(
+                                                            'type-value',
+                                                        )}
+                                                    >
+                                                        {postTypeItems[0].type.map(
+                                                            (item, index) => (
+                                                                <p
+                                                                    key={index}
+                                                                    className={cx(
+                                                                        'type-value-item',
+                                                                    )}
+                                                                    onClick={() => {
+                                                                        setTypeValue(
+                                                                            item,
+                                                                        );
+                                                                        setPricePostType(
+                                                                            postTypeItems[0]
+                                                                                .price[
+                                                                                index
+                                                                            ],
+                                                                        );
+                                                                        setType(
+                                                                            false,
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    {item}
+                                                                </p>
+                                                            ),
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className={cx('form-group')}>
+                                            <p className={cx('title')}>
+                                                Số ngày đăng
+                                            </p>
+                                            <div className={cx('type-wrapper')}>
+                                                <div
+                                                    className={cx(
+                                                        'input-type-wrapper',
+                                                    )}
+                                                >
+                                                    <input
+                                                        className={cx(
+                                                            'input-type',
+                                                        )}
+                                                        type="text"
+                                                        value={
+                                                            datePostValue +
+                                                            ' ngày'
+                                                        }
+                                                        readOnly
+                                                        onClick={() =>
+                                                            setDatePost(
+                                                                !datePost,
+                                                            )
+                                                        }
+                                                        onBlur={() =>
+                                                            setTimeout(() => {
+                                                                setDatePost(
+                                                                    false,
+                                                                );
+                                                            }, 200)
+                                                        }
+                                                    />
+                                                    <span
+                                                        className={cx(
+                                                            'type-icon',
+                                                        )}
+                                                    >
+                                                        <BsChevronDown />
+                                                    </span>
+                                                </div>
+                                                {datePost && (
+                                                    <div
+                                                        className={cx(
+                                                            'type-value',
+                                                            'date-post-value',
+                                                            'date-post-value-small',
+                                                        )}
+                                                    >
+                                                        {postTypeItems[0].dayPost.map(
+                                                            (item, index) => (
+                                                                <p
+                                                                    key={index}
+                                                                    className={cx(
+                                                                        'type-value-item',
+                                                                    )}
+                                                                    onClick={() => {
+                                                                        handleNumberOfDayPost(
+                                                                            item,
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    {`${item} ngày`}
+                                                                </p>
+                                                            ),
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div
+                                            className={cx(
+                                                'form-group',
+                                                'start-day',
+                                            )}
+                                        >
+                                            <p className={cx('title')}>
+                                                Ngày bắt đầu
+                                            </p>
+
+                                            <div
+                                                className={cx(
+                                                    'date-picker-wrapper',
+                                                )}
+                                            >
+                                                {/* <ReactDatePicker
+                                    popperClassName={cx('popper')}
+                                    className={cx('date-picker')}
+                                    calendarClassName={cx('calendar')}
+                                    selected={date}
+                                    minDate={new Date()}
+                                    onChange={(date) =>
+                                        handleChangeDatePicker(date)
+                                    }
+                                    dateFormat="dd/MM/yyyy"
+                                /> */}
+                                                <input
+                                                    type="text"
+                                                    className={cx(
+                                                        'input-type',
+                                                        'disabled',
+                                                    )}
+                                                    value={new Date().toLocaleDateString()}
+                                                    readOnly
+                                                />
+                                                <span
+                                                    className={cx('dpk-icon')}
+                                                >
+                                                    <FiCalendar />
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className={cx('form-group')}>
+                                            <p className={cx('title')}>
+                                                Ngày kết thúc
+                                            </p>
+                                            <input
+                                                type="text"
+                                                value={dateFinished}
+                                                className={cx(
+                                                    'input-type',
+                                                    'disabled',
+                                                )}
+                                                onChange={(e) =>
+                                                    setDateFinished(
+                                                        e.target.value,
+                                                    )
+                                                }
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        className={cx('post-type-small-right')}
+                                    >
+                                        <div className={cx('payment-info')}>
+                                            <div className={cx('row')}>
+                                                <span className={cx('left')}>
+                                                    Đơn giá / ngày
+                                                </span>
+                                                <span className={cx('right')}>
+                                                    {formatCash(
+                                                        pricePostType.toString(),
+                                                    )}{' '}
+                                                    <span
+                                                        className={cx('unit')}
+                                                    >
+                                                        VND
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <div className={cx('row')}>
+                                                <span className={cx('left')}>
+                                                    Số ngày đăng tin
+                                                </span>
+                                                <span className={cx('right')}>
+                                                    {datePostValue} ngày
+                                                </span>
+                                            </div>
+
+                                            <div className={cx('row')}>
+                                                <span className={cx('left')}>
+                                                    Phí đăng tin
+                                                </span>
+                                                <span className={cx('right')}>
+                                                    {formatCash(
+                                                        cost.toString(),
+                                                    )}
+                                                    <span
+                                                        className={cx('unit')}
+                                                    >
+                                                        {' '}
+                                                        VND
+                                                    </span>
+                                                </span>
+                                            </div>
+
+                                            <div className={cx('line')}></div>
+
+                                            <div className={cx('row')}>
+                                                <span className={cx('left')}>
+                                                    VAT
+                                                </span>
+                                                <span className={cx('right')}>
+                                                    10%
+                                                </span>
+                                            </div>
+
+                                            <div className={cx('row')}>
+                                                <span className={cx('left')}>
+                                                    Bạn trả
+                                                </span>
+                                                <span
+                                                    className={cx(
+                                                        'right',
+                                                        'total',
+                                                    )}
+                                                >
+                                                    {formatCash(
+                                                        total_cost.toString(),
+                                                    )}
+                                                    <span
+                                                        className={cx('unit')}
+                                                    >
+                                                        {' '}
+                                                        VND
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            {updateBalance < total_cost &&
+                                            balance < total_cost ? (
+                                                <span className={cx('notify')}>
+                                                    Tài khoản của bạn không đủ
+                                                    để thanh toán phí cho tin
+                                                    đăng này. Vui lòng nạp đúng
+                                                    số tiền để hoàn tất đăng
+                                                    tin.
+                                                </span>
+                                            ) : (
+                                                ''
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     <div className={cx('submit')}>
                         <div className={cx('submit-content')}>
                             {currentPost ? (
@@ -2157,109 +2523,114 @@ function PostInfo() {
                 </form>
             </div>
 
-            {(!currentPost || currentPost.status === 'expired') && (
-                <div className={cx('type')}>
-                    <div className={cx('post-type')}>
-                        <div className={cx('form-group')}>
-                            <p className={cx('title')}>Loại tin đăng</p>
-                            <div className={cx('type-wrapper')}>
-                                <div className={cx('input-type-wrapper')}>
-                                    <input
-                                        className={cx('input-type')}
-                                        type="text"
-                                        value={typeValue}
-                                        readOnly
-                                        onClick={() => setType(!type)}
-                                        onBlur={() =>
-                                            setTimeout(() => {
-                                                setType(false);
-                                            }, 200)
-                                        }
-                                    />
-                                    <span className={cx('type-icon')}>
-                                        <BsChevronDown />
-                                    </span>
-                                </div>
-                                {type && (
-                                    <div className={cx('type-value')}>
-                                        {postTypeItems[0].type.map(
-                                            (item, index) => (
-                                                <p
-                                                    key={index}
-                                                    className={cx(
-                                                        'type-value-item',
-                                                    )}
-                                                    onClick={() => {
-                                                        setTypeValue(item);
-                                                        setPricePostType(
-                                                            postTypeItems[0]
-                                                                .price[index],
-                                                        );
-                                                        setType(false);
-                                                    }}
-                                                >
-                                                    {item}
-                                                </p>
-                                            ),
-                                        )}
+            {width === 0 &&
+                (!currentPost || currentPost.status === 'expired') && (
+                    <div className={cx('type')}>
+                        <div className={cx('post-type')}>
+                            <div className={cx('form-group')}>
+                                <p className={cx('title')}>Loại tin đăng</p>
+                                <div className={cx('type-wrapper')}>
+                                    <div className={cx('input-type-wrapper')}>
+                                        <input
+                                            className={cx('input-type')}
+                                            type="text"
+                                            value={typeValue}
+                                            readOnly
+                                            onClick={() => setType(!type)}
+                                            onBlur={() =>
+                                                setTimeout(() => {
+                                                    setType(false);
+                                                }, 200)
+                                            }
+                                        />
+                                        <span className={cx('type-icon')}>
+                                            <BsChevronDown />
+                                        </span>
                                     </div>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className={cx('form-group')}>
-                            <p className={cx('title')}>Số ngày đăng</p>
-                            <div className={cx('type-wrapper')}>
-                                <div className={cx('input-type-wrapper')}>
-                                    <input
-                                        className={cx('input-type')}
-                                        type="text"
-                                        value={datePostValue + ' ngày'}
-                                        readOnly
-                                        onClick={() => setDatePost(!datePost)}
-                                        onBlur={() =>
-                                            setTimeout(() => {
-                                                setDatePost(false);
-                                            }, 200)
-                                        }
-                                    />
-                                    <span className={cx('type-icon')}>
-                                        <BsChevronDown />
-                                    </span>
+                                    {type && (
+                                        <div className={cx('type-value')}>
+                                            {postTypeItems[0].type.map(
+                                                (item, index) => (
+                                                    <p
+                                                        key={index}
+                                                        className={cx(
+                                                            'type-value-item',
+                                                        )}
+                                                        onClick={() => {
+                                                            setTypeValue(item);
+                                                            setPricePostType(
+                                                                postTypeItems[0]
+                                                                    .price[
+                                                                    index
+                                                                ],
+                                                            );
+                                                            setType(false);
+                                                        }}
+                                                    >
+                                                        {item}
+                                                    </p>
+                                                ),
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
-                                {datePost && (
-                                    <div
-                                        className={cx(
-                                            'type-value',
-                                            'date-post-value',
-                                        )}
-                                    >
-                                        {postTypeItems[0].dayPost.map(
-                                            (item, index) => (
-                                                <p
-                                                    key={index}
-                                                    className={cx(
-                                                        'type-value-item',
-                                                    )}
-                                                    onClick={() => {
-                                                        handleNumberOfDayPost(
-                                                            item,
-                                                        );
-                                                    }}
-                                                >
-                                                    {`${item} ngày`}
-                                                </p>
-                                            ),
-                                        )}
-                                    </div>
-                                )}
                             </div>
-                        </div>
-                        <div className={cx('form-group')}>
-                            <p className={cx('title')}>Ngày bắt đầu</p>
 
-                            <div className={cx('date-picker-wrapper')}>
-                                {/* <ReactDatePicker
+                            <div className={cx('form-group')}>
+                                <p className={cx('title')}>Số ngày đăng</p>
+                                <div className={cx('type-wrapper')}>
+                                    <div className={cx('input-type-wrapper')}>
+                                        <input
+                                            className={cx('input-type')}
+                                            type="text"
+                                            value={datePostValue + ' ngày'}
+                                            readOnly
+                                            onClick={() =>
+                                                setDatePost(!datePost)
+                                            }
+                                            onBlur={() =>
+                                                setTimeout(() => {
+                                                    setDatePost(false);
+                                                }, 200)
+                                            }
+                                        />
+                                        <span className={cx('type-icon')}>
+                                            <BsChevronDown />
+                                        </span>
+                                    </div>
+                                    {datePost && (
+                                        <div
+                                            className={cx(
+                                                'type-value',
+                                                'date-post-value',
+                                            )}
+                                        >
+                                            {postTypeItems[0].dayPost.map(
+                                                (item, index) => (
+                                                    <p
+                                                        key={index}
+                                                        className={cx(
+                                                            'type-value-item',
+                                                        )}
+                                                        onClick={() => {
+                                                            handleNumberOfDayPost(
+                                                                item,
+                                                            );
+                                                        }}
+                                                    >
+                                                        {`${item} ngày`}
+                                                    </p>
+                                                ),
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            <div className={cx('form-group', 'start-day')}>
+                                <p className={cx('title')}>Ngày bắt đầu</p>
+
+                                <div className={cx('date-picker-wrapper')}>
+                                    {/* <ReactDatePicker
                                     popperClassName={cx('popper')}
                                     className={cx('date-picker')}
                                     calendarClassName={cx('calendar')}
@@ -2270,85 +2641,87 @@ function PostInfo() {
                                     }
                                     dateFormat="dd/MM/yyyy"
                                 /> */}
+                                    <input
+                                        type="text"
+                                        className={cx('input-type', 'disabled')}
+                                        value={new Date().toLocaleDateString()}
+                                        readOnly
+                                    />
+                                    <span className={cx('dpk-icon')}>
+                                        <FiCalendar />
+                                    </span>
+                                </div>
+                            </div>
+                            <div className={cx('form-group')}>
+                                <p className={cx('title')}>Ngày kết thúc</p>
                                 <input
                                     type="text"
+                                    value={dateFinished}
                                     className={cx('input-type', 'disabled')}
-                                    value={new Date().toLocaleDateString()}
+                                    onChange={(e) =>
+                                        setDateFinished(e.target.value)
+                                    }
                                     readOnly
                                 />
-                                <span className={cx('dpk-icon')}>
-                                    <FiCalendar />
-                                </span>
-                            </div>
-                        </div>
-                        <div className={cx('form-group')}>
-                            <p className={cx('title')}>Ngày kết thúc</p>
-                            <input
-                                type="text"
-                                value={dateFinished}
-                                className={cx('input-type', 'disabled')}
-                                onChange={(e) =>
-                                    setDateFinished(e.target.value)
-                                }
-                                readOnly
-                            />
-                        </div>
-
-                        <div className={cx('payment-info')}>
-                            <div className={cx('row')}>
-                                <span className={cx('left')}>
-                                    Đơn giá / ngày
-                                </span>
-                                <span className={cx('right')}>
-                                    {formatCash(pricePostType.toString())}{' '}
-                                    <span className={cx('unit')}>VND</span>
-                                </span>
-                            </div>
-                            <div className={cx('row')}>
-                                <span className={cx('left')}>
-                                    Số ngày đăng tin
-                                </span>
-                                <span className={cx('right')}>
-                                    {datePostValue} ngày
-                                </span>
                             </div>
 
-                            <div className={cx('row')}>
-                                <span className={cx('left')}>Phí đăng tin</span>
-                                <span className={cx('right')}>
-                                    {formatCash(cost.toString())}
-                                    <span className={cx('unit')}> VND</span>
-                                </span>
-                            </div>
+                            <div className={cx('payment-info')}>
+                                <div className={cx('row')}>
+                                    <span className={cx('left')}>
+                                        Đơn giá / ngày
+                                    </span>
+                                    <span className={cx('right')}>
+                                        {formatCash(pricePostType.toString())}{' '}
+                                        <span className={cx('unit')}>VND</span>
+                                    </span>
+                                </div>
+                                <div className={cx('row')}>
+                                    <span className={cx('left')}>
+                                        Số ngày đăng tin
+                                    </span>
+                                    <span className={cx('right')}>
+                                        {datePostValue} ngày
+                                    </span>
+                                </div>
 
-                            <div className={cx('line')}></div>
+                                <div className={cx('row')}>
+                                    <span className={cx('left')}>
+                                        Phí đăng tin
+                                    </span>
+                                    <span className={cx('right')}>
+                                        {formatCash(cost.toString())}
+                                        <span className={cx('unit')}> VND</span>
+                                    </span>
+                                </div>
 
-                            <div className={cx('row')}>
-                                <span className={cx('left')}>VAT</span>
-                                <span className={cx('right')}>10%</span>
-                            </div>
+                                <div className={cx('line')}></div>
 
-                            <div className={cx('row')}>
-                                <span className={cx('left')}>Bạn trả</span>
-                                <span className={cx('right', 'total')}>
-                                    {formatCash(total_cost.toString())}
-                                    <span className={cx('unit')}> VND</span>
-                                </span>
+                                <div className={cx('row')}>
+                                    <span className={cx('left')}>VAT</span>
+                                    <span className={cx('right')}>10%</span>
+                                </div>
+
+                                <div className={cx('row')}>
+                                    <span className={cx('left')}>Bạn trả</span>
+                                    <span className={cx('right', 'total')}>
+                                        {formatCash(total_cost.toString())}
+                                        <span className={cx('unit')}> VND</span>
+                                    </span>
+                                </div>
+                                {updateBalance < total_cost &&
+                                balance < total_cost ? (
+                                    <span className={cx('notify')}>
+                                        Tài khoản của bạn không đủ để thanh toán
+                                        phí cho tin đăng này. Vui lòng nạp đúng
+                                        số tiền để hoàn tất đăng tin.
+                                    </span>
+                                ) : (
+                                    ''
+                                )}
                             </div>
-                            {updateBalance < total_cost ||
-                            balance < total_cost ? (
-                                <span className={cx('notify')}>
-                                    Tài khoản của bạn không đủ để thanh toán phí
-                                    cho tin đăng này. Vui lòng nạp đúng số tiền
-                                    để hoàn tất đăng tin.
-                                </span>
-                            ) : (
-                                ''
-                            )}
                         </div>
                     </div>
-                </div>
-            )}
+                )}
 
             {showModal && (
                 <div

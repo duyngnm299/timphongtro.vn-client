@@ -71,7 +71,6 @@ export const signUpGoogle = async (accessToken) => {
 
 export const logOut = async (
     dispatch,
-    id,
     navigate,
     token,
     refreshToken,

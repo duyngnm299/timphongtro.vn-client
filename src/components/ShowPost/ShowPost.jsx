@@ -95,21 +95,6 @@ function ShowPost() {
     };
     const handleDate = (createdAt) => {
         const createdDate = new Date(createdAt);
-        // if (currentDate.getFullYear() === createdDate.getFullYear()) {
-        //     if (currentDate.getMonth() === createdDate.getMonth()) {
-        //         let result = currentDate.getDate() - createdDate.getDate();
-        //         if (result === 0) {
-        //             return 'Hôm nay';
-        //         }
-        //         return `${result} ngày trước`;
-        //     } else {
-        //         let result = currentDate.getMonth() - createdDate.getMonth();
-        //         return `${result} tháng trước`;
-        //     }
-        // } else {
-        //     let result = currentDate.getFullYear() - createdDate.getFullYear();
-        //     return `${result} năm trước`;
-        // }
         const result = date_diff_indays(createdDate, currentDate);
         const a = Math.floor(result / 30);
         if (result === 0) {
@@ -138,8 +123,6 @@ function ShowPost() {
                 return (index % 3 ? next : next + ',') + prev;
             });
     };
-    // console.log(currentDate);
-    // console.log(allPost);
     return (
         <div className={cx('wrapper')}>
             <h2 className={cx('heading')}>Bất động sản dành cho bạn</h2>
@@ -209,9 +192,6 @@ function ShowPost() {
                     </Button>
                 </div>
             )}
-            <div className={cx('footer')}>
-                <Footer />
-            </div>
         </div>
     );
 }

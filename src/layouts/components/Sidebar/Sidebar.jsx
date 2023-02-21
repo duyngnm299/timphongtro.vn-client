@@ -7,7 +7,9 @@ import { MenuIcon } from '~/components/Icons';
 import { IoPricetagsOutline } from 'react-icons/io5';
 import { FiSettings } from 'react-icons/fi';
 import { RiMoneyDollarCircleLine } from 'react-icons/ri';
-import { AiOutlineUser } from 'react-icons/ai';
+import { AiOutlineUser, AiOutlineMenu, AiOutlinePlus } from 'react-icons/ai';
+import { HiOutlineHome } from 'react-icons/hi';
+
 import {
     MdOutlineKeyboardArrowRight,
     MdOutlineKeyboardArrowUp,
@@ -40,6 +42,8 @@ function Sidebar() {
     const [infoMngIndex, setInfoMngIndex] = useState(
         crMenu === 'change_profile' ? 0 : crMenu === 'change_password' ? 1 : -1,
     );
+    const [menuIndex, setMenuIndex] = useState(-1);
+    const [width, setWidth] = useState(0);
     const currentUser = useSelector(
         (state) => state.auth.login?.currentUser?.user,
     );
@@ -118,6 +122,67 @@ function Sidebar() {
             },
         ],
     };
+    const menu_items = [
+        {
+            icon: <HiOutlineHome />,
+            text: 'Trang chủ',
+            to: config.routes.home,
+        },
+        {
+            icon: <AiOutlineMenu />,
+            text: 'Quản lý tin',
+            to: config.routes.postlist + `/${currentUser?._id}`,
+        },
+        {
+            icon: <AiOutlinePlus />,
+            text: 'Đăng tin',
+            to: config.routes.post,
+        },
+        {
+            icon: <RiMoneyDollarCircleLine />,
+            text: 'Nạp tiền',
+            to: config.routes.payment + `/${currentUser?._id}`,
+        },
+        {
+            icon: <AiOutlineUser />,
+            text: 'Tài khoản',
+            to: config.routes.profile + `/${currentUser?._id}`,
+        },
+    ];
+    useEffect(() => {
+        const updateWindowWidth = () => {
+            const newWidth = window.innerWidth;
+            if (newWidth > 1024) {
+                setWidth(0);
+            } else {
+                setWidth(1);
+            }
+            console.log('updating width');
+        };
+        updateWindowWidth();
+        // console.log(window?.innerWidth);
+        window.addEventListener('DOMContentLoaded', updateWindowWidth);
+        return () =>
+            window.removeEventListener('DOMContentLoaded', updateWindowWidth);
+    }, []);
+    useEffect(() => {
+        const updateWindowWidth = () => {
+            const newWidth = window.innerWidth;
+            if (newWidth > 1024) {
+                setWidth(0);
+            } else {
+                setWidth(1);
+            }
+            console.log('updating width');
+        };
+        updateWindowWidth();
+        // console.log(window?.innerWidth);
+        // window.addEventListener('DOMContentLoaded', updateWindowWidth)
+        window.addEventListener('resize', updateWindowWidth);
+        return () => window.removeEventListener('resize', updateWindowWidth);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [window?.innerWidth]);
+
     useEffect(() => {
         if (crMenu === 'new_post') {
             setPostMngIndex(0);
@@ -133,6 +198,7 @@ function Sidebar() {
             setFinancialMngIndex(-1);
             setUtilityMngIndex(-1);
             setCostsMngIndex(-1);
+            setMenuIndex(1);
             return;
         }
         if (crMenu === 'change_profile') {
@@ -176,357 +242,415 @@ function Sidebar() {
         dispatch(currentMenu('change_profile'));
         navigate(config.routes.profile + `/${currentUser?._id}`);
     };
+
+    const handleClickMenuItem = (item, index) => {
+        setMenuIndex(index);
+        navigate(item.to);
+    };
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('user-info')}>
-                <div className={cx('user')}>
-                    <div onClick={handleProfile} className={cx('user-avatar')}>
-                        <img
-                            src={
-                                updatedUser?.profilePicture
-                                    ? updatedUser?.profilePicture.includes(
-                                          'https://lh3',
-                                      )
-                                        ? updatedUser?.profilePicture
-                                        : `${HOST_NAME}/${updatedUser?.profilePicture}`
-                                    : currentUser?.profilePicture
-                                    ? currentUser?.profilePicture.includes(
-                                          'https://lh3',
-                                      )
-                                        ? currentUser?.profilePicture
-                                        : `${HOST_NAME}/${currentUser?.profilePicture}`
-                                    : images.defaultAvt
-                            }
-                            alt="avatar"
-                            className={cx('avatar')}
-                        />
-                    </div>
-                    <div onClick={handleProfile} className={cx('user-details')}>
-                        <span className={cx('username')}>
-                            {updatedUser?.fullName
-                                ? updatedUser?.fullName
-                                : currentUser?.fullName
-                                ? currentUser?.fullName
-                                : currentUser?.username}
-                        </span>
-                        <span className={cx('email')}>
-                            {currentUser?.email
-                                ? currentUser.email
-                                : 'Chưa cập nhật email'}
-                        </span>
-                    </div>
-                </div>
-                <div className={cx('account-balance')}>
-                    <div className={cx('member')}>
-                        <div className={cx('left')}>
-                            <span className={cx('member-text')}>
-                                Mã thành viên
+            {width > 0 ? (
+                <div className={cx('menu')}>
+                    {menu_items.map((item, index) => (
+                        <div
+                            key={index}
+                            className={cx(
+                                'menu-item',
+                                index === menuIndex && 'menu-active',
+                            )}
+                            onClick={() => handleClickMenuItem(item, index)}
+                        >
+                            <span className={cx('menu-item-icon')}>
+                                {item.icon}
                             </span>
-                            <span className={cx('member-code')}>
-                                {currentUser?.memberCode}
+                            <span className={cx('menu-item-text')}>
+                                {item.text}
                             </span>
                         </div>
-                        <FiCopy className={cx('right')} />
-                    </div>
-                    <div className={cx('balance')}>
-                        <p className={cx('balance-title')}>Số dư tài khoản</p>
+                    ))}
+                </div>
+            ) : (
+                <>
+                    <div className={cx('user-info')}>
+                        <div className={cx('user')}>
+                            <div
+                                onClick={handleProfile}
+                                className={cx('user-avatar')}
+                            >
+                                <img
+                                    src={
+                                        updatedUser?.profilePicture
+                                            ? updatedUser?.profilePicture.includes(
+                                                  'https://lh3',
+                                              )
+                                                ? updatedUser?.profilePicture
+                                                : `${HOST_NAME}/${updatedUser?.profilePicture}`
+                                            : currentUser?.profilePicture
+                                            ? currentUser?.profilePicture.includes(
+                                                  'https://lh3',
+                                              )
+                                                ? currentUser?.profilePicture
+                                                : `${HOST_NAME}/${currentUser?.profilePicture}`
+                                            : images.defaultAvt
+                                    }
+                                    alt="avatar"
+                                    className={cx('avatar')}
+                                />
+                            </div>
+                            <div
+                                onClick={handleProfile}
+                                className={cx('user-details')}
+                            >
+                                <span className={cx('username')}>
+                                    {updatedUser?.fullName
+                                        ? updatedUser?.fullName
+                                        : currentUser?.fullName
+                                        ? currentUser?.fullName
+                                        : currentUser?.username}
+                                </span>
+                                <span className={cx('email')}>
+                                    {currentUser?.email
+                                        ? currentUser.email
+                                        : 'Chưa cập nhật email'}
+                                </span>
+                            </div>
+                        </div>
+                        <div className={cx('account-balance')}>
+                            <div className={cx('member')}>
+                                <div className={cx('left')}>
+                                    <span className={cx('member-text')}>
+                                        Mã thành viên
+                                    </span>
+                                    <span className={cx('member-code')}>
+                                        {currentUser?.memberCode}
+                                    </span>
+                                </div>
+                                <FiCopy className={cx('right')} />
+                            </div>
+                            <div className={cx('balance')}>
+                                <p className={cx('balance-title')}>
+                                    Số dư tài khoản
+                                </p>
 
-                        <div className={cx('separate')}>
-                            <span className={cx('balance-text')}>
-                                TK chính:{' '}
-                            </span>
-                            <span className={cx('balance-number')}>
-                                {updatedUser
-                                    ? formatCash(
-                                          updatedUser?.balance?.toString(),
-                                      )
-                                    : currentUser
-                                    ? formatCash(
-                                          currentUser?.balance?.toString(),
-                                      )
-                                    : ''}{' '}
-                                VND
-                            </span>
+                                <div className={cx('separate')}>
+                                    <span className={cx('balance-text')}>
+                                        TK chính:{' '}
+                                    </span>
+                                    <span className={cx('balance-number')}>
+                                        {updatedUser
+                                            ? formatCash(
+                                                  updatedUser?.balance?.toString(),
+                                              )
+                                            : currentUser
+                                            ? formatCash(
+                                                  currentUser?.balance?.toString(),
+                                              )
+                                            : ''}{' '}
+                                        VND
+                                    </span>
+                                </div>
+                            </div>
+                            <button
+                                className={cx('btn-payment')}
+                                onClick={() => {
+                                    dispatch(currentMenu('payment'));
+                                    navigate(
+                                        config.routes.payment +
+                                            `/${currentUser?._id}`,
+                                    );
+                                }}
+                            >
+                                Nạp tiền
+                            </button>
                         </div>
                     </div>
-                    <button
-                        className={cx('btn-payment')}
-                        onClick={() => {
-                            dispatch(currentMenu('payment'));
-                            navigate(
-                                config.routes.payment + `/${currentUser?._id}`,
-                            );
-                        }}
-                    >
-                        Nạp tiền
-                    </button>
-                </div>
-            </div>
-            <div className={cx('post-container')}>
-                <div
-                    className={cx(
-                        'post-management',
-                        postMngIndex !== -1 && 'title-active',
-                    )}
-                    onClick={() => {
-                        setShowPostItem(!showPostItem);
-                        dispatch(currentMenu(null));
-                    }}
-                >
-                    <span className={cx('left-icon')}>
-                        <MenuIcon />
-                    </span>
-                    <span className={cx('text')}>{postMngItems.title}</span>
-                    <span className={cx('right-icon')}>
+                    <div className={cx('post-container')}>
+                        <div
+                            className={cx(
+                                'post-management',
+                                postMngIndex !== -1 && 'title-active',
+                            )}
+                            onClick={() => {
+                                setShowPostItem(!showPostItem);
+                                dispatch(currentMenu(null));
+                            }}
+                        >
+                            <span className={cx('left-icon')}>
+                                <MenuIcon />
+                            </span>
+                            <span className={cx('text')}>
+                                {postMngItems.title}
+                            </span>
+                            <span className={cx('right-icon')}>
+                                {showPostItem ||
+                                crMenu === 'new_post' ||
+                                crMenu === 'post_list' ? (
+                                    <MdOutlineKeyboardArrowUp />
+                                ) : (
+                                    <MdOutlineKeyboardArrowRight />
+                                )}
+                            </span>
+                        </div>
                         {showPostItem ||
                         crMenu === 'new_post' ||
                         crMenu === 'post_list' ? (
-                            <MdOutlineKeyboardArrowUp />
+                            <>
+                                {postMngItems.childrenTitle.map(
+                                    (item, index) => (
+                                        <Link to={item.to} key={index}>
+                                            <div
+                                                className={cx(
+                                                    'post-item',
+                                                    postMngIndex === index &&
+                                                        'active',
+                                                )}
+                                                onClick={() => {
+                                                    item?.dispt &&
+                                                        dispatch(item?.dispt);
+                                                    dispatch(item.disp);
+                                                    setInfoMngIndex(-1);
+                                                    setFinancialMngIndex(-1);
+                                                    setUtilityMngIndex(-1);
+                                                    setCostsMngIndex(-1);
+                                                    setPostMngIndex(index);
+                                                }}
+                                            >
+                                                <span className={cx('text')}>
+                                                    {item.text}
+                                                </span>
+                                            </div>
+                                        </Link>
+                                    ),
+                                )}
+                            </>
                         ) : (
-                            <MdOutlineKeyboardArrowRight />
+                            ''
                         )}
-                    </span>
-                </div>
-                {showPostItem ||
-                crMenu === 'new_post' ||
-                crMenu === 'post_list' ? (
-                    <>
-                        {postMngItems.childrenTitle.map((item, index) => (
-                            <Link to={item.to} key={index}>
-                                <div
-                                    className={cx(
-                                        'post-item',
-                                        postMngIndex === index && 'active',
-                                    )}
-                                    onClick={() => {
-                                        item?.dispt && dispatch(item?.dispt);
-                                        dispatch(item.disp);
-                                        setInfoMngIndex(-1);
-                                        setFinancialMngIndex(-1);
-                                        setUtilityMngIndex(-1);
-                                        setCostsMngIndex(-1);
-                                        setPostMngIndex(index);
-                                    }}
-                                >
-                                    <span className={cx('text')}>
-                                        {item.text}
-                                    </span>
-                                </div>
-                            </Link>
-                        ))}
-                    </>
-                ) : (
-                    ''
-                )}
-            </div>
-            <div className={cx('financial-container')}>
-                <div
-                    className={cx(
-                        'financial-management',
-                        financialMngIndex !== -1 && 'title-active',
-                    )}
-                    onClick={() => {
-                        if (crMenu === 'payment') {
-                            dispatch(currentMenu(''));
-                            setShowFinancialItem(false);
-                        } else {
-                            setShowFinancialItem(!showFinancialItem);
-                        }
-                    }}
-                >
-                    <span className={cx('left-icon')}>
-                        <RiMoneyDollarCircleLine />
-                    </span>
-                    <span className={cx('text')}>
-                        {financialMngItems.title}
-                    </span>
-                    <span className={cx('right-icon')}>
-                        {showFinancialItem ? (
-                            <MdOutlineKeyboardArrowUp />
+                    </div>
+                    <div className={cx('financial-container')}>
+                        <div
+                            className={cx(
+                                'financial-management',
+                                financialMngIndex !== -1 && 'title-active',
+                            )}
+                            onClick={() => {
+                                if (crMenu === 'payment') {
+                                    dispatch(currentMenu(''));
+                                    setShowFinancialItem(false);
+                                } else {
+                                    setShowFinancialItem(!showFinancialItem);
+                                }
+                            }}
+                        >
+                            <span className={cx('left-icon')}>
+                                <RiMoneyDollarCircleLine />
+                            </span>
+                            <span className={cx('text')}>
+                                {financialMngItems.title}
+                            </span>
+                            <span className={cx('right-icon')}>
+                                {showFinancialItem ? (
+                                    <MdOutlineKeyboardArrowUp />
+                                ) : (
+                                    <MdOutlineKeyboardArrowRight />
+                                )}
+                            </span>
+                        </div>
+                        {showFinancialItem || crMenu === 'payment' ? (
+                            <>
+                                {financialMngItems.childrenTitle.map(
+                                    (item, index) => (
+                                        <Link to={item.to} key={index}>
+                                            <div
+                                                className={cx(
+                                                    'financial-item',
+                                                    financialMngIndex ===
+                                                        index && 'active',
+                                                )}
+                                                onClick={() => {
+                                                    setInfoMngIndex(-1);
+                                                    setPostMngIndex(-1);
+                                                    setUtilityMngIndex(-1);
+                                                    setCostsMngIndex(-1);
+                                                    setFinancialMngIndex(index);
+                                                }}
+                                            >
+                                                <span className={cx('text')}>
+                                                    {item.text}
+                                                </span>
+                                            </div>
+                                        </Link>
+                                    ),
+                                )}
+                            </>
                         ) : (
-                            <MdOutlineKeyboardArrowRight />
+                            ''
                         )}
-                    </span>
-                </div>
-                {showFinancialItem || crMenu === 'payment' ? (
-                    <>
-                        {financialMngItems.childrenTitle.map((item, index) => (
-                            <Link to={item.to} key={index}>
-                                <div
-                                    className={cx(
-                                        'financial-item',
-                                        financialMngIndex === index && 'active',
-                                    )}
-                                    onClick={() => {
-                                        setInfoMngIndex(-1);
-                                        setPostMngIndex(-1);
-                                        setUtilityMngIndex(-1);
-                                        setCostsMngIndex(-1);
-                                        setFinancialMngIndex(index);
-                                    }}
-                                >
-                                    <span className={cx('text')}>
-                                        {item.text}
-                                    </span>
-                                </div>
-                            </Link>
-                        ))}
-                    </>
-                ) : (
-                    ''
-                )}
-            </div>
-            <div className={cx('cost-container')}>
-                <div
-                    className={cx(
-                        'cost-management',
-                        costsMngIndex !== -1 && 'title-active',
-                    )}
-                    onClick={() => setShowCostItem(!showCostItem)}
-                >
-                    <span className={cx('left-icon')}>
-                        <IoPricetagsOutline />
-                    </span>
-                    <span className={cx('text')}>{costsMngItems.title}</span>
-                    <span className={cx('right-icon')}>
+                    </div>
+                    <div className={cx('cost-container')}>
+                        <div
+                            className={cx(
+                                'cost-management',
+                                costsMngIndex !== -1 && 'title-active',
+                            )}
+                            onClick={() => setShowCostItem(!showCostItem)}
+                        >
+                            <span className={cx('left-icon')}>
+                                <IoPricetagsOutline />
+                            </span>
+                            <span className={cx('text')}>
+                                {costsMngItems.title}
+                            </span>
+                            <span className={cx('right-icon')}>
+                                {showCostItem ? (
+                                    <MdOutlineKeyboardArrowUp />
+                                ) : (
+                                    <MdOutlineKeyboardArrowRight />
+                                )}
+                            </span>
+                        </div>
+
                         {showCostItem ? (
-                            <MdOutlineKeyboardArrowUp />
+                            <>
+                                {costsMngItems.childrenTitle.map(
+                                    (item, index) => (
+                                        <Link to={item.to} key={index}>
+                                            <div
+                                                className={cx(
+                                                    'cost-item',
+                                                    costsMngIndex === index &&
+                                                        'active',
+                                                )}
+                                                onClick={() => {
+                                                    setInfoMngIndex(-1);
+                                                    setPostMngIndex(-1);
+                                                    setFinancialMngIndex(-1);
+                                                    setUtilityMngIndex(-1);
+                                                    setCostsMngIndex(index);
+                                                }}
+                                            >
+                                                <span className={cx('text')}>
+                                                    {item.text}
+                                                </span>
+                                            </div>
+                                        </Link>
+                                    ),
+                                )}
+                            </>
                         ) : (
-                            <MdOutlineKeyboardArrowRight />
+                            ''
                         )}
-                    </span>
-                </div>
+                    </div>
+                    <div className={cx('utility-container')}>
+                        <div
+                            className={cx(
+                                'utility-management',
+                                utilityMngIndex !== -1 && 'title-active',
+                            )}
+                            onClick={() => setShowUtilityItem(!showUtilityItem)}
+                        >
+                            <span className={cx('left-icon')}>
+                                <FiSettings />
+                            </span>
+                            <span className={cx('text')}>
+                                {utilityMngItems.title}
+                            </span>
+                            <span className={cx('right-icon')}>
+                                {showUtilityItem ? (
+                                    <MdOutlineKeyboardArrowUp />
+                                ) : (
+                                    <MdOutlineKeyboardArrowRight />
+                                )}
+                            </span>
+                        </div>
 
-                {showCostItem ? (
-                    <>
-                        {costsMngItems.childrenTitle.map((item, index) => (
-                            <Link to={item.to} key={index}>
-                                <div
-                                    className={cx(
-                                        'cost-item',
-                                        costsMngIndex === index && 'active',
-                                    )}
-                                    onClick={() => {
-                                        setInfoMngIndex(-1);
-                                        setPostMngIndex(-1);
-                                        setFinancialMngIndex(-1);
-                                        setUtilityMngIndex(-1);
-                                        setCostsMngIndex(index);
-                                    }}
-                                >
-                                    <span className={cx('text')}>
-                                        {item.text}
-                                    </span>
-                                </div>
-                            </Link>
-                        ))}
-                    </>
-                ) : (
-                    ''
-                )}
-            </div>
-            <div className={cx('utility-container')}>
-                <div
-                    className={cx(
-                        'utility-management',
-                        utilityMngIndex !== -1 && 'title-active',
-                    )}
-                    onClick={() => setShowUtilityItem(!showUtilityItem)}
-                >
-                    <span className={cx('left-icon')}>
-                        <FiSettings />
-                    </span>
-                    <span className={cx('text')}>{utilityMngItems.title}</span>
-                    <span className={cx('right-icon')}>
                         {showUtilityItem ? (
-                            <MdOutlineKeyboardArrowUp />
+                            <>
+                                {utilityMngItems.childrenTitle.map(
+                                    (item, index) => (
+                                        <Link to={item.to} key={index}>
+                                            <div
+                                                className={cx(
+                                                    'utility-item',
+                                                    utilityMngIndex === index &&
+                                                        'active',
+                                                )}
+                                                onClick={() => {
+                                                    setInfoMngIndex(-1);
+                                                    setCostsMngIndex(-1);
+                                                    setFinancialMngIndex(-1);
+                                                    setPostMngIndex(-1);
+                                                    setUtilityMngIndex(index);
+                                                }}
+                                            >
+                                                <span className={cx('text')}>
+                                                    {item.text}
+                                                </span>
+                                            </div>
+                                        </Link>
+                                    ),
+                                )}
+                            </>
                         ) : (
-                            <MdOutlineKeyboardArrowRight />
+                            ''
                         )}
-                    </span>
-                </div>
+                    </div>
+                    <div className={cx('info-container')}>
+                        <div
+                            className={cx(
+                                'info-management',
+                                infoMngIndex !== -1 && 'title-active',
+                            )}
+                            onClick={() => setShowInfoItem(!showInfoItem)}
+                        >
+                            <span className={cx('left-icon')}>
+                                <AiOutlineUser />
+                            </span>
+                            <span className={cx('text')}>{infoItem.title}</span>
+                            <span className={cx('right-icon')}>
+                                {showInfoItem ||
+                                crMenu === 'change_password' ||
+                                crMenu === 'change_profile' ? (
+                                    <MdOutlineKeyboardArrowUp />
+                                ) : (
+                                    <MdOutlineKeyboardArrowRight />
+                                )}
+                            </span>
+                        </div>
 
-                {showUtilityItem ? (
-                    <>
-                        {utilityMngItems.childrenTitle.map((item, index) => (
-                            <Link to={item.to} key={index}>
-                                <div
-                                    className={cx(
-                                        'utility-item',
-                                        utilityMngIndex === index && 'active',
-                                    )}
-                                    onClick={() => {
-                                        setInfoMngIndex(-1);
-                                        setCostsMngIndex(-1);
-                                        setFinancialMngIndex(-1);
-                                        setPostMngIndex(-1);
-                                        setUtilityMngIndex(index);
-                                    }}
-                                >
-                                    <span className={cx('text')}>
-                                        {item.text}
-                                    </span>
-                                </div>
-                            </Link>
-                        ))}
-                    </>
-                ) : (
-                    ''
-                )}
-            </div>
-            <div className={cx('info-container')}>
-                <div
-                    className={cx(
-                        'info-management',
-                        infoMngIndex !== -1 && 'title-active',
-                    )}
-                    onClick={() => setShowInfoItem(!showInfoItem)}
-                >
-                    <span className={cx('left-icon')}>
-                        <AiOutlineUser />
-                    </span>
-                    <span className={cx('text')}>{infoItem.title}</span>
-                    <span className={cx('right-icon')}>
                         {showInfoItem ||
                         crMenu === 'change_password' ||
                         crMenu === 'change_profile' ? (
-                            <MdOutlineKeyboardArrowUp />
+                            <>
+                                {infoItem.childrenTitle.map((item, index) => (
+                                    <Link to={item.to} key={index}>
+                                        <div
+                                            className={cx(
+                                                'utility-item',
+                                                infoMngIndex === index &&
+                                                    'active',
+                                            )}
+                                            onClick={() => {
+                                                setCostsMngIndex(-1);
+                                                setFinancialMngIndex(-1);
+                                                setPostMngIndex(-1);
+                                                setUtilityMngIndex(-1);
+                                                setInfoMngIndex(index);
+                                            }}
+                                        >
+                                            <span className={cx('text')}>
+                                                {item.text}
+                                            </span>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </>
                         ) : (
-                            <MdOutlineKeyboardArrowRight />
+                            ''
                         )}
-                    </span>
-                </div>
-
-                {showInfoItem ||
-                crMenu === 'change_password' ||
-                crMenu === 'change_profile' ? (
-                    <>
-                        {infoItem.childrenTitle.map((item, index) => (
-                            <Link to={item.to} key={index}>
-                                <div
-                                    className={cx(
-                                        'utility-item',
-                                        infoMngIndex === index && 'active',
-                                    )}
-                                    onClick={() => {
-                                        setCostsMngIndex(-1);
-                                        setFinancialMngIndex(-1);
-                                        setPostMngIndex(-1);
-                                        setUtilityMngIndex(-1);
-                                        setInfoMngIndex(index);
-                                    }}
-                                >
-                                    <span className={cx('text')}>
-                                        {item.text}
-                                    </span>
-                                </div>
-                            </Link>
-                        ))}
-                    </>
-                ) : (
-                    ''
-                )}
-            </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 }
