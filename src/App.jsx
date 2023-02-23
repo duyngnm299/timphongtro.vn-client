@@ -16,23 +16,9 @@ const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
 function App() {
     useEffect(() => {
-        document.addEventListener('gesturestart', function (e) {
-            e.preventDefault();
-            // special hack to prevent zoom-to-tabs gesture in safari
-            document.body.style.zoom = 0.99;
-        });
-
-        document.addEventListener('gesturechange', function (e) {
-            e.preventDefault();
-            // special hack to prevent zoom-to-tabs gesture in safari
-            document.body.style.zoom = 0.99;
-        });
-
-        document.addEventListener('gestureend', function (e) {
-            e.preventDefault();
-            // special hack to prevent zoom-to-tabs gesture in safari
-            document.body.style.zoom = 0.99;
-        });
+        document.head.innerHTML += `
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        `;
     }, []);
     const socket = useRef();
     const dispatch = useDispatch();
