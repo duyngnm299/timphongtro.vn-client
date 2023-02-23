@@ -136,6 +136,7 @@
     height: calc(100% - 63px - var(--default-layout-header-height));
     overflow-y: auto;
     margin-bottom: 78px;
+    margin-top: 64px;
 }
 
 .bottom {
@@ -242,7 +243,7 @@
     }
 }
 
-@media (max-width: 601px) {
+@media (max-width: 721px) {
     .list-message {
         width: 100%;
     }

@@ -70,7 +70,6 @@ function DetailDescribe() {
         console.log('loading....');
         if (crPost) {
             setShowLoading(false);
-            console.log('stop loading...');
             return;
         }
     }, [crPost]);
@@ -102,6 +101,7 @@ function DetailDescribe() {
                 let temp = res.user.savedPost.some(
                     (item) => item._id === crPost._id,
                 );
+
                 if (temp) {
                     return setSavedPost(true);
                 } else {

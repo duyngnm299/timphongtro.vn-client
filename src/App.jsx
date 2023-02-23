@@ -15,6 +15,25 @@ import { newNotification } from './redux/slice/notificationSlice';
 const HOST_NAME = process.env.REACT_APP_HOST_NAME;
 
 function App() {
+    useEffect(() => {
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+            // special hack to prevent zoom-to-tabs gesture in safari
+            document.body.style.zoom = 0.99;
+        });
+
+        document.addEventListener('gesturechange', function (e) {
+            e.preventDefault();
+            // special hack to prevent zoom-to-tabs gesture in safari
+            document.body.style.zoom = 0.99;
+        });
+
+        document.addEventListener('gestureend', function (e) {
+            e.preventDefault();
+            // special hack to prevent zoom-to-tabs gesture in safari
+            document.body.style.zoom = 0.99;
+        });
+    }, []);
     const socket = useRef();
     const dispatch = useDispatch();
     const currentUser = useSelector(
@@ -23,7 +42,6 @@ function App() {
     const adminUser = useSelector(
         (state) => state.admin.adminLogin?.currentUser?.user,
     );
-
     const currentDate = new Date();
     const date_diff_indays = function (date1, date2) {
         const dt1 = new Date(date1);

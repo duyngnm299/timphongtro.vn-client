@@ -58,24 +58,7 @@ function Message({ sk }) {
     useEffect(() => {
         const updateWindowWidth = () => {
             const newWidth = window.innerWidth;
-            if (newWidth < 601) {
-                setWidth(1);
-                setShowConversation(true);
-            } else {
-                setWidth(0);
-            }
-            console.log('updating width');
-        };
-        updateWindowWidth();
-        // console.log(window?.innerWidth);
-        window.addEventListener('DOMContentLoaded', updateWindowWidth);
-        return () =>
-            window.removeEventListener('DOMContentLoaded', updateWindowWidth);
-    }, []);
-    useEffect(() => {
-        const updateWindowWidth = () => {
-            const newWidth = window.innerWidth;
-            if (newWidth < 601) {
+            if (newWidth < 720) {
                 setWidth(1);
                 setShowConversation(true);
             } else {
@@ -405,7 +388,7 @@ function Message({ sk }) {
         <div className={cx('wrapper')}>
             {width === 1 ? (
                 <div>
-                    {showConversation && (
+                    {showConversation && !showChat && (
                         <div className={cx('list-message')}>
                             <div className={cx('header')}>
                                 <h1 className={cx('title')}>Tin nhắn</h1>

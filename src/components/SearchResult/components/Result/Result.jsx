@@ -50,6 +50,7 @@ function Result() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filterResultPost]);
     useEffect(() => {
+        setShowLoading(true);
         if (listResult?.length > 0) {
             setShowLoading(false);
             return;
@@ -67,7 +68,6 @@ function Result() {
                 return (index % 3 ? next : next + '.') + prev;
             });
     };
-    console.log(totalPage, currentPage);
     const currentDate = new Date();
     const date_diff_indays = function (date1, date2) {
         const dt1 = new Date(date1);
